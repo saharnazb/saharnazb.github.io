@@ -1,0 +1,23 @@
+- name: Dr. Saharnaz Babaei-Balderlou
+  photo: headshot.jpg
+  info: Assistant Teaching Professor, University of Wisconsin - La Crosse
+  email: sbabaeibalderlou@uwlax.edu
+  github: https://github.com/saharnazb
+  linkedin: https://www.linkedin.com/in/saharnaz-babaei-balderlou/
+  scholar: https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en
+  cv: cv/cv.pdf
+  #researchgate: https://www.researchgate.net/profile/Saharnaz-Babaei-Balderlou
+  twitter: https://twitter.com/SaharnazBabaei
+  instagram: https://www.instagram.com/saharnaz.babaei/
+  facebook: https://www.facebook.com/saharnaz.babaei
+  youtube: https://www.youtube.com/@Saharnaz_BB
+
+  # Change the items in "education" you have (up to 6)
+  #education:
+  #  [
+  #    "(1942) Ph.D. Physics, Princeton University",
+  #    "(1939) B.S. Physics, Massachusetts Institute of Technology",
+  #  ]
+
+  #educationshort:
+  #  ["(1942) Ph.D. Physics, Princeton", "(1939) B.S. Physics, MIT"]

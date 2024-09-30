@@ -1,0 +1,68 @@
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ site.google_tag_manager }}"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ site.url }}{{ site.baseurl }}/">
+     <img src="{{ site.url }}{{ site.baseurl }}/favicon.ico" width="30" height="30" style="margin-right:5px" class="d-inline-block align-top" alt="">
+      {{ site.title | escape }}
+    </a>
+    <button class="toggler navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link {% if page.url == '/' %}active{% endif %}" href="{{ site.url }}{{ site.baseurl }}/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if page.url contains '/about/' %}active{% endif %}" href="{{ site.url }}{{ site.baseurl }}/about/">About</a>
+            </li>
+            <li class="nav-item"></li>
+                <a class="nav-link {% if page.url contains '/cv/' %}active{% endif %}" href="{{ site.url }}{{ site.baseurl }}/cv/">CV</a>
+            </li>
+
+            
+            <!-- Dropdown for Research -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="{{ site.url }}{{ site.baseurl }}/research/">Research</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/research/working/">Working Papers</a></li>
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/research/published/">Published Papers</a></li>
+                </ul>
+            </li>
+
+            <!-- Dropdown for Teaching -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="{{ site.url }}{{ site.baseurl }}/teaching/">Teaching</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/intro-macro/">Global Macroeconomics (ECO120)</a></li>
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/intro-micro/">Principles of Microeconomics (ECON221)</a></li>
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/intro-econ/">Introduction to Economics (ECON224)</a></li>
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/teaching-experience/">Past Teaching</a></li>
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/makeappt/">Office Hours Appointments</a></li>
+
+                </ul>
+            </li>
+
+            <!-- Dropdown for JM Documents -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="{{ site.url }}{{ site.baseurl }}/jmdocs/">JM Documents</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/jmdocs/diversity-statement/">Diversity Statement</a></li>
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/jmdocs/research-statement/">Research Statement</a></li>
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/jmdocs/teaching-statement/">Teaching Statement</a></li>
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/jmdocs/teaching-effectiveness-statement/">Teaching Effectiveness</a></li>                    
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/teaching-experience/">Teaching Evaluations</a></li>
+
+                </ul>
+            </li>
+
+            <li class="nav-item"></li>
+            <a class="nav-link {% if page.url contains '/resources/' %}active{% endif %}" href="{{ site.url }}{{ site.baseurl }}/resources/">Resources</a>
+        </li>
+        </ul>
+    </div>
+</nav>
