@@ -22,7 +22,7 @@ permalink: /research/
   <h4><span style="color: #000066;"><strong>More details on my research:</strong></span></h4>
   <ul>
     <li><a href="/research/working/" style="color: white; background-color: rgba(0, 0, 102, 0.7); padding: 5px; border-radius: 5px;">Working Papers</a></li>
-    <li><a href="/research/publications/" style="color: white; background-color: rgba(0, 0, 102, 0.7); padding: 5px; border-radius: 5px;">Publications</a></li>
+    <li><a href="/research/published/" style="color: white; background-color: rgba(0, 0, 102, 0.7); padding: 5px; border-radius: 5px;">Publications</a></li>
   </ul>
 
 </div>
