@@ -15,7 +15,7 @@ Below are links to my job market documents:
 - [Research Statement](/jmdocs/research-statement/)
 - [Teaching Statement](/jmdocs/teaching-statement/)
 - [Teaching Effectiveness Statement](/jmdocs/teaching-effectiveness-statement/)
-- [Teaching Evaluations](/jmdocs/teaching-evaluations/)
+- [Teaching Evaluations](/teaching/teaching-experience/)
 
 
 ---
