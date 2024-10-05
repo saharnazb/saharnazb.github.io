@@ -10,7 +10,7 @@ permalink: /jmdocs/
 Below are links to my job market documents:
 
 - [Curriculum Vitae](/cv/)
-- [Job Market Paper](/research/)
+- [Job Market Paper](/research/working/)
 - [Diversity Statement](/jmdocs/diversity-statement/)
 - [Research Statement](/jmdocs/research-statement/)
 - [Teaching Statement](/jmdocs/teaching-statement/)
