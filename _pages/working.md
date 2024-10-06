@@ -51,7 +51,7 @@ This study examines the effects of state-legislated LGBT anti-discrimination pol
 ### <span style="color: #3cb1e7;">Working Papers</span>
 
 #### <span style="font-weight: bold;">The Effect of District Salary Structure on Teacher Turnover in South Carolina</span>
-Working Paper (R&R) | With Tran, H. and Smith, D.
+Working Paper (R&R at Teaching and Teacher Education) | With Tran, H. and Smith, D.
 
 ##### Abstract:
 
