@@ -8,6 +8,6 @@ permalink: /cv/
 
 ## Curriculum Vitae
 
-You can download my CV [here](/assets/CV.pdf).
+You can download my CV [here](/assets/CV_SaharnazBabaeiBalderlou.pdf).
 
 <iframe src="/assets/CV.pdf" width="100%" height="600px"></iframe>
