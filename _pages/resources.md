@@ -6,12 +6,6 @@ permalink: /resources/
 ---
 
 
----
-layout: page
-title: "Resources"
-permalink: /resources/
----
-
 ## 📚 Helpful Links
 
 ### 💼 Economics Data and Resources
