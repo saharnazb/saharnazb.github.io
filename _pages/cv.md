@@ -1,7 +1,7 @@
 ---
 title: "CV"
 layout: gridlay
-sitemap: false
+sitemap: true
 permalink: /cv/
 ---
 
