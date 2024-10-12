@@ -1,7 +1,7 @@
 ---
-title: "About"
+title: "About Dr. Saharnaz Babaei-Balderlou"
 layout: gridlay
-sitemap: false
+sitemap: true
 permalink: /about/
 ---
 
