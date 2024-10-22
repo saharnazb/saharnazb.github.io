@@ -1,5 +1,6 @@
 ---
 title: "Job Market Documents"
+date: 2024-12-01
 layout: gridlay
 permalink: /jmdocs/
 ---
