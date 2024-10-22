@@ -1,5 +1,6 @@
 ---
 title: "Home"
+date: 2024-12-01
 layout: homelay
 sitemap: true
 permalink: /
