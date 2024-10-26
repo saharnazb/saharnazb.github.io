@@ -19,6 +19,15 @@ permalink: /research/published/
 
 <div style="padding: 40px; color: white; text-align: justify;">
 
+
+## <span style="color: #3cb1e7;">Selected Papers</span>
+
+### <span style="font-weight: bold;">Balancing the scale: Investigating the effect of frontloading and backloading salary structures on teacher turnover</span>
+**Teaching and Teacher Education, 2024**, with Tran H. and Vesely R.S.
+
+##### Abstract:
+This study investigates the impact of frontloading salary structures (higher early-career salaries) on teacher turnover using data from South Carolina public school districts in the U.S. from FY2014- FY2023. Employing a Difference-in-Differences (DID) model, the analysis reveals that frontloading salary schedules is associated with lower turnover among novice teachers but have a less pronounced effect on seasoned educators. The study highlights that the impact of frontloading varies by district demographics and teacher qualifications. Results indicate that higher experience premiums for early-career teachers can increase turnover when compared to mid-career premiums, suggesting a need for balanced salary structures, targeted financial incentives.
+
 ## <span style="color: #3cb1e7;">Selected Papers</span>
 
 ### <span style="font-weight: bold;">The Promises and Pitfalls of Government-Funded Teacher Staffing Initiatives on Teacher Employment in Hard-to-Staff Schools: Evidence from South Carolina</span>
