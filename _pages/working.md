@@ -49,17 +49,6 @@ This study examines the effects of state-legislated LGBT anti-discrimination pol
 
 ---
 
-### <span style="color: #3cb1e7;">Working Papers</span>
-
-#### <span style="font-weight: bold;">The Effect of District Salary Structure on Teacher Turnover in South Carolina</span>
-Working Paper (R&R at Teaching and Teacher Education) | With Tran, H. and Smith, D.
-
-##### Abstract:
-
-The purpose of this study is to understand the relationship between district’s salary structure and teacher turnover, using South Carolina as a focal state. Specifically, we ask 1) do districts that frontload their salary schedule experience higher teacher turnover, and 2) how does teacher experience influence the relationship between district salary structure and teacher turnover?The study employs an omnibus assessment of the relationship between the districts’ overall teacher turnover with both a) a dummy capturing whether districts frontload and b) how much the districts’ premium is higher for beginning teachers in frontloading districts. To analyze if a frontloading salary structure affects teacher turnover, the study uses a difference-in-differences method relying on the district decisions to between two types of salary structures: frontloading, where salaries are higher at the beginning of a teacher’s career, and backloading, where salaries increase more substantially later in the career. For a more detailed and rigorous investigation, we also apply quantile regression to our analyses.The findings suggest that districts offering higher frontloading premiums tend to experience lower average teacher turnover. Additional results suggest that higher frontloading premiums benefit the retention of novice teachers, although this effect is not statistically significant for the turnover of seasoned teachers. Given that the impact of teacher salary structure on teacher turnover remains understudied and underutilized, this original research seeks to help district administrators better understand the complex relationship between a district’s salary structure and turnover of both novice and veteran teachers.
-
----
-
 #### <span style="font-weight: bold;">Kept at the Margins: Why Do Rural Teacher Staffing Challenges Exist? Why Do They Persist?</span>
 Working Paper | With Tran, H. and Smith, D.
 
