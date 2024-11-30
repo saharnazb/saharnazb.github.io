@@ -24,4 +24,4 @@ University of Wisconsin - La Crosse
     - [Fall 2024](/teaching/intro-macro/Fall2024)
     - [Spring 2025](/teaching/intro-macro/Spring2025)
   
-
+---
