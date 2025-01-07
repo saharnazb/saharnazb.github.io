@@ -13,7 +13,7 @@ permalink: /teaching/teaching-experience/
 #### <span style="color: #3cb1e7;">Assistant Teaching Professor, University of Wisconsin - La Crosse</span>
 
 #### <i class="fas fa-graduation-cap"></i> **Global Macroeconomics**
-- Fall 2024 (In-person) - [In Progress](/assets/teaching/IntroMacro/Eval.pdf) 
+- Fall 2024 (In-person) - [SECTION 04](/assets/teaching/IntroMacro/LENS Full Report - ECO 120-04 Fall 2024.pdf) [SECTION 06](/assets/teaching/IntroMacro/LENS Full Report - ECO 120-06 Fall 2024.pdf)  [SECTION 07](/assets/teaching/IntroMacro/LENS Full Report - ECO 120-07 Fall 2024.pdf)  [SECTION 08](/assets/teaching/IntroMacro/LENS Full Report - ECO 120-08 Fall 2024.pdf)
 
 ---
 
