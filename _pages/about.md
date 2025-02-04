@@ -37,6 +37,7 @@ My Introduction (YouTube)
    {% if member.scholar %} <a href="{{ member.scholar }}" target="_blank"><i class="ai ai-google-scholar-square ai-3x"></i></a> {% endif %}
    {% if member.github %} <a href="{{ member.github }}" target="_blank"><i class="fab fa-github-square fa-3x"></i></a> {% endif %}
    {% if member.linkedin %} <a href="{{ member.linkedin }}" target="_blank"><i class="fab fa-linkedin fa-3x"></i></a> {% endif %}
+   
    {% if member.youtube %} <a href="{{ member.youtube }}" target="_blank"><i class="fab fa-youtube fa-3x"></i></a> {% endif %}
    {% if member.twitter %} <a href="{{ member.twitter }}" target="_blank"><i class="fa-brands fa-square-x-twitter fa-3x"></i></a> {% endif %}
    {% if member.instagram %} <a href="{{ member.instagram }}" target="_blank"><i class="fa-brands fa-square-instagram fa-3x"></i></a> {% endif %}
@@ -56,30 +57,6 @@ My Introduction (YouTube)
 
 ---
 
-<!-- This is the old form using formspree.io
-<form method="post" action="https://formspree.io/f/saharnaz.babaei@gmail.com">
-  <label for="email">Email</label>
-  <input type="email" name="email" id="email" required>
-  
-  <label for="name">Name</label>
-  <input type="text" name="name" id="name" required>
-
-  <label for="phone">Phone</label>
-  <input type="tel" name="phone" id="phone"> <!-- No 'required' attribute, so this is optional -->
-
-  <label for="address">Address</label>
-  <input type="text" name="address" id="address"> 
-
-  <label for="subject">Subject</label>
-  <input type="text" name="subject" id="subject" required>
-
-  <label for="message">Message</label>
-  <textarea name="message" id="message" rows="6" required></textarea>
-
-  <button type="submit">Submit</button>
-</form>
--->
-
 <!-- Microsoft Forms Embedded Contact Form -->
 <div id="contact-form">
   <iframe width="640px" height="480px" src="https://forms.office.com/r/ELk1cv88fC?embed=true" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width:100%; max-height:100vh" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen></iframe>
@@ -87,49 +64,3 @@ My Introduction (YouTube)
 
 ---
 
-{% comment %}
-<!-- Commenting out the other sections -->
-{% if site.data.grants %}
-
-<div class="jumbotron">
-  <h3>Grants</h3>
-  <ul>
-    {% for grant in site.data.grants %}
-      <li>{{ grant.name }}</li>
-    {% endfor %}
-  </ul>
-</div>
-{% endif %}
-
-{% if site.data.awards %}
-
-<div class="jumbotron">
-  <h3>Awards</h3>
-  <ul>
-    {% for award in site.data.awards %}
-      <li>{{ award.name | replace: "-","&#8211;" }}</li>
-    {% endfor %}
-  </ul>
-</div>
-{% endif %}
-
-{% if site.data.people %}
-
-<div class="jumbotron">
-  <h3>Students and Mentoring</h3>
-  <ul>
-    {% for student in site.data.people %}
-      <li>{{ student.name }}, {{ student.location }} ({{ student.degree }}, {{ student.year }})</li>
-    {% endfor %}
-  </ul>
-</div>
-{% endif %}
-
-<div class="jumbotron">
-  <h4>Sponsors</h4>
-  <div style='display:block; text-align:center; margin-left:auto; margin-right:auto;'>
-  {% for funder in site.data.funders %}<a href="{{ funder.url }}" target="_blank"><img src='{{ site.url }}{{ site.baseurl }}/images/{{ funder.image }}' style='max-height: 80px; max-width: 200px; margin: 1%'/></a>{% endfor %}
-  </div>
-</div>
-
-{% endcomment %}
