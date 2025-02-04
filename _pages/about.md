@@ -38,7 +38,6 @@ My Introduction (YouTube)
    {% if member.github %} <a href="{{ member.github }}" target="_blank"><i class="fab fa-github-square fa-3x"></i></a> {% endif %}
    {% if member.linkedin %} <a href="{{ member.linkedin }}" target="_blank"><i class="fab fa-linkedin fa-3x"></i></a> {% endif %}
    {% if member.orcid %} <a href="{{ member.orcid }}" target="_blank" title="ORCID"><i class="fab fa-orcid fa-3x"></i></a> {% endif %}
-   {% if member.wos %} <a href="{{ member.wos }}" target="_blank" title="Web of Science"><img src="/images/WebOfScience.png" alt="Web of Science" style="height:48px; vertical-align: middle;"></a> {% endif %}
    {% if member.youtube %} <a href="{{ member.youtube }}" target="_blank"><i class="fab fa-youtube fa-3x"></i></a> {% endif %}
    {% if member.twitter %} <a href="{{ member.twitter }}" target="_blank"><i class="fa-brands fa-square-x-twitter fa-3x"></i></a> {% endif %}
    {% if member.instagram %} <a href="{{ member.instagram }}" target="_blank"><i class="fa-brands fa-square-instagram fa-3x"></i></a> {% endif %}
