@@ -4,15 +4,6 @@ date: 2024-12-01
 layout: gridlay
 sitemap: true
 permalink: /about/
-<style>
-  .social-icon {
-  height: 48px;
-  width: 48px; /* Ensures all icons have the same width */
-  vertical-align: middle; /* Aligns with text and other inline elements */
-  display: inline-block; /* Prevents extra spacing issues */
-  margin: 0 5px; /* Adjust spacing between icons */
-}
-</style>
 ---
 
 ## About Me
