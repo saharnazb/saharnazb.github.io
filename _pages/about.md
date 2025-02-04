@@ -56,6 +56,7 @@ My Introduction (YouTube)
 
 ---
 
+<!-- This is the old form using formspree.io
 <form method="post" action="https://formspree.io/f/saharnaz.babaei@gmail.com">
   <label for="email">Email</label>
   <input type="email" name="email" id="email" required>
@@ -77,6 +78,12 @@ My Introduction (YouTube)
 
   <button type="submit">Submit</button>
 </form>
+-->
+
+<!-- Microsoft Forms Embedded Contact Form -->
+<div id="contact-form">
+  <iframe width="640px" height="480px" src="https://forms.office.com/r/ELk1cv88fC?embed=true" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width:100%; max-height:100vh" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen></iframe>
+</div>
 
 ---
 
