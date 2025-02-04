@@ -4,6 +4,15 @@ date: 2024-12-01
 layout: gridlay
 sitemap: true
 permalink: /about/
+<style>
+  .social-icon {
+  height: 48px;
+  width: 48px; /* Ensures all icons have the same width */
+  vertical-align: middle; /* Aligns with text and other inline elements */
+  display: inline-block; /* Prevents extra spacing issues */
+  margin: 0 5px; /* Adjust spacing between icons */
+}
+</style>
 ---
 
 ## About Me
@@ -38,7 +47,7 @@ My Introduction (YouTube)
    {% if member.github %} <a href="{{ member.github }}" target="_blank"><i class="fab fa-github-square fa-3x"></i></a> {% endif %}
    {% if member.linkedin %} <a href="{{ member.linkedin }}" target="_blank"><i class="fab fa-linkedin fa-3x"></i></a> {% endif %}
    {% if member.orcid %} <a href="{{ member.orcid }}" target="_blank" title="ORCID"><i class="fab fa-orcid fa-3x"></i></a> {% endif %}
-   {% if member.wos %} <a href="{{ member.wos }}" target="_blank" title="Web of Science"><img src="/images/WebOfScience.png" alt="Web of Science" style="height:48px;"></a> {% endif %}
+   {% if member.wos %} <a href="{{ member.wos }}" target="_blank" title="Web of Science"><img src="/images/WebOfScience.png" alt="Web of Science" class="social-icon"></a>{% endif %}
    {% if member.youtube %} <a href="{{ member.youtube }}" target="_blank"><i class="fab fa-youtube fa-3x"></i></a> {% endif %}
    {% if member.twitter %} <a href="{{ member.twitter }}" target="_blank"><i class="fa-brands fa-square-x-twitter fa-3x"></i></a> {% endif %}
    {% if member.instagram %} <a href="{{ member.instagram }}" target="_blank"><i class="fa-brands fa-square-instagram fa-3x"></i></a> {% endif %}
@@ -59,8 +68,11 @@ My Introduction (YouTube)
 ---
 
 <!-- Microsoft Forms Embedded Contact Form -->
-<div id="contact-form">
-  <iframe width="640px" height="800px" src="https://forms.office.com/r/ELk1cv88fC?embed=true" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width:100%; max-height:100vh" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen></iframe>
+<div id="contact-form" style="text-align: center; margin-top: 30px;">
+  <iframe src="https://forms.office.com/r/ELk1cv88fC?embed=true" 
+          style="width: 80%; max-width: 640px; height: 600px; border: none;" 
+          allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen>
+  </iframe>
 </div>
 
 ---
