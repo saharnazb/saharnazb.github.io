@@ -12,7 +12,7 @@ University of Wisconsin - La Crosse
 ---
 
 <div style="text-align: center;">
-  <img src="/assets/images/Welcome-ECO230.png" alt="Data Analysis" style="max-width: 50%; height: auto;">
+  <img src="/assets/images/Welcome_ECO230.png" alt="Data Analysis" style="max-width: 50%; height: auto;">
 </div>
 
 ---
