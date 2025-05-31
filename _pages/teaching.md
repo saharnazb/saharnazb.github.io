@@ -11,7 +11,7 @@ permalink: /teaching/
 ---
 
 <div style="text-align: center;">
-  <img src="/assets/images/DMSB-Classroom.jpg" alt="DMSB Classroom" style="max-width: 90%; height: auto;">
+  <img src="/assets/images/wing7 classroom.jpg" alt="DMSB Classroom" style="max-width: 90%; height: auto;">
 </div>
 
 ---
