@@ -16,7 +16,7 @@ permalink: /teaching/
 
 ---
 
-- [Data Analysis for Business Applications](/teaching/intro-Data-Business/)
+- [Data Analysis for Business Applications](/teaching/intro-data/)
 - [Global Macroeconomics](/teaching/intro-macro/)
 - [Principles of Microeconomics](/teaching/intro-micro/)
 - [Introduction to Economics](/teaching/intro-econ/)
