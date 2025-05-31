@@ -12,7 +12,7 @@ permalink: /teaching/teaching-experience/
 <!-- First Block - Assistant Teaching Professor -->
 #### <span style="color: #3cb1e7;">Assistant Teaching Professor, University of Wisconsin - La Crosse</span>
 
-#### <i class="fas fa-chart-bar"></i> **Data Analysis**
+#### <i class="fas fa-chart-bar"></i> **Data Analysis for Business Applications**
 - Fall 2025 (In-Person) - Details Coming Soon
 
 #### <i class="fas fa-exchange-alt"></i> **Global Macroeconomics**
