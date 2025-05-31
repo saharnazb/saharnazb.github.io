@@ -18,7 +18,7 @@ University of Wisconsin - La Crosse
     <li><strong>Instructor:</strong> Dr. Saharnaz Babaei-Balderlou</li>
     <li><strong>Course:</strong> Global Macroeconomics (ECO120)</li>
     <li><strong>Semester:</strong> Spring 2025</li>
-    <li>[Syllabus (PDF)](/assets/teaching/IntroMacro/Syllabus_Spring2025_ECON120.pdf)</li>
+    <li><a href="/assets/teaching/IntroMacro/Syllabus_Spring2025_ECON120.pdf" target="_blank">Syllabus (PDF)</a></li>
   </ul>
 </div>
 
