@@ -24,9 +24,7 @@ location: >
 
 contact: >
   <a href="mailto:sbabaeibalderlou@uwlax.edu" target="_blank"><i class="fa fa-envelope fa-1x"></i> Contact me via email</a> <br/>
-  {% if member.scholar %} <a href="{{ member.scholar }}" target="_blank"><i class="ai ai-google-scholar-square ai-3x"></i></a> {% endif %}
-  {% if member.linkedin %} <a href="{{ member.linkedin }}" target="_blank"><i class="fab fa-linkedin fa-3x"></i></a> {% endif %}
-  {% if member.orcid %} <a href="{{ member.orcid }}" target="_blank" title="ORCID"><i class="fab fa-orcid fa-3x"></i></a> {% endif %}
+
 
 # Pages shown in navbar
 nav_pages:
