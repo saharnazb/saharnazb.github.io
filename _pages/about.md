@@ -1,26 +1,12 @@
 ---
-title: "About Dr. Saharnaz Babaei-Balderlou"
+title: "Contact Dr. Saharnaz Babaei-Balderlou"
 date: 2024-12-01
 layout: gridlay
 sitemap: true
-permalink: /about/
+permalink: /contact/
 ---
 
-## About Me
-
-<div style="text-align: justify;">
-I am an Assistant Teaching Professor at the University of Wisconsin - La Crosse. As a first-generation Ph.D. graduate, I earned my Ph.D. in Economics from the Darla Moore School of Business at the University of South Carolina, specializing in applied microeconomics. I am enthusiastic about labor economics with research on diversity and inclusion, education, public policy analysis, and innovative initiatives that can advance our understanding of learning environments in K-16. 
-
-Beyond my professional endeavors as a researcher, instructor and mentor, my dedication to diversity and active involvement in fostering inclusivity extends into my personal life and service roles. 
-I like jogging, walking, reading, photographing and sometimes digital arts, which I often share on sicial media. I deeply feel connected to the nature (at any season) and enjoy hiking so much.
-If you’re interested in learning more about me, keep reading or <a href="#contact-icons">get in touch</a>.
-</div>
-
-My Introduction (YouTube)
-
----
-
-<a href="#contact-icons">Get in Touch</a>
+## <a href="#contact-icons">Get in Touch</a>
 
 {% for member in site.data.pi %}
 
