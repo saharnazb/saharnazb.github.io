@@ -1,27 +1,62 @@
 <br/>
 <section id="footer">
-<div class="container-footer">
-  <div class="panel-footer">
-	  <div class="row">
-		<div class="col-sm-4">
-		    <h5>About</h5>	
-            <p>{{ site.affiliation }}</p>
-		</div>
+  <div class="container-footer">
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-sm-4">
+          <h5>About</h5>	
+          <p>{{ site.affiliation }}</p>
+        </div>
 
-		<div class="col-sm-4">
-		    <h5>Contact</h5>	
-            <p>{{ site.contact }}</p>
-		</div>
+        <div class="col-sm-4">
+          <h5>Contact</h5>	
+          <p>
+            <a href="mailto:sbabaeibalderlou@uwlax.edu" target="_blank">
+              <i class="fa fa-envelope fa-lg"></i> Contact me via email
+            </a>
+          </p>
 
-		<div class="col-sm-4">
-		    <h5>Coordinates</h5>	
-            <p>{{ site.location }}</p>
-		</div>
-	  </div>
+          <p>
+            {% assign pi = site.data.pi[0] %}
+            {% if pi.scholar %}
+              <a href="{{ pi.scholar }}" target="_blank" title="Google Scholar">
+                <i class="ai ai-google-scholar-square fa-2x"></i>
+              </a>
+            {% endif %}
+            {% if pi.linkedin %}
+              <a href="{{ pi.linkedin }}" target="_blank" title="LinkedIn">
+                <i class="fab fa-linkedin fa-2x"></i>
+              </a>
+            {% endif %}
+            {% if pi.orcid %}
+              <a href="{{ pi.orcid }}" target="_blank" title="ORCID">
+                <i class="ai ai-orcid-square fa-2x"></i>
+              </a>
+            {% endif %}
+            {% if pi.youtube %}
+              <a href="{{ pi.youtube }}" target="_blank" title="YouTube">
+                <i class="fab fa-youtube fa-2x"></i>
+              </a>
+            {% endif %}
+            {% if pi.twitter %}
+              <a href="{{ pi.twitter }}" target="_blank" title="Twitter/X">
+                <i class="fa-brands fa-square-x-twitter fa-2x"></i>
+              </a>
+            {% endif %}
+          </p>
+        </div>
 
-      <center><p>&copy {{ "now" | date: "%Y" }} {{site.title | escape }} </p></center>
-	</div>
+        <div class="col-sm-4">
+          <h5>Coordinates</h5>	
+          <p>{{ site.location }}</p>
+        </div>
+      </div>
+
+      <center>
+        <p>&copy; {{ "now" | date: "%Y" }} {{ site.title | escape }}</p>
+      </center>
+    </div>
   </div>
-</div>
+</section>
 
 <script src="{{ "/assets/javascript/bootstrap/bootstrap.bundle.min.js" | relative_url }}"></script>
