@@ -11,3 +11,11 @@ $baseurl: "{{ site.url }}{{ site.baseurl }}";
 // @import "bootstrap_customization";
 @import "bootstrap";
 @import "SHB_css";
+#footer a {
+  margin-right: 8px;
+  color: #444;
+}
+
+#footer a:hover {
+  color: #0077b5; /* LinkedIn blue or any color you prefer */
+}
