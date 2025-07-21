@@ -30,7 +30,7 @@ contact: >
 
 # Pages shown in navbar
 nav_pages:
-  - name: about
+  - name: contact
   - name: "CV"
   - name: research
   - name: teaching
