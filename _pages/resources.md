@@ -8,7 +8,7 @@ permalink: /resources/
 
 ## 📚 Helpful Links
 
-### 💼 Economics Data and Resources
+#### 💼 Economics Data and Resources
 - [Economics Data and Resources by Amherst College](https://www.amherst.edu/academiclife/departments/economics/resources)
   > *"Links to some of the best economic and financial resources."*
 
@@ -17,7 +17,7 @@ permalink: /resources/
 
 ---
 
-## 📝 Blogs, Commentaries, and Podcasts
+#### 📝 Blogs, Commentaries, and Podcasts
 > *These blogs cover a variety of economic issues, either policy or education-oriented. This section also includes commentaries on economic topics from various non-blog sources.*
 
 - [Planet Money Podcast](https://www.npr.org/sections/money/) 🎧
@@ -28,15 +28,15 @@ permalink: /resources/
 
 ---
 
-## 🔬 Open Science Resources
+#### 🔬 Open Science Resources
 - [Open Science Framework (OSF)](https://osf.io/)
   > *"OSF is a free, open platform to support your research and enable collaboration."*
 
 ---
 
-## 📖 Books to Read
+#### 📖 Books to Read
 
-### 🏛️ Recommended Economics Books
+#### 🏛️ Recommended Economics Books
 - *[Doing Economics: What you should have learned in grad school — But didn’t]([https://www.amazon.com/Doing-Economics-Should-Learned-School/dp/1626377110](https://www.goodreads.com/en/book/show/58783384))* by Marc F. Bellemare  
   > *"A practical guide to learning applied economics."*
 
@@ -45,7 +45,7 @@ permalink: /resources/
 
 ---
 
-### 🎨 Books for Entertainment
+#### 🎨 Books for Entertainment
 - *[The Midnight Library](https://www.goodreads.com/book/show/52578297-the-midnight-library?from_search=true&from_srp=true&qid=CteW1E3VCH&rank=1)* by Matt Haig  
   > *"A thought-provoking novel about second chances and the choices that shape our lives."*
 
