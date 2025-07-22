@@ -26,9 +26,8 @@ permalink: /
 
 ## Saharnaz Babaei-Balderlou 
 
-**Teaching Assistant Professor of Economics ** \\
+**Teaching Assistant Professor of Economics** \\
 **University of Wisconsin - La Crosse**  \\
-
 **Ph.D. in Economics - University of South Carolina, U.S.** 
 
 
