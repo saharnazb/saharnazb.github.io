@@ -24,10 +24,12 @@ permalink: /
   }
 </style>
 
-### Saharnaz Babaei-Balderlou 
+## Saharnaz Babaei-Balderlou 
 
-**Teaching Assistant Professor, University of Wisconsin - La Crosse**  \\
-**Ph.D. in Economics, University of South Carolina, U.S.** 
+**Teaching Assistant Professor of Economics ** \\
+**University of Wisconsin - La Crosse**  \\
+
+**Ph.D. in Economics - University of South Carolina, U.S.** 
 
 
 <br/>
@@ -36,7 +38,7 @@ permalink: /
 #### Welcome!
 
 <div class="justified">
-I’m thrilled you’re here. Please take a moment to explore my site, where you’ll find details on my background, experience, skills and more. To learn more or connect on an opportunity, don’t hesitate to reach out.
+I'm glad you're here. This website provides an overview of my teaching, research, and academic background. Feel free to explore, and don’t hesitate to reach out if you’re interested in collaboration or have questions. 
 </div>
 
 <div class="container">
@@ -51,7 +53,14 @@ I’m thrilled you’re here. Please take a moment to explore my site, where you
 #### About me
 
 <div class="justified">
-I am an Assistant Teaching Professor of Economics at the University of Wisconsin - La Crosse. I joined the UWL Department of Economics in Fall 2024. I earned my Ph.D. in Economics from the Darla Moore School of Business at the University of South Carolina (USC), specializing in applied microeconomics. My research focuses on labor economics and economics of education. My primary area of research interest on these topics lies at the intersection of diversity and inclusion, and public policy analysis. I have the experience of teaching Introduction to Economics and Principles of Microeconomics at USC and teaching introductory level Macroeconomics at UWL. I am originally from Urmia, Iran, and I earned my Master's and Bachelor's degree in economics from Urmia University.
+I am a Teaching Assistant Professor of Economics at the University of Wisconsin - La Crosse (UWL), where I joined the Department of Economics in Fall 2024. I earned my Ph.D. in Economics from the Darla Moore School of Business at the University of South Carolina, with a focus on applied microeconomics. My research lies at the intersection of labor economics, education policy, and the integration of artificial intelligence into education and labor markets. I am particularly interested in how public policy can improve outcomes for historically underserved and marginalized communities.
+
+  I have taught a range of undergraduate courses, including Introduction to Economics and Principles of Microeconomics at USC, and Global Macroeconomics and Data Analysis for Business Applications at UWL.
+  
+  Originally from Urmia, Iran, I completed both my bachelor’s and master’s degrees in Economics at Urmia University, a top-tier public university. I was admitted through Iran’s highly competitive national entrance exam (Konkour), and my education was fully funded by the government based on academic merit. In both degrees, I graduated at the top of my class: ranked 2nd out of 60 students in my undergraduate cohort and 3rd out of 30 in my master’s program.
+  
+  As a first-generation college graduate, the first in my family whose parents did not attend college, these early milestones instilled in me a deep commitment to education and equity. These values continue to shape my teaching and research today. 
+
 </div>
 
 <br/>
