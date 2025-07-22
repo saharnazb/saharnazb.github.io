@@ -6,7 +6,7 @@ sitemap: true
 permalink: /contact/
 ---
 
-## <a href="#contact-icons">Get in Touch</a>
+## Let's get in touch
 
 {% for member in site.data.pi %}
 
