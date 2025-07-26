@@ -15,5 +15,5 @@ To keep information accurate and current, I now maintain a full record of my pro
 
 ### Quick Links
 - 🔗 [Eagle Apprenticeship Program](https://www.uwlax.edu/urc/eagle-apprentices/)
-- 👉 [Student Mentorship Form]([https://your.qualtrics.link.here](https://uwlax.ca1.qualtrics.com/jfe/form/SV_ezctoqUlMHZ5OwS))
+- 👉 [Student Mentorship Form](https://uwlax.ca1.qualtrics.com/jfe/form/SV_ezctoqUlMHZ5OwS))
 
