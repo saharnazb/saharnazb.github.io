@@ -13,9 +13,9 @@ permalink: /research/
 
   <h3 style="color: #000066; margin-bottom: 20px;">
   <span style="margin-right: 130px; margin-left: 150px;"><strong>Applied Microeconomics</strong></span> 
-  <span style="margin-right: 200px;"><strong>Labor Economics</strong></span> 
-  <span style="margin-right: 100px;"><strong>Inclusion and Diversity</strong></span>
-  <span><strong>Economics of Education</strong></span>
+  <span style="margin-right: 200px;"><strong>Labor Economics and Workforce Policy</strong></span> 
+  <span style="margin-right: 100px;"><strong>AI and Technology in Education and Work</strong></span>
+  <span><strong>Inclusion and Diversity</strong></span>
 </h3>
   
   ||
