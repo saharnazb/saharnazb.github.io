@@ -30,13 +30,13 @@ Welcome to my service page. I actively engage in mentorship, academic service, a
 
 ---
 
-### Eagle Apprenticeship Program
+#### Eagle Apprenticeship Program
 
 As part of UWL’s Eagle Apprenticeship Program, I mentor undergraduate students interested in research and professional development. This program connects students with faculty mentors to provide support, skill-building, and exposure to academic pathways.
 
 🔗 [Learn more about Eagle Apprenticeship](https://www.uwlax.edu/urc/eagle-apprentices/)
 
-### Student Mentorship Form
+#### Student Mentorship Form
 
 If you’re a student seeking a mentor and are interested in my work or background, I welcome you to connect. Please complete this anonymous form to introduce yourself and let me know how I can support you:
 
@@ -44,7 +44,7 @@ If you’re a student seeking a mentor and are interested in my work or backgrou
 
 ---
 
-### Peer Reviewing & Academic Service
+#### Peer Reviewing & Academic Service
 
 I actively contribute to the academic community through peer review and conference service. I’m committed to providing constructive feedback and supporting scholarly integrity.
 
@@ -62,7 +62,7 @@ I actively contribute to the academic community through peer review and conferen
 
 ---
 
-### Strategic Planning & Campus Involvement
+#### Strategic Planning & Campus Involvement
 
 I actively support campus-wide initiatives and collaborative projects:
 
@@ -73,7 +73,7 @@ I actively support campus-wide initiatives and collaborative projects:
 
 ---
 
-### Recruitment, Events, and Community Engagement
+#### Recruitment, Events, and Community Engagement
 
 - Participated in Scholar Day to welcome and support newly admitted UWL students
 - Led recruitment events for prospective economics students at UWL
@@ -82,7 +82,7 @@ I actively support campus-wide initiatives and collaborative projects:
 
 ---
 
-### Professional Development Activities
+#### Professional Development Activities
 
 - **UWL Master Advisor Program** — Certified in academic advising and student support (May 2025)
 - **Preparing Future Faculty Program** — Center for Teaching Excellence, University of South Carolina (2018–2024)
