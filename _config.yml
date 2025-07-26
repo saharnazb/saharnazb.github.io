@@ -34,7 +34,7 @@ nav_pages:
   - name: teaching
   - name: service
   - name: resources
-  - name: "JM Documents"
+  #- name: "JM Documents"
   - name: blogs
 
 include:
