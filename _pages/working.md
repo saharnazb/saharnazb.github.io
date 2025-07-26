@@ -11,7 +11,7 @@ permalink: /research/working/
 </div>
 
   
-<div style="padding: 40px; color: white;text-align: justify;">
+<div style="padding: 40px; color: black;text-align: justify;">
 
 ## <span style="color: #3cb1e7;">Job Market Paper</span>
 
