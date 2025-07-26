@@ -12,15 +12,15 @@ permalink: /research/published/
 </div>
 
 <div style="text-align: center; margin-top: 20px;">
-  <a href="https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en" target="_blank" class="btn btn-primary" style="background-color: #3cb1e7; border-color: #3cb1e7;">
+  <a href="https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en" target="_blank" class="btn btn-primary" style="background-color: #3cb1e7; border-color: #800020;">
     <i class="ai ai-google-scholar-square"></i> My Google Scholar 
   </a>
 </div>
 
-<div style="padding: 40px; color: #800020; text-align: justify;">
+<div style="padding: 40px; text-align: justify;">
 
 
-## <span style="color: #3cb1e7;">Selected Papers</span>
+## <span style="color: #800020;">Selected Papers</span>
 
 ### <span style="font-weight: bold;">Balancing the scale: Investigating the effect of frontloading and backloading salary structures on teacher turnover</span>
 **Teaching and Teacher Education, 2024**, with Tran H. and Vesely R.S.
