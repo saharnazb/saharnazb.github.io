@@ -40,15 +40,6 @@ permalink: /
 I'm glad you're here. This website provides an overview of my teaching, research, and academic background. Feel free to explore, and don’t hesitate to reach out if you’re interested in collaboration or have questions. 
 </div>
 
-<div class="container">
-<div class="row">
-<center>
-<img src="{{ site.url }}{{ site.baseurl }}/images/Nature.jpg" width="100%"/>
-</center>
-</div>
-</div>
-<br/>
-
 #### About me
 
 <div class="justified">
