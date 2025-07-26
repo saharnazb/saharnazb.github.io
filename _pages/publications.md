@@ -17,7 +17,7 @@ permalink: /research/published/
   </a>
 </div>
 
-<div style="padding: 40px; text-align: justify;">
+<div style="padding: 40px; color: #800020; text-align: justify;">
 
 
 ## <span style="color: #3cb1e7;">Selected Papers</span>
