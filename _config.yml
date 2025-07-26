@@ -98,7 +98,3 @@ exclude:
   - tags
   - Rakefile
   - assets/javascript/
-
-collections:
-  posts:
-    output: true
