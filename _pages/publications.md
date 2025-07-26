@@ -12,7 +12,7 @@ permalink: /research/published/
 </div>
 
 <div style="text-align: center; margin-top: 20px;">
-  <a href="https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en" target="_blank" class="btn btn-primary" style="background-color: #3cb1e7; border-color: #800020;">
+  <a href="https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en" target="_blank" class="btn btn-primary" style="background-color: #800020; border-color: #800020;">
     <i class="ai ai-google-scholar-square"></i> My Google Scholar 
   </a>
 </div>
