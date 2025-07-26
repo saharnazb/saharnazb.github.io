@@ -40,6 +40,8 @@ permalink: /
 I'm glad you're here. This website provides an overview of my teaching, research, and academic background. Feel free to explore, and don’t hesitate to reach out if you’re interested in collaboration or have questions. 
 </div>
 
+<br/>
+
 #### About me
 
 <div class="justified">
