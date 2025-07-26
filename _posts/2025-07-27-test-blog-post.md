@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Test Blog Post"
-date: 2025-07-27
+date: 2025-07-25
 categories: [White Papers]
 ---
 
