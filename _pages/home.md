@@ -51,7 +51,7 @@ I am a Teaching Assistant Professor of Economics at the University of Wisconsin 
   
   Originally from Urmia, Iran, I completed both my bachelor’s and master’s degrees in Economics at Urmia University, a top-tier public university. I was admitted through Iran’s highly competitive national entrance exam (Konkour), and my education was fully funded by the government based on academic merit. In both degrees, I graduated at the top of my class: ranked 2nd out of 60 students in my undergraduate cohort and 3rd out of 30 in my master’s program.
   
-  As a first-generation college graduate, the first in my family whose parents did not attend college, these early milestones instilled in me a deep commitment to education and equity. These values continue to shape my teaching and research today. 
+  As a first-generation college graduate, whose parents did not attend college, these early milestones instilled in me a deep commitment to education and equity. These values continue to shape my teaching and research today. 
 
 </div>
 
