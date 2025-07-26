@@ -13,7 +13,7 @@ permalink: /research/working/
   
 <div style="padding: 40px; text-align: justify;">
 
-## <span style="color: #3cb1e7;">Job Market Paper</span>
+## <span style="color: #800020;">Job Market Paper</span>
 
 ### <span style="font-weight: bold;">Diversity and Retention: How Workplace Equity Impact Teacher Attrition and Satisfaction</span>
 Working Paper | With Tran, H. 
@@ -25,7 +25,7 @@ Working Paper | With Tran, H.
 - [SEA 93rd annual meeting, New Orleans, LA, 2023](https://southerneconomic.org/) 
 - [Carolina Region Empirical Economics Day (CREED), Columbia, SC, 2023](#)
 
-#### <span style="color: #00aaff;">Highlights</span>
+#### <span style="color: #800020;">Highlights</span>
 
 This study explores the impact of anti-discrimination policies on job satisfaction and retention of teachers, shedding light on their crucial role in fostering diversity and inclusion within education systems.
 
@@ -70,7 +70,7 @@ The behavior of participants in a market is considerably affected by new firm en
 
 ---
 
-### <span style="color: #00aaff;">Work in Progress</span>
+### <span style="color: #800020;">Work in Progress</span>
 
 - The Effect of Performance Bonuses Paid to the Teachers on the Teacher Turnover and Student Outcomes
 - Money or Love: Student Loans and Post-Graduation Work Outcomes
