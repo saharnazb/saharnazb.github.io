@@ -3,20 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EvalFlow - Peer Evaluation System</title>
+  <title>EvalFlow - Saharnaz Babaei-Balderlou</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    body { 
+      margin: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+    }
     @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* Site Header Styles */
+    .site-header {
+      background: linear-gradient(135deg, #7b2d5e 0%, #4a1942 100%);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .site-header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .site-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .site-nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    .nav-item {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: opacity 0.2s;
+    }
+    .nav-item:hover {
+      opacity: 0.8;
+    }
+    .nav-item.active {
+      border-bottom: 2px solid white;
+    }
+    @media (max-width: 768px) {
+      .site-header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .site-nav {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="site-header-content">
+      <h1 class="site-title">
+        <span style="width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #7b2d5e; font-weight: bold;">SB</span>
+        Saharnaz Babaei-Balderlou, Ph.D.
+      </h1>
+      <nav class="site-nav">
+        <a href="/" class="nav-item">Home</a>
+        <a href="/contact/" class="nav-item">Contact</a>
+        <a href="/cv/" class="nav-item">CV</a>
+        <a href="/research/" class="nav-item">Research</a>
+        <a href="/teaching/" class="nav-item">Teaching</a>
+        <a href="/service/" class="nav-item">Service</a>
+        <a href="/resources/" class="nav-item active">Resources</a>
+        <a href="/blogs/" class="nav-item">Blogs</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- EvalFlow App -->
   <div id="root">
-    <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f9fafb;">
+    <div style="display: flex; align-items: center; justify-content: center; min-height: 80vh; background: #f9fafb;">
       <div style="text-align: center;">
-        <div style="width: 48px; height: 48px; border: 4px solid #e5e7eb; border-top-color: #4f46e5; border-radius: 50%; margin: 0 auto; animation: spin 1s linear infinite;"></div>
+        <div style="width: 48px; height: 48px; border: 4px solid #e5e7eb; border-top-color: #7b2d5e; border-radius: 50%; margin: 0 auto; animation: spin 1s linear infinite;"></div>
         <p style="margin-top: 16px; color: #6b7280;">Loading EvalFlow...</p>
       </div>
     </div>
@@ -394,20 +471,20 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
           return e('div', { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4" },
             e('div', { className: "bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full" },
               e('div', { className: "text-center mb-8" },
-                e('h1', { className: "text-4xl font-bold text-indigo-600 mb-2" }, 'EvalFlow'),
+                e('h1', { className: "text-4xl font-bold mb-2", style: { color: '#7b2d5e' } }, 'EvalFlow'),
                 e('p', { className: "text-gray-600" }, 'Peer Evaluation System')
               ),
               error && e('div', { className: "mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm" }, error),
               e('div', { className: "space-y-4" },
                 e('div', { className: "flex gap-2" },
-                  e('button', { onClick: () => setView('login'), className: `flex-1 py-2 rounded-lg font-medium ${view === 'login' ? 'bg-indigo-600 text-white' : 'bg-gray-100'}` }, 'Instructor'),
+                  e('button', { onClick: () => setView('login'), className: `flex-1 py-2 rounded-lg font-medium ${view === 'login' ? 'text-white' : 'bg-gray-100'}`, style: view === 'login' ? { backgroundColor: '#7b2d5e' } : {} }, 'Instructor'),
                   e('button', { onClick: () => setView('student-login'), className: `flex-1 py-2 rounded-lg font-medium ${view === 'student-login' ? 'bg-green-600 text-white' : 'bg-gray-100'}` }, 'Student')
                 ),
                 view === 'login' ? 
                   e('form', { onSubmit: handleInstructorLogin, className: "space-y-4" },
                     e('input', { type: "email", placeholder: "Instructor Email", value: loginEmail, onChange: (ev) => setLoginEmail(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
                     e('input', { type: 'password', placeholder: "Password", value: loginPassword, onChange: (ev) => setLoginPassword(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
-                    e('button', { type: "submit", className: "w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700" }, 'Login')
+                    e('button', { type: "submit", className: "w-full text-white py-3 rounded-lg", style: { backgroundColor: '#7b2d5e' } }, 'Login')
                   ) :
                   e('form', { onSubmit: handleStudentLogin, className: "space-y-4" },
                     e('input', { type: "text", placeholder: "Your Name", value: studentName, onChange: (ev) => setStudentName(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
@@ -428,7 +505,7 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
             e('div', { className: "bg-white shadow" },
               e('div', { className: "max-w-7xl mx-auto px-4 py-4 flex justify-between items-center" },
                 e('div', null,
-                  e('h1', { className: "text-2xl font-bold text-indigo-600" }, 'EvalFlow'),
+                  e('h1', { className: "text-2xl font-bold", style: { color: '#7b2d5e' } }, 'EvalFlow Dashboard'),
                   e('p', { className: "text-sm text-gray-600" }, currentUser.email)
                 ),
                 e('button', { onClick: handleLogout, className: "flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" },
@@ -453,7 +530,8 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
                   e('button', {
                     key: tab,
                     onClick: () => setActiveTab(tab),
-                    className: `px-4 py-2 font-medium capitalize ${activeTab === tab ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-gray-600 hover:text-gray-900'}`
+                    className: `px-4 py-2 font-medium capitalize ${activeTab === tab ? 'text-gray-600 hover:text-gray-900' : 'text-gray-600 hover:text-gray-900'}`,
+                    style: activeTab === tab ? { borderBottom: '2px solid #7b2d5e', color: '#7b2d5e' } : {}
                   }, tab)
                 )
               ),
@@ -462,7 +540,7 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
                   e('h2', { className: "text-xl font-bold mb-4" }, 'Add Course'),
                   e('div', { className: "flex gap-2" },
                     e('input', { type: "text", placeholder: "Course Name", value: courseName, onChange: (ev) => setCourseName(ev.target.value), className: "flex-1 px-4 py-2 border rounded-lg" }),
-                    e('button', { onClick: addCourse, className: "px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700" }, 'Add')
+                    e('button', { onClick: addCourse, className: "px-6 py-2 text-white rounded-lg", style: { backgroundColor: '#7b2d5e' } }, 'Add')
                   )
                 ),
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
@@ -488,7 +566,7 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
                     ),
                     e('div', { className: "flex gap-2" },
                       e('input', { type: "text", placeholder: "Section Name", value: sectionName, onChange: (ev) => setSectionName(ev.target.value), className: "flex-1 px-4 py-2 border rounded-lg" }),
-                      e('button', { onClick: addSection, className: "px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700" }, 'Add')
+                      e('button', { onClick: addSection, className: "px-6 py-2 text-white rounded-lg", style: { backgroundColor: '#7b2d5e' } }, 'Add')
                     )
                   )
                 ),
@@ -518,7 +596,7 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
                       'Download Template'
                     )
                   ),
-                  e('button', { onClick: () => setShowBulkImport(!showBulkImport), className: "w-full flex items-center justify-center gap-2 px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700" },
+                  e('button', { onClick: () => setShowBulkImport(!showBulkImport), className: "w-full flex items-center justify-center gap-2 px-4 py-3 text-white rounded-lg", style: { backgroundColor: '#7b2d5e' } },
                     e(Upload, { size: 20 }),
                     'Bulk Import CSV'
                   ),
@@ -532,7 +610,7 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
                         ),
                         importPreview.length > 5 && e('p', { className: "text-gray-500 py-1" }, `... and ${importPreview.length - 5} more`)
                       ),
-                      importProgress && e('p', { className: "text-sm text-indigo-600 mb-2" }, importProgress),
+                      importProgress && e('p', { className: "text-sm mb-2", style: { color: '#7b2d5e' } }, importProgress),
                       e('button', { onClick: handleBulkImport, disabled: importing, className: "w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50" }, importing ? 'Importing...' : `Import ${importPreview.length} Students`)
                     )
                   )
@@ -650,7 +728,7 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
                       submitted ? e('p', { className: "text-sm text-green-600" }, '✓ Submitted') :
                         e('div', { className: "flex gap-2" },
                           e('input', { type: "number", min: "1", max: "10", placeholder: "Score (1-10)", value: presentationScores[student.id] || '', onChange: (ev) => setPresentationScores(prev => ({ ...prev, [student.id]: ev.target.value })), className: "flex-1 px-3 py-2 border rounded-lg" }),
-                          e('button', { onClick: () => submitPresentationEval(student.id, presentationScores[student.id]), className: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700" }, 'Submit')
+                          e('button', { onClick: () => submitPresentationEval(student.id, presentationScores[student.id]), className: "px-4 py-2 text-white rounded-lg", style: { backgroundColor: '#7b2d5e' } }, 'Submit')
                         )
                     );
                   })
