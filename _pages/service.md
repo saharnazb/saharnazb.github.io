@@ -1,19 +1,20 @@
 ---
-title: "Service"
+title: "My Apps and Forms"
 layout: gridlay
 sitemap: false
-permalink: /service/
+permalink: /resources/apps-forms/
 ---
 
-## Service
+## My Apps and Forms
 
 ---
 
-Welcome to my service page. I actively contribute to mentorship, academic service, and campus-wide engagement at the University of Wisconsin–La Crosse and beyond. 
-
-To keep information accurate and current, I now maintain a full record of my professional service activities in my [CV](https://saharnaz.org/cv/) (see the **Professional Service and Activities** section).
+Here you will find some of the forms and apps that I have developed for the purpose of research and/or teaching. 
 
 ### Quick Links
-- 🔗 [Eagle Apprenticeship Program](https://www.uwlax.edu/urc/eagle-apprentices/)
-- 👉 [Student Mentorship Form](https://uwlax.ca1.qualtrics.com/jfe/form/SV_ezctoqUlMHZ5OwS)
+- 🔗 [Eagle Apprenticeship Program at UWL](https://www.uwlax.edu/urc/eagle-apprentices/)
+- 👉 [Student Mentorship Form - to work on a research with me](https://uwlax.ca1.qualtrics.com/jfe/form/SV_ezctoqUlMHZ5OwS)
+- 👉 [Open Macro Buddy - My ECO 120 Gen-AI TA/Tutor](https://chatgpt.com/g/g-6749e59ecffc8191aa0fff48ae909698-macro-buddy)
+- 👉 [Open QQ - My ECO 230 Gen-AI TA/Tutor](https://chatgpt.com/g/g-68a7e1536ae48191ad3b70b45168e1b9-quokka-query)
+- 👉 [Open EvalFlow - My Peer Evaluation Tool developed as a simple web-based app](/assets/apps/evalflow/)
 
