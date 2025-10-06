@@ -130,6 +130,14 @@
         const [selectedStudents, setSelectedStudents] = useState(new Set());
         const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
         const [sectionCriteria, setSectionCriteria] = useState({});
+        const [showAddStudent, setShowAddStudent] = useState(false);
+        const [newStudentName, setNewStudentName] = useState('');
+        const [newStudentEmail, setNewStudentEmail] = useState('');
+        const [newStudentId, setNewStudentId] = useState('');
+        const [newStudentSection, setNewStudentSection] = useState('');
+        const [newStudentOrder, setNewStudentOrder] = useState('');
+        const [newStudentGroup, setNewStudentGroup] = useState('');
+        const [editingStudent, setEditingStudent] = useState(null);
 
         useEffect(() => {
           const unsubscribe = window.firebaseAuth.onAuthStateChanged(window.auth, (user) => {
@@ -555,6 +563,87 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
           }
         };
 
+        const addStudent = async () => {
+          if (!newStudentName.trim() || !newStudentEmail.trim() || !newStudentSection) {
+            setError('Name, email, and section are required');
+            return;
+          }
+          try {
+            await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'students'), {
+              name: newStudentName.trim(),
+              email: newStudentEmail.trim().toLowerCase(),
+              studentId: newStudentId.trim(),
+              sectionId: newStudentSection,
+              presentationOrder: parseInt(newStudentOrder) || 999,
+              groupId: newStudentGroup.trim() || null,
+              createdAt: window.firebaseFirestore.serverTimestamp()
+            });
+            setSuccess('Student added');
+            setNewStudentName('');
+            setNewStudentEmail('');
+            setNewStudentId('');
+            setNewStudentSection('');
+            setNewStudentOrder('');
+            setNewStudentGroup('');
+            setShowAddStudent(false);
+            loadInstructorData(currentUser.uid);
+          } catch (err) {
+            setError('Failed to add student');
+          }
+        };
+
+        const startEditStudent = (student) => {
+          setEditingStudent(student.id);
+          setNewStudentName(student.name);
+          setNewStudentEmail(student.email);
+          setNewStudentId(student.studentId || '');
+          setNewStudentSection(student.sectionId);
+          setNewStudentOrder(student.presentationOrder?.toString() || '');
+          setNewStudentGroup(student.groupId || '');
+          setShowAddStudent(true);
+        };
+
+        const updateStudent = async () => {
+          if (!newStudentName.trim() || !newStudentEmail.trim() || !newStudentSection) {
+            setError('Name, email, and section are required');
+            return;
+          }
+          try {
+            await window.firebaseFirestore.updateDoc(window.firebaseFirestore.doc(window.db, 'students', editingStudent), {
+              name: newStudentName.trim(),
+              email: newStudentEmail.trim().toLowerCase(),
+              studentId: newStudentId.trim(),
+              sectionId: newStudentSection,
+              presentationOrder: parseInt(newStudentOrder) || 999,
+              groupId: newStudentGroup.trim() || null,
+              updatedAt: window.firebaseFirestore.serverTimestamp()
+            });
+            setSuccess('Student updated');
+            setNewStudentName('');
+            setNewStudentEmail('');
+            setNewStudentId('');
+            setNewStudentSection('');
+            setNewStudentOrder('');
+            setNewStudentGroup('');
+            setEditingStudent(null);
+            setShowAddStudent(false);
+            loadInstructorData(currentUser.uid);
+          } catch (err) {
+            setError('Failed to update student');
+          }
+        };
+
+        const cancelEditStudent = () => {
+          setEditingStudent(null);
+          setNewStudentName('');
+          setNewStudentEmail('');
+          setNewStudentId('');
+          setNewStudentSection('');
+          setNewStudentOrder('');
+          setNewStudentGroup('');
+          setShowAddStudent(false);
+        };
+
         if (loading) {
           return e('div', { className: "min-h-screen bg-gray-50 flex items-center justify-center" },
             e('div', { className: "text-center" },
@@ -719,6 +808,73 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
               activeTab === 'students' && e('div', { className: "space-y-6" },
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('div', { className: "flex justify-between items-center mb-4" },
+                    e('h2', { className: "text-xl font-bold" }, editingStudent ? 'Edit Student' : 'Add Student Manually'),
+                    !showAddStudent && e('button', { 
+                      onClick: () => setShowAddStudent(true), 
+                      className: "inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap" 
+                    },
+                      e(Plus, { size: 18 }),
+                      'Add Student'
+                    )
+                  ),
+                  showAddStudent && e('div', { className: "space-y-3 p-4 border rounded-lg bg-gray-50" },
+                    e('input', { 
+                      type: "text", 
+                      placeholder: "Student Name *", 
+                      value: newStudentName, 
+                      onChange: (ev) => setNewStudentName(ev.target.value), 
+                      className: "w-full px-4 py-2 border rounded-lg" 
+                    }),
+                    e('input', { 
+                      type: "email", 
+                      placeholder: "Student Email *", 
+                      value: newStudentEmail, 
+                      onChange: (ev) => setNewStudentEmail(ev.target.value), 
+                      className: "w-full px-4 py-2 border rounded-lg" 
+                    }),
+                    e('input', { 
+                      type: "text", 
+                      placeholder: "Student ID", 
+                      value: newStudentId, 
+                      onChange: (ev) => setNewStudentId(ev.target.value), 
+                      className: "w-full px-4 py-2 border rounded-lg" 
+                    }),
+                    e('select', { 
+                      value: newStudentSection, 
+                      onChange: (ev) => setNewStudentSection(ev.target.value), 
+                      className: "w-full px-4 py-2 border rounded-lg" 
+                    },
+                      e('option', { value: "" }, 'Select Section *'),
+                      sections.map(s => e('option', { key: s.id, value: s.id }, s.name))
+                    ),
+                    e('input', { 
+                      type: "number", 
+                      placeholder: "Presentation Order (optional)", 
+                      value: newStudentOrder, 
+                      onChange: (ev) => setNewStudentOrder(ev.target.value), 
+                      className: "w-full px-4 py-2 border rounded-lg" 
+                    }),
+                    e('input', { 
+                      type: "text", 
+                      placeholder: "Group ID (optional)", 
+                      value: newStudentGroup, 
+                      onChange: (ev) => setNewStudentGroup(ev.target.value), 
+                      className: "w-full px-4 py-2 border rounded-lg" 
+                    }),
+                    e('div', { className: "flex gap-2" },
+                      e('button', { 
+                        onClick: cancelEditStudent, 
+                        className: "px-4 py-2 border rounded-lg hover:bg-gray-100" 
+                      }, 'Cancel'),
+                      e('button', { 
+                        onClick: editingStudent ? updateStudent : addStudent, 
+                        className: "flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700" 
+                      }, editingStudent ? 'Update Student' : 'Add Student')
+                    )
+                  )
+                ),
+                e('div', { className: "bg-white p-6 rounded-lg shadow" },
+                  e('div', { className: "flex justify-between items-center mb-4" },
                     e('h2', { className: "text-xl font-bold" }, 'Import Students'),
                     e('button', { onClick: downloadTemplate, className: "inline-flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 whitespace-nowrap" },
                       e(FileDown, { size: 18 }),
@@ -789,7 +945,10 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
                               e('div', { className: "text-sm text-gray-600" }, `${student.email} • ${section?.name || 'No section'} • Order: ${student.presentationOrder || 'N/A'}${student.groupId ? ` • Group ${student.groupId}` : ''}`)
                             ),
                             e('div', { className: "flex gap-2 flex-shrink-0" },
-                              e('input', { type: "number", placeholder: "Order", defaultValue: student.presentationOrder || '', onBlur: (ev) => ev.target.value && updatePresentationOrder(student.id, ev.target.value), className: "w-20 px-2 py-1 border rounded text-sm" }),
+                              e('button', { 
+                                onClick: () => startEditStudent(student), 
+                                className: "px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap" 
+                              }, 'Edit'),
                               e('button', { onClick: () => setDeleteConfirm({ type: 'students', id: student.id, name: student.name }), className: "p-2 text-red-600 hover:bg-red-50 rounded" }, e(Trash2, { size: 18 }))
                             )
                           );
