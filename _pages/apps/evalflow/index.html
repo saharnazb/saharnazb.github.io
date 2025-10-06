@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EvalFlow - Peer Evaluation System</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, doc, setDoc, getDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    
+    // ⚠️ REPLACE WITH YOUR FIREBASE CONFIG FROM STEP 3 BELOW
+    const firebaseConfig = {
+      apiKey: "AIzaSyDbAgwMiEAZCezKy3t7j4ZW8xQyjgXqrKI",
+      authDomain: "evalflow-b3da2.firebaseapp.com",
+      projectId: "evalflow-b3da2",
+      storageBucket: "evalflow-b3da2.firebasestorage.app",
+      messagingSenderId: "376143096721",
+      appId: "1:376143096721:web:8399e278170f1c3f4f8830",
+      measurementId: "G-CRL51V7SZL"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    window.auth = getAuth(app);
+    window.db = getFirestore(app);
+    window.firebaseAuth = { signInWithEmailAndPassword, signOut, onAuthStateChanged };
+    window.firebaseFirestore = { collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, doc, setDoc, getDoc, serverTimestamp };
+  </script>
+  
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    const { 
+      Download, Users, Settings, LogOut, Plus, Trash2, Edit, Save, 
+      X, BarChart3, FileDown, Upload, Eye, EyeOff 
+    } = (() => {
+      // Lucide React Icons (inline)
+      const createIcon = (path) => (props) => (
+        <svg xmlns="http://www.w3.org/2000/svg" width={props.size || 24} height={props.size || 24} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={props.className}>
+          {path}
+        </svg>
+      );
+      
+      return {
+        Download: createIcon(<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>),
+        Users: createIcon(<><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></>),
+        Settings: createIcon(<><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></>),
+        LogOut: createIcon(<><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></>),
+        Plus: createIcon(<><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></>),
+        Trash2: createIcon(<><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/></>),
+        Edit: createIcon(<><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></>),
+        Save: createIcon(<><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></>),
+        X: createIcon(<><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>),
+        BarChart3: createIcon(<><path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3"/></>),
+        FileDown: createIcon(<><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M12 18v-6M9 15l3 3 3-3"/></>),
+        Upload: createIcon(<><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></>),
+        Eye: createIcon(<><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></>),
+        EyeOff: createIcon(<><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22"/></>)
+      };
+    })();
+
+    function EvalFlow() {
+      const [currentUser, setCurrentUser] = useState(null);
+      const [userRole, setUserRole] = useState(null);
+      const [loading, setLoading] = useState(true);
+      const [view, setView] = useState('login');
+      const [courses, setCourses] = useState([]);
+      const [sections, setSections] = useState([]);
+      const [students, setStudents] = useState([]);
+      const [groups, setGroups] = useState([]);
+      const [evaluations, setEvaluations] = useState([]);
+      const [selectedCourse, setSelectedCourse] = useState(null);
+      const [selectedSection, setSelectedSection] = useState(null);
+      const [loginEmail, setLoginEmail] = useState('');
+      const [loginPassword, setLoginPassword] = useState('');
+      const [studentName, setStudentName] = useState('');
+      const [studentEmail, setStudentEmail] = useState('');
+      const [courseName, setCourseName] = useState('');
+      const [sectionName, setSectionName] = useState('');
+      const [groupName, setGroupName] = useState('');
+      const [presentationScores, setPresentationScores] = useState({});
+      const [groupScores, setGroupScores] = useState({});
+      const [submittedEvals, setSubmittedEvals] = useState(new Set());
+      const [activeTab, setActiveTab] = useState('courses');
+      const [showPassword, setShowPassword] = useState(false);
+      const [error, setError] = useState('');
+      const [success, setSuccess] = useState('');
+
+      useEffect(() => {
+        const unsubscribe = window.firebaseAuth.onAuthStateChanged(window.auth, (user) => {
+          if (user) {
+            setCurrentUser(user);
+            setUserRole('instructor');
+            setView('dashboard');
+            loadInstructorData(user.uid);
+          } else {
+            setCurrentUser(null);
+            setUserRole(null);
+          }
+          setLoading(false);
+        });
+        return unsubscribe;
+      }, []);
+
+      const loadInstructorData = async (uid) => {
+        try {
+          const { collection, getDocs, query, where } = window.firebaseFirestore;
+          
+          const coursesRef = collection(window.db, 'courses');
+          const coursesQuery = query(coursesRef, where('instructorId', '==', uid));
+          const coursesSnap = await getDocs(coursesQuery);
+          const coursesData = coursesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setCourses(coursesData);
+
+          const sectionsRef = collection(window.db, 'sections');
+          const sectionsSnap = await getDocs(sectionsRef);
+          const sectionsData = sectionsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setSections(sectionsData);
+
+          const studentsRef = collection(window.db, 'students');
+          const studentsSnap = await getDocs(studentsRef);
+          const studentsData = studentsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setStudents(studentsData);
+
+          const groupsRef = collection(window.db, 'groups');
+          const groupsSnap = await getDocs(groupsRef);
+          const groupsData = groupsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setGroups(groupsData);
+
+          const evalsRef = collection(window.db, 'evaluations');
+          const evalsSnap = await getDocs(evalsRef);
+          const evalsData = evalsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setEvaluations(evalsData);
+        } catch (err) {
+          console.error('Error loading data:', err);
+          setError('Failed to load data');
+        }
+      };
+
+      const handleInstructorLogin = async (e) => {
+        e.preventDefault();
+        setError('');
+        try {
+          await window.firebaseAuth.signInWithEmailAndPassword(window.auth, loginEmail, loginPassword);
+        } catch (err) {
+          setError('Login failed: ' + err.message);
+        }
+      };
+
+      const handleStudentLogin = async (e) => {
+        e.preventDefault();
+        setError('');
+        
+        if (!studentName || !studentEmail || !selectedSection) {
+          setError('Please fill in all fields');
+          return;
+        }
+        
+        const student = students.find(s => 
+          s.email.toLowerCase() === studentEmail.toLowerCase() && 
+          s.sectionId === selectedSection
+        );
+        
+        if (!student) {
+          setError('Student not found in this section');
+          return;
+        }
+
+        const studentEvals = evaluations.filter(e => e.evaluatorEmail === studentEmail);
+        const alreadySubmitted = new Set(studentEvals.map(e => `${e.type}-${e.evaluatedStudentId}`));
+        setSubmittedEvals(alreadySubmitted);
+        
+        setCurrentUser({ ...student, name: studentName });
+        setUserRole('student');
+        setView('student-eval');
+      };
+
+      const handleLogout = async () => {
+        if (userRole === 'instructor') {
+          await window.firebaseAuth.signOut(window.auth);
+        }
+        setCurrentUser(null);
+        setUserRole(null);
+        setView('login');
+      };
+
+      const addCourse = async () => {
+        if (!courseName.trim()) return;
+        setError('');
+        try {
+          const { collection, addDoc, serverTimestamp } = window.firebaseFirestore;
+          await addDoc(collection(window.db, 'courses'), {
+            name: courseName,
+            instructorId: currentUser.uid,
+            createdAt: serverTimestamp()
+          });
+          setCourseName('');
+          setSuccess('Course added successfully');
+          loadInstructorData(currentUser.uid);
+        } catch (err) {
+          setError('Failed to add course');
+        }
+      };
+
+      const addSection = async () => {
+        if (!sectionName.trim() || !selectedCourse) {
+          setError('Please select a course and enter section name');
+          return;
+        }
+        setError('');
+        try {
+          const { collection, addDoc, serverTimestamp } = window.firebaseFirestore;
+          await addDoc(collection(window.db, 'sections'), {
+            name: sectionName,
+            courseId: selectedCourse,
+            createdAt: serverTimestamp()
+          });
+          setSectionName('');
+          setSuccess('Section added successfully');
+          loadInstructorData(currentUser.uid);
+        } catch (err) {
+          setError('Failed to add section');
+        }
+      };
+
+      const submitPresentationEval = async (evaluatedStudentId, score) => {
+        if (score < 1 || score > 10) {
+          setError('Score must be between 1 and 10');
+          return;
+        }
+
+        try {
+          const { collection, addDoc, serverTimestamp } = window.firebaseFirestore;
+          await addDoc(collection(window.db, 'evaluations'), {
+            evaluatorEmail: currentUser.email,
+            evaluatedStudentId,
+            sectionId: selectedSection,
+            type: 'presentation',
+            score: parseInt(score),
+            timestamp: serverTimestamp()
+          });
+          
+          setSubmittedEvals(prev => new Set([...prev, `presentation-${evaluatedStudentId}`]));
+          setPresentationScores(prev => ({ ...prev, [evaluatedStudentId]: '' }));
+          setSuccess('Evaluation submitted');
+        } catch (err) {
+          setError('Failed to submit evaluation');
+        }
+      };
+
+      const submitGroupEval = async (evaluatedStudentId, score) => {
+        if (score < 1 || score > 10) {
+          setError('Score must be between 1 and 10');
+          return;
+        }
+
+        try {
+          const { collection, addDoc, serverTimestamp } = window.firebaseFirestore;
+          await addDoc(collection(window.db, 'evaluations'), {
+            evaluatorEmail: currentUser.email,
+            evaluatedStudentId,
+            sectionId: selectedSection,
+            type: 'group',
+            score: parseInt(score),
+            timestamp: serverTimestamp()
+          });
+          
+          setSubmittedEvals(prev => new Set([...prev, `group-${evaluatedStudentId}`]));
+          setGroupScores(prev => ({ ...prev, [evaluatedStudentId]: '' }));
+          setSuccess('Group evaluation submitted');
+        } catch (err) {
+          setError('Failed to submit evaluation');
+        }
+      };
+
+      const exportToCSV = () => {
+        if (!selectedSection) {
+          setError('Please select a section first');
+          return;
+        }
+
+        const sectionStudents = students.filter(s => s.sectionId === selectedSection);
+        const csvRows = ['Student Name,Student ID,Email,Presentation Avg,Presentation Count,Group Avg,Group Count,Overall Avg,Total Evals'];
+        
+        sectionStudents.forEach(student => {
+          const presentationEvals = evaluations.filter(e => 
+            e.evaluatedStudentId === student.id && e.type === 'presentation'
+          );
+          const groupEvals = evaluations.filter(e => 
+            e.evaluatedStudentId === student.id && e.type === 'group'
+          );
+          
+          const presAvg = presentationEvals.length > 0
+            ? (presentationEvals.reduce((sum, e) => sum + e.score, 0) / presentationEvals.length).toFixed(2)
+            : 'N/A';
+          const groupAvg = groupEvals.length > 0
+            ? (groupEvals.reduce((sum, e) => sum + e.score, 0) / groupEvals.length).toFixed(2)
+            : 'N/A';
+          
+          const allEvals = [...presentationEvals, ...groupEvals];
+          const overall = allEvals.length > 0
+            ? (allEvals.reduce((sum, e) => sum + e.score, 0) / allEvals.length).toFixed(2)
+            : 'N/A';
+          
+          csvRows.push(
+            `"${student.name}","${student.studentId}","${student.email}",${presAvg},${presentationEvals.length},${groupAvg},${groupEvals.length},${overall},${allEvals.length}`
+          );
+        });
+        
+        const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const sectionName = sections.find(s => s.id === selectedSection)?.name || selectedSection;
+        a.download = `evalflow_${sectionName.replace(/\s/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+        setSuccess('CSV exported successfully');
+      };
+
+      const updatePresentationOrder = async (studentId, newOrder) => {
+        try {
+          const { doc, updateDoc } = window.firebaseFirestore;
+          await updateDoc(doc(window.db, 'students', studentId), {
+            presentationOrder: parseInt(newOrder)
+          });
+          loadInstructorData(currentUser.uid);
+        } catch (err) {
+          setError('Failed to update order');
+        }
+      };
+
+      if (loading) {
+        return (
+          <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+              <p className="mt-4 text-gray-600">Loading EvalFlow...</p>
+            </div>
+          </div>
+        );
+      }
+
+      if (!currentUser || view === 'login') {
+        return (
+          <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
+              <div className="text-center mb-8">
+                <h1 className="text-4xl font-bold text-indigo-600 mb-2">EvalFlow</h1>
+                <p className="text-gray-600">Professional Peer Evaluation System</p>
+              </div>
+              
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                  {error}
+                </div>
+              )}
+              
+              <div className="space-y-4">
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setView('login')}
+                    className={`flex-1 py-2 rounded-lg font-medium transition ${
+                      view === 'login' ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    Instructor
+                  </button>
+                  <button
+                    onClick={() => setView('student-login')}
+                    className={`flex-1 py-2 rounded-lg font-medium transition ${
+                      view === 'student-login' ? 'bg-green-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                  >
+                    Student
+                  </button>
+                </div>
+
+                {view === 'login' ? (
+                  <form onSubmit={handleInstructorLogin} className="space-y-4">
+                    <input
+                      type="email"
+                      placeholder="Instructor Email"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    />
+                    <div className="relative">
+                      <input
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Password"
+                        value={loginPassword}
+                        onChange={(e) => setLoginPassword(e.target.value)}
+                        required
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-3 text-gray-500"
+                      >
+                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      </button>
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition"
+                    >
+                      Login as Instructor
+                    </button>
+                  </form>
+                ) : (
+                  <form onSubmit={handleStudentLogin} className="space-y-4">
+                    <input
+                      type="text"
+                      placeholder="Your Full Name"
+                      value={studentName}
+                      onChange={(e) => setStudentName(e.target.value)}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                    <input
+                      type="email"
+                      placeholder="Your University Email"
+                      value={studentEmail}
+                      onChange={(e) => setStudentEmail(e.target.value)}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                    <select
+                      value={selectedSection || ''}
+                      onChange={(e) => setSelectedSection(e.target.value)}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    >
+                      <option value="">Select Your Section</option>
+                      {sections.map(sec => (
+                        <option key={sec.id} value={sec.id}>{sec.name}</option>
+                      ))}
+                    </select>
+                    <button
+                      type="submit"
+                      className="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition"
+                    >
+                      Continue to Evaluation
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      if (userRole === 'instructor') {
+        return (
+          <div className="min-h-screen bg-gray-50">
+            <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
+              <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                <div>
+                  <h1 className="text-2xl font-bold text-indigo-600">EvalFlow</h1>
+                  <p className="text-sm text-gray-500">Instructor Panel</p>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition"
+                >
+                  <LogOut size={20} />
+                  Logout
+                </button>
+              </div>
+            </nav>
+
+            {(error || success) && (
+              <div className="max-w-7xl mx-auto px-4 pt-4">
+                {error && (
+                  <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex justify-between items-center">
+                    {error}
+                    <button onClick={() => setError('')}><X size={16} /></button>
+                  </div>
+                )}
+                {success && (
+                  <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm flex justify-between items-center">
+                    {success}
+                    <button onClick={() => setSuccess('')}><X size={16} /></button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="max-w-7xl mx-auto px-4 py-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="bg-blue-100 p-3 rounded-lg">
+                      <Users className="text-blue-600" size={24} />
+                    </div>
+                    <div>
+                      <p className="text-gray-500 text-sm">Students</p>
+                      <p className="text-2xl font-bold">{students.length}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="bg-green-100 p-3 rounded-lg">
+                      <BarChart3 className="text-green-600" size={24} />
+                    </div>
+                    <div>
+                      <p className="text-gray-500 text-sm">Sections</p>
+                      <p className="text-2xl font-bold">{sections.length}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="bg-purple-100 p-3 rounded-lg">
+                      <Settings className="text-purple-600" size={24} />
+                    </div>
+                    <div>
+                      <p className="text-gray-500 text-sm">Groups</p>
+                      <p className="text-2xl font-bold">{groups.length}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-xl shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="bg-orange-100 p-3 rounded-lg">
+                      <FileDown className="text-orange-600" size={24} />
+                    </div>
+                    <div>
+                      <p className="text-gray-500 text-sm">Evaluations</p>
+                      <p className="text-2xl font-bold">{evaluations.length}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-sm mb-6">
+                <div className="flex border-b overflow-x-auto">
+                  {['courses', 'students', 'export'].map(tab => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      className={`px-6 py-4 font-medium capitalize whitespace-nowrap ${
+                        activeTab === tab 
+                          ? 'border-b-2 border-indigo-600 text-indigo-600' 
+                          : 'text-gray-600 hover:text-indigo-600'
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="p-6">
+                  {activeTab === 'courses' && (
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="text-lg font-semibold mb-4">Add Course</h3>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={courseName}
+                            onChange={(e) => setCourseName(e.target.value)}
+                            placeholder="e.g., Public Speaking 101"
+                            className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+                          />
+                          <button
+                            onClick={addCourse}
+                            className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center gap-2"
+                          >
+                            <Plus size={18} />
+                            Add
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="text-lg font-semibold mb-4">Courses</h3>
+                        <div className="space-y-2">
+                          {courses.map(course => (
+                            <div key={course.id} className="p-4 border rounded-lg hover:bg-gray-50">
+                              <p className="font-medium">{course.name}</p>
+                              <p className="text-sm text-gray-500">
+                                {sections.filter(s => s.courseId === course.id).length} sections
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="text-lg font-semibold mb-4">Add Section</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                          <select
+                            value={selectedCourse || ''}
+                            onChange={(e) => setSelectedCourse(e.target.value)}
+                            className="px-4 py-2 border rounded-lg"
+                          >
+                            <option value="">Select Course</option>
+                            {courses.map(c => (
+                              <option key={c.id} value={c.id}>{c.name}</option>
+                            ))}
+                          </select>
+                          <input
+                            type="text"
+                            value={sectionName}
+                            onChange={(e) => setSectionName(e.target.value)}
+                            placeholder="Section A - MWF 9am"
+                            className="px-4 py-2 border rounded-lg"
+                          />
+                          <button
+                            onClick={addSection}
+                            className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                          >
+                            Add Section
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <h3 className="text-lg font-semibold mb-4">Sections</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {sections.map(section => (
+                            <div key={section.id} className="p-4 border rounded-lg hover:bg-gray-50">
+                              <p className="font-medium">{section.name}</p>
+                              <p className="text-sm text-gray-500">
+                                {students.filter(s => s.sectionId === section.id).length} students
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'students' && (
+                    <div className="space-y-6">
+                      <div className="flex justify-between items-center flex-wrap gap-4">
+                        <h3 className="text-lg font-semibold">Manage Students</h3>
+                        <select
+                          value={selectedSection || ''}
+                          onChange={(e) => setSelectedSection(e.target.value)}
+                          className="px-4 py-2 border rounded-lg"
+                        >
+                          <option value="">All Sections</option>
+                          {sections.map(s => (
+                            <option key={s.id} value={s.id}>{s.name}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead className="bg-gray-50">
+                            <tr>
+                              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Name</th>
+                              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">ID</th>
+                              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Email</th>
+                              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Section</th>
+                              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Order</th>
+                              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">Evals</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y">
+                            {students
+                              .filter(s => !selectedSection || s.sectionId === selectedSection)
+                              .sort((a, b) => a.presentationOrder - b.presentationOrder)
+                              .map(student => {
+                                const studentEvals = evaluations.filter(e => e.evaluatedStudentId === student.id);
+                                return (
+                                  <tr key={student.id} className="hover:bg-gray-50">
+                                    <td className="px-4 py-3">{student.name}</td>
+                                    <td className="px-4 py-3">{student.studentId}</td>
+                                    <td className="px-4 py-3 text-sm">{student.email}</td>
+                                    <td className="px-4 py-3 text-sm">
+                                      {sections.find(s => s.id === student.sectionId)?.name}
+                                    </td>
+                                    <td className="px-4 py-3">
+                                      <input
+                                        type="number"
+                                        value={student.presentationOrder}
+                                        onChange={(e) => updatePresentationOrder(student.id, e.target.value)}
+                                        className="w-16 px-2 py-1 border rounded text-center"
+                                      />
+                                    </td>
+                                    <td className="px-4 py-3">
+                                      <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">
+                                        {studentEvals.length}
+                                      </span>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === 'export' && (
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="text-lg font-semibold mb-4">Export Evaluations</h3>
+                        <div className="flex gap-2 mb-6 flex-wrap">
+                          <select
+                            value={selectedSection || ''}
+                            onChange={(e) => setSelectedSection(e.target.value)}
+                            className="flex-1 min-w-[200px] px-4 py-2 border rounded-lg"
+                          >
+                            <option value="">Select Section to Export</option>
+                            {sections.map(s => (
+                              <option key={s.id} value={s.id}>{s.name}</option>
+                            ))}
+                          </select>
+                          <button
+                            onClick={exportToCSV}
+                            disabled={!selectedSection}
+                            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                          >
+                            <FileDown size={18} />
+                            Export CSV
+                          </button>
+                        </div>
+                      </div>
+
+                      {selectedSection && (
+                        <div className="bg-gray-50 rounded-lg p-6 overflow-x-auto">
+                          <h4 className="font-semibold mb-4">Preview: {sections.find(s => s.id === selectedSection)?.name}</h4>
+                          <table className="w-full text-sm">
+                            <thead className="bg-white">
+                              <tr>
+                                <th className="px-3 py-2 text-left">Student</th>
+                                <th className="px-3 py-2 text-center">Pres. Avg</th>
+                                <th className="px-3 py-2 text-center">Group Avg</th>
+                                <th className="px-3 py-2 text-center">Overall</th>
+                                <th className="px-3 py-2 text-center">Total</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y">
+                              {students
+                                .filter(s => s.sectionId === selectedSection)
+                                .map(student => {
+                                  const presEvals = evaluations.filter(e => e.evaluatedStudentId === student.id && e.type === 'presentation');
+                                  const groupEvals = evaluations.filter(e => e.evaluatedStudentId === student.id && e.type === 'group');
+                                  const presAvg = presEvals.length > 0 ? (presEvals.reduce((sum, e) => sum + e.score, 0) / presEvals.length).toFixed(2) : 'N/A';
+                                  const groupAvg = groupEvals.length > 0 ? (groupEvals.reduce((sum, e) => sum + e.score, 0) / groupEvals.length).toFixed(2) : 'N/A';
+                                  const allEvals = [...presEvals, ...groupEvals];
+                                  const overall = allEvals.length > 0 ? (allEvals.reduce((sum, e) => sum + e.score, 0) / allEvals.length).toFixed(2) : 'N/A';
+                                  
+                                  return (
+                                    <tr key={student.id} className="bg-white">
+                                      <td className="px-3 py-2">{student.name}</td>
+                                      <td className="px-3 py-2 text-center">{presAvg}</td>
+                                      <td className="px-3 py-2 text-center">{groupAvg}</td>
+                                      <td className="px-3 py-2 text-center font-semibold">{overall}</td>
+                                      <td className="px-3 py-2 text-center">{allEvals.length}</td>
+                                    </tr>
+                                  );
+                                })}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+          <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
+            <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+              <div>
+                <h1 className="text-xl font-bold text-green-600">EvalFlow</h1>
+                <p className="text-sm text-gray-600">Welcome, {currentUser.name}</p>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg flex items-center gap-2"
+              >
+                <LogOut size={18} />
+                Logout
+              </button>
+            </div>
+          </nav>
+
+          {(error || success) && (
+            <div className="max-w-4xl mx-auto px-4 pt-4">
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex justify-between items-center">
+                  {error}
+                  <button onClick={() => setError('')}><X size={16} /></button>
+                </div>
+              )}
+              {success && (
+                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm flex justify-between items-center">
+                  {success}
+                  <button onClick={() => setSuccess('')}><X size={16} /></button>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="max-w-4xl mx-auto px-4 py-8">
+            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8">
+              <h2 className="text-2xl font-bold mb-6">Peer Evaluations</h2>
+              
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold mb-2 text-indigo-600 flex items-center gap-2">
+                  <BarChart3 size={20} />
+                  Presentation Evaluations
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Rate each presenter as they present (1-10 scale)
+                </p>
+                
+                <div className="space-y-3">
+                  {students
+                    .filter(s => s.sectionId === selectedSection && s.id !== currentUser.id)
+                    .sort((a, b) => a.presentationOrder - b.presentationOrder)
+                    .map(student => {
+                      const isSubmitted = submittedEvals.has(`presentation-${student.id}`);
+                      return (
+                        <div 
+                          key={student.id} 
+                          className={`border rounded-lg p-4 ${isSubmitted ? 'bg-gray-50' : 'bg-white'}`}
+                        >
+                          <div className="flex justify-between items-center flex-wrap gap-2">
+                            <div>
+                              <p className="font-medium">{student.name}</p>
+                              <p className="text-sm text-gray-500">Order: #{student.presentationOrder}</p>
+                            </div>
+                            {isSubmitted ? (
+                              <div className="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-medium">
+                                ✓ Submitted
+                              </div>
+                            ) : (
+                              <div className="flex gap-2">
+                                <input
+                                  type="number"
+                                  min="1"
+                                  max="10"
+                                  placeholder="1-10"
+                                  value={presentationScores[student.id] || ''}
+                                  onChange={(e) => setPresentationScores({
+                                    ...presentationScores,
+                                    [student.id]: e.target.value
+                                  })}
+                                  className="w-20 px-3 py-2 border rounded-lg text-center"
+                                />
+                                <button
+                                  onClick={() => submitPresentationEval(student.id, presentationScores[student.id])}
+                                  disabled={!presentationScores[student.id]}
+                                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+
+              <div className="border-t pt-6">
+                <h3 className="text-lg font-semibold mb-2 text-green-600 flex items-center gap-2">
+                  <Users size={20} />
+                  Group Member Evaluations
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Rate your group members' contributions (1-10 scale)
+                </p>
+                
+                {(() => {
+                  const studentGroups = groups.filter(g => 
+                    g.sectionId === selectedSection && 
+                    (g.members || []).includes(currentUser.id)
+                  );
+                  
+                  if (studentGroups.length === 0) {
+                    return (
+                      <div className="text-center py-8 bg-gray-50 rounded-lg">
+                        <Users size={48} className="mx-auto text-gray-300 mb-2" />
+                        <p className="text-gray-500">You haven't been assigned to a group yet</p>
+                      </div>
+                    );
+                  }
+
+                  return studentGroups.map(group => (
+                    <div key={group.id} className="mb-6">
+                      <h4 className="font-medium mb-3 text-gray-700">{group.name}</h4>
+                      <div className="space-y-3">
+                        {(group.members || [])
+                          .filter(memberId => memberId !== currentUser.id)
+                          .map(memberId => {
+                            const member = students.find(s => s.id === memberId);
+                            if (!member) return null;
+                            
+                            const isSubmitted = submittedEvals.has(`group-${member.id}`);
+                            return (
+                              <div 
+                                key={member.id}
+                                className={`border rounded-lg p-4 ${isSubmitted ? 'bg-gray-50' : 'bg-white'}`}
+                              >
+                                <div className="flex justify-between items-center flex-wrap gap-2">
+                                  <p className="font-medium">{member.name}</p>
+                                  {isSubmitted ? (
+                                    <div className="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-medium">
+                                      ✓ Submitted
+                                    </div>
+                                  ) : (
+                                    <div className="flex gap-2">
+                                      <input
+                                        type="number"
+                                        min="1"
+                                        max="10"
+                                        placeholder="1-10"
+                                        value={groupScores[member.id] || ''}
+                                        onChange={(e) => setGroupScores({
+                                          ...groupScores,
+                                          [member.id]: e.target.value
+                                        })}
+                                        className="w-20 px-3 py-2 border rounded-lg text-center"
+                                      />
+                                      <button
+                                        onClick={() => submitGroupEval(member.id, groupScores[member.id])}
+                                        disabled={!groupScores[member.id]}
+                                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+                                      >
+                                        Submit
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+                    </div>
+                  ));
+                })()}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<EvalFlow />, document.getElementById('root'));
+  </script>
+</body>
+</html>
