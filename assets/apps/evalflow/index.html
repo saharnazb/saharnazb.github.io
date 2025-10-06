@@ -3,138 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EvalFlow - Saharnaz Babaei-Balderlou, Ph.D.</title>
-  <meta name="description" content="A web-based peer evaluation system for collecting student feedback on presentations and group work">
-  
-  <!-- Link to your site's CSS files (exact same order as main site) -->
-  <link rel="stylesheet" href="/assets/main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/united/bootstrap.min.css">
-  <link rel="stylesheet" href="/assets/css/main.css">
-  
-  <!-- React and Tailwind for the app -->
+  <title>EvalFlow - Saharnaz Babaei-Balderlou</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  
   <style>
+    body { 
+      margin: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+    }
     @keyframes spin { to { transform: rotate(360deg); } }
     
-    /* Ensure Tailwind only affects the app container */
-    #evalflow-app * {
-      box-sizing: border-box;
+    /* Site Header Styles */
+    .site-header {
+      background: linear-gradient(135deg, #7b2d5e 0%, #4a1942 100%);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .site-header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .site-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .site-nav {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    .nav-item {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: opacity 0.2s;
+    }
+    .nav-item:hover {
+      opacity: 0.8;
+    }
+    .nav-item.active {
+      border-bottom: 2px solid white;
+    }
+    @media (max-width: 768px) {
+      .site-header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .site-nav {
+        width: 100%;
+        flex-wrap: wrap;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Header (matching your site structure) -->
-  <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="https://saharnaz.org/">
-      <img src="https://saharnaz.org/favicon.ico" width="30" height="30" style="margin-right:5px" class="d-inline-block align-top" alt="">
-      Saharnaz Babaei-Balderlou, Ph.D.
-    </a>
-    <button class="toggler navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="navbar-collapse show" id="navbarNavDropdown">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="https://saharnaz.org/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://saharnaz.org/contact/">Contact</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://saharnaz.org/cv/">CV</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link" href="https://saharnaz.org/research/">Research</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="https://saharnaz.org/research/working/">Working Papers</a></li>
-            <li><a class="dropdown-item" href="https://saharnaz.org/research/published/">Published Papers</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link" href="https://saharnaz.org/teaching/">Teaching</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="https://saharnaz.org/teaching/intro-data/">Data Analysis for Business Applications (ECO230)</a></li>
-            <li><a class="dropdown-item" href="https://saharnaz.org/teaching/intro-macro/">Global Macroeconomics (ECO120)</a></li>
-            <li><a class="dropdown-item" href="https://saharnaz.org/teaching/teaching-experience/">Past Teaching</a></li>
-            <li><a class="dropdown-item" href="https://saharnaz.org/teaching/makeappt/">Office Hours Appointments</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link active" href="https://saharnaz.org/resources/">Resources</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="https://saharnaz.org/resources/apps-forms/">My Apps and Forms</a></li>
-            <li><a class="dropdown-item" href="https://saharnaz.org/resources/links/">Helpful Links</a></li>
-            <li><a class="dropdown-item" href="https://saharnaz.org/resources/books/">Suggested Books</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="https://saharnaz.org/blogs/">Blogs</a>
-        </li>
-      </ul>
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="site-header-content">
+      <h1 class="site-title">
+        <span style="width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #7b2d5e; font-weight: bold;">SB</span>
+        Saharnaz Babaei-Balderlou, Ph.D.
+      </h1>
+      <nav class="site-nav">
+        <a href="/" class="nav-item">Home</a>
+        <a href="/contact/" class="nav-item">Contact</a>
+        <a href="/cv/" class="nav-item">CV</a>
+        <a href="/research/" class="nav-item">Research</a>
+        <a href="/teaching/" class="nav-item">Teaching</a>
+        <a href="/service/" class="nav-item">Service</a>
+        <a href="/resources/" class="nav-item active">Resources</a>
+        <a href="/blogs/" class="nav-item">Blogs</a>
+      </nav>
     </div>
-  </nav>
+  </header>
 
-  <!-- EvalFlow App Container -->
-  <div id="evalflow-app">
-    <div id="root">
-      <div style="display: flex; align-items: center; justify-content: center; min-height: 80vh; background: #f9fafb;">
-        <div style="text-align: center;">
-          <div style="width: 48px; height: 48px; border: 4px solid #e5e7eb; border-top-color: #7b2d5e; border-radius: 50%; margin: 0 auto; animation: spin 1s linear infinite;"></div>
-          <p style="margin-top: 16px; color: #6b7280;">Loading EvalFlow...</p>
-        </div>
+  <!-- EvalFlow App -->
+  <div id="root">
+    <div style="display: flex; align-items: center; justify-content: center; min-height: 80vh; background: #f9fafb;">
+      <div style="text-align: center;">
+        <div style="width: 48px; height: 48px; border: 4px solid #e5e7eb; border-top-color: #7b2d5e; border-radius: 50%; margin: 0 auto; animation: spin 1s linear infinite;"></div>
+        <p style="margin-top: 16px; color: #6b7280;">Loading EvalFlow...</p>
       </div>
     </div>
   </div>
-
-  <!-- Footer (matching your site structure) -->
-  <br/>
-  <section id="footer">
-    <div class="container-footer">
-      <div class="panel-footer">
-        <div class="row">
-          <div class="col-sm-4">
-            <h5>About</h5>
-            <p>Saharnaz Babaei-Balderlou<br/> Assistant Teaching Professor of Economics<br/> University of Wisconsin - La Crosse</p>
-          </div>
-
-          <div class="col-sm-4">
-            <h5>Contact</h5>
-            <p>
-              <a href="mailto:sbabaeibalderlou@uwlax.edu" target="_blank">
-                <i class="fa fa-envelope fa-lg"></i> Contact me via email
-              </a>
-            </p>
-            <p>
-              <a href="https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en" target="_blank" title="Google Scholar">
-                <i class="ai ai-google-scholar-square fa-2x"></i>
-              </a>
-              <a href="https://www.linkedin.com/in/saharnaz-babaei-balderlou/" target="_blank" title="LinkedIn">
-                <i class="fab fa-linkedin fa-2x"></i>
-              </a>
-              <a href="https://orcid.org/0000-0003-1163-7552" target="_blank" title="ORCID">
-                <i class="ai ai-orcid-square fa-2x"></i>
-              </a>
-            </p>
-          </div>
-
-          <div class="col-sm-4">
-            <h5>Office Location</h5>
-            <p>University of Wisconsin - La Crosse<br/> 2134 Wittich Hall<br/> 1725 State St<br/> La Crosse, WI 54601</p>
-          </div>
-        </div>
-
-        <center>
-          <p>&copy; 2025 Saharnaz Babaei-Balderlou, Ph.D.</p>
-        </center>
-      </div>
-    </div>
-  </section>
   
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
@@ -800,10 +763,5 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
       window.addEventListener('firebaseready', startApp);
     }
   </script>
-
-  <!-- Bootstrap JS -->
-  <script src="/assets/javascript/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
