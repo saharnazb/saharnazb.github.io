@@ -1,490 +1,399 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EvalFlow - Peer Evaluation System</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-  </style>
-</head>
-<body>
-  <div id="root">
-    <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f9fafb;">
-      <div style="text-align: center;">
-        <div style="width: 48px; height: 48px; border: 4px solid #e5e7eb; border-top-color: #4f46e5; border-radius: 50%; margin: 0 auto; animation: spin 1s linear infinite;"></div>
-        <p style="margin-top: 16px; color: #6b7280;">Loading EvalFlow...</p>
-      </div>
-    </div>
-  </div>
-  <style>
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
-  
-  <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-    
-    const firebaseConfig = {
-      apiKey: "AIzaSyDbAgwMiEAZCezKy3t7j4ZW8xQyjgXqrKI",
-      authDomain: "evalflow-b3da2.firebaseapp.com",
-      projectId: "evalflow-b3da2",
-      storageBucket: "evalflow-b3da2.firebasestorage.app",
-      messagingSenderId: "376143096721",
-      appId: "1:376143096721:web:8399e278170f1c3f4f8830",
-      measurementId: "G-CRL51V7SZL"
-    };
-    
-    const app = initializeApp(firebaseConfig);
-    window.auth = getAuth(app);
-    window.db = getFirestore(app);
-    window.firebaseAuth = { signInWithEmailAndPassword, signOut, onAuthStateChanged };
-    window.firebaseFirestore = { collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, doc, serverTimestamp };
-    
-    // Signal that Firebase is ready
-    window.firebaseReady = true;
-    window.dispatchEvent(new Event('firebaseready'));
-  </script>
-  
-  <script>
-    // Wait for Firebase to be ready before starting React app
-    function startApp() {
-      const { useState, useEffect } = React;
-      
-      // Icon Components
-      const Trash2 = ({ size = 20, className = "" }) => (
-        React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className },
-          React.createElement('polyline', { points: "3 6 5 6 21 6" }),
-          React.createElement('path', { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" })
-        )
-      );
-      
-      const X = ({ size = 20 }) => (
-        React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
-          React.createElement('line', { x1: "18", y1: "6", x2: "6", y2: "18" }),
-          React.createElement('line', { x1: "6", y1: "6", x2: "18", y2: "18" })
-        )
-      );
-      
-      const Upload = ({ size = 20 }) => (
-        React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
-          React.createElement('path', { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }),
-          React.createElement('polyline', { points: "17 8 12 3 7 8" }),
-          React.createElement('line', { x1: "12", y1: "3", x2: "12", y2: "15" })
-        )
-      );
-      
-      const FileDown = ({ size = 20 }) => (
-        React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
-          React.createElement('path', { d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" }),
-          React.createElement('polyline', { points: "14 2 14 8 20 8" }),
-          React.createElement('path', { d: "M12 18v-6" }),
-          React.createElement('path', { d: "M9 15l3 3 3-3" })
-        )
-      );
-      
-      const LogOut = ({ size = 20 }) => (
-        React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
-          React.createElement('path', { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" }),
-          React.createElement('polyline', { points: "16 17 21 12 16 7" }),
-          React.createElement('line', { x1: "21", y1: "12", x2: "9", y2: "12" })
-        )
-      );
-      
-      const Users = ({ size = 24 }) => (
-        React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
-          React.createElement('path', { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" }),
-          React.createElement('circle', { cx: "9", cy: "7", r: "4" }),
-          React.createElement('path', { d: "M22 21v-2a4 4 0 0 0-3-3.87" }),
-          React.createElement('path', { d: "M16 3.13a4 4 0 0 1 0 7.75" })
-        )
-      );
-      
-      const BarChart3 = ({ size = 24 }) => (
-        React.createElement('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
-          React.createElement('path', { d: "M3 3v18h18" }),
-          React.createElement('path', { d: "M18 17V9" }),
-          React.createElement('path', { d: "M13 17V5" }),
-          React.createElement('path', { d: "M8 17v-3" })
-        )
-      );
-
-      function EvalFlow() {
-        const [currentUser, setCurrentUser] = useState(null);
-        const [userRole, setUserRole] = useState(null);
-        const [loading, setLoading] = useState(true);
-        const [view, setView] = useState('login');
-        const [courses, setCourses] = useState([]);
-        const [sections, setSections] = useState([]);
-        const [students, setStudents] = useState([]);
-        const [groups, setGroups] = useState([]);
-        const [evaluations, setEvaluations] = useState([]);
-        const [selectedCourse, setSelectedCourse] = useState(null);
-        const [selectedSection, setSelectedSection] = useState(null);
-        const [loginEmail, setLoginEmail] = useState('');
-        const [loginPassword, setLoginPassword] = useState('');
-        const [studentName, setStudentName] = useState('');
-        const [studentEmail, setStudentEmail] = useState('');
-        const [courseName, setCourseName] = useState('');
-        const [sectionName, setSectionName] = useState('');
-        const [presentationScores, setPresentationScores] = useState({});
-        const [groupScores, setGroupScores] = useState({});
-        const [submittedEvals, setSubmittedEvals] = useState(new Set());
-        const [activeTab, setActiveTab] = useState('courses');
-        const [showPassword, setShowPassword] = useState(false);
-        const [error, setError] = useState('');
-        const [success, setSuccess] = useState('');
-        const [deleteConfirm, setDeleteConfirm] = useState(null);
-        const [showBulkImport, setShowBulkImport] = useState(false);
-        const [importFile, setImportFile] = useState(null);
-        const [importPreview, setImportPreview] = useState([]);
-        const [importing, setImporting] = useState(false);
-        const [importProgress, setImportProgress] = useState('');
-
-        useEffect(() => {
-          const unsubscribe = window.firebaseAuth.onAuthStateChanged(window.auth, (user) => {
-            if (user) {
-              setCurrentUser(user);
-              setUserRole('instructor');
-              setView('dashboard');
-              loadInstructorData(user.uid);
-            } else {
-              setCurrentUser(null);
-              setUserRole(null);
-            }
-            setLoading(false);
-          });
-          return unsubscribe;
-        }, []);
-
-        const loadInstructorData = async (uid) => {
-          try {
-            const { collection, getDocs, query, where } = window.firebaseFirestore;
-            
-            const coursesRef = collection(window.db, 'courses');
-            const coursesQuery = query(coursesRef, where('instructorId', '==', uid));
-            const coursesSnap = await getDocs(coursesQuery);
-            setCourses(coursesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-            const sectionsSnap = await getDocs(collection(window.db, 'sections'));
-            setSections(sectionsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-            const studentsSnap = await getDocs(collection(window.db, 'students'));
-            setStudents(studentsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-            const groupsSnap = await getDocs(collection(window.db, 'groups'));
-            setGroups(groupsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-            const evalsSnap = await getDocs(collection(window.db, 'evaluations'));
-            setEvaluations(evalsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-          } catch (err) {
-            console.error('Error:', err);
-            setError('Failed to load data');
-          }
-        };
-
-        const handleInstructorLogin = async (e) => {
-          e.preventDefault();
-          setError('');
-          try {
-            await window.firebaseAuth.signInWithEmailAndPassword(window.auth, loginEmail, loginPassword);
-          } catch (err) {
-            setError('Login failed: ' + err.message);
-          }
-        };
-
-        const handleStudentLogin = async (e) => {
-          e.preventDefault();
-          setError('');
-          if (!studentName || !studentEmail || !selectedSection) {
-            setError('Please fill in all fields');
-            return;
-          }
-          const student = students.find(s => s.email.toLowerCase() === studentEmail.toLowerCase() && s.sectionId === selectedSection);
-          if (!student) {
-            setError('Student not found');
-            return;
-          }
-          const studentEvals = evaluations.filter(e => e.evaluatorEmail === studentEmail);
-          setSubmittedEvals(new Set(studentEvals.map(e => `${e.type}-${e.evaluatedStudentId}`)));
-          setCurrentUser({ ...student, name: studentName });
-          setUserRole('student');
-          setView('student-eval');
-        };
-
-        const handleLogout = async () => {
-          if (userRole === 'instructor') await window.firebaseAuth.signOut(window.auth);
-          setCurrentUser(null);
-          setUserRole(null);
-          setView('login');
-        };
-
-        const deleteItem = async (type, id) => {
-          try {
-            await window.firebaseFirestore.deleteDoc(window.firebaseFirestore.doc(window.db, type, id));
-            setSuccess('Deleted successfully');
-            setDeleteConfirm(null);
-            loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Delete failed');
-          }
-        };
-
-        const addCourse = async () => {
-          if (!courseName.trim()) return;
-          try {
-            await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'courses'), {
-              name: courseName,
-              instructorId: currentUser.uid,
-              createdAt: window.firebaseFirestore.serverTimestamp()
-            });
-            setCourseName('');
-            setSuccess('Course added');
-            loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Failed to add');
-          }
-        };
-
-        const addSection = async () => {
-          if (!sectionName.trim() || !selectedCourse) {
-            setError('Select course and enter name');
-            return;
-          }
-          try {
-            await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'sections'), {
-              name: sectionName,
-              courseId: selectedCourse,
-              createdAt: window.firebaseFirestore.serverTimestamp()
-            });
-            setSectionName('');
-            setSuccess('Section added');
-            loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Failed');
-          }
-        };
-
-        const submitPresentationEval = async (evaluatedStudentId, score) => {
-          if (score < 1 || score > 10) { setError('Score 1-10'); return; }
-          try {
-            await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'evaluations'), {
-              evaluatorEmail: currentUser.email,
-              evaluatedStudentId,
-              sectionId: selectedSection,
-              type: 'presentation',
-              score: parseInt(score),
-              timestamp: window.firebaseFirestore.serverTimestamp()
-            });
-            setSubmittedEvals(prev => new Set([...prev, `presentation-${evaluatedStudentId}`]));
-            setPresentationScores(prev => ({ ...prev, [evaluatedStudentId]: '' }));
-            setSuccess('Submitted');
-          } catch (err) {
-            setError('Failed');
-          }
-        };
-
-        const submitGroupEval = async (evaluatedStudentId, score) => {
-          if (score < 1 || score > 10) { setError('Score 1-10'); return; }
-          try {
-            await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'evaluations'), {
-              evaluatorEmail: currentUser.email,
-              evaluatedStudentId,
-              sectionId: selectedSection,
-              type: 'group',
-              score: parseInt(score),
-              timestamp: window.firebaseFirestore.serverTimestamp()
-            });
-            setSubmittedEvals(prev => new Set([...prev, `group-${evaluatedStudentId}`]));
-            setGroupScores(prev => ({ ...prev, [evaluatedStudentId]: '' }));
-            setSuccess('Submitted');
-          } catch (err) {
-            setError('Failed');
-          }
-        };
-
-        const exportToCSV = () => {
-          if (!selectedSection) { setError('Select section'); return; }
-          const sectionStudents = students.filter(s => s.sectionId === selectedSection);
-          const csvRows = ['Student Name,Student ID,Email,Presentation Avg,Presentation Count,Group Avg,Group Count,Overall Avg,Total Evals'];
-          sectionStudents.forEach(student => {
-            const presEvals = evaluations.filter(e => e.evaluatedStudentId === student.id && e.type === 'presentation');
-            const groupEvals = evaluations.filter(e => e.evaluatedStudentId === student.id && e.type === 'group');
-            const presAvg = presEvals.length > 0 ? (presEvals.reduce((sum, e) => sum + e.score, 0) / presEvals.length).toFixed(2) : 'N/A';
-            const groupAvg = groupEvals.length > 0 ? (groupEvals.reduce((sum, e) => sum + e.score, 0) / groupEvals.length).toFixed(2) : 'N/A';
-            const allEvals = [...presEvals, ...groupEvals];
-            const overall = allEvals.length > 0 ? (allEvals.reduce((sum, e) => sum + e.score, 0) / allEvals.length).toFixed(2) : 'N/A';
-            csvRows.push(`"${student.name}","${student.studentId}","${student.email}",${presAvg},${presEvals.length},${groupAvg},${groupEvals.length},${overall},${allEvals.length}`);
-          });
-          const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `evalflow_${sections.find(s => s.id === selectedSection)?.name.replace(/\s/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`;
-          a.click();
-          setSuccess('Exported');
-        };
-
-        const updatePresentationOrder = async (studentId, newOrder) => {
-          try {
-            await window.firebaseFirestore.updateDoc(window.firebaseFirestore.doc(window.db, 'students', studentId), {
-              presentationOrder: parseInt(newOrder)
-            });
-            loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Update failed');
-          }
-        };
-
-        const handleImportFileChange = (e) => {
-          const file = e.target.files[0];
-          if (file) {
-            setImportFile(file);
-            const reader = new FileReader();
-            reader.onload = (e) => {
-              try {
-                const lines = e.target.result.split('\n');
-                const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-                const data = [];
-                for (let i = 1; i < lines.length; i++) {
-                  if (!lines[i].trim()) continue;
-                  const values = lines[i].split(',').map(v => v.trim());
-                  const row = {};
-                  headers.forEach((header, index) => { row[header] = values[index] || ''; });
-                  data.push(row);
-                }
-                setImportPreview(data);
-                setError('');
-              } catch (err) {
-                setError('Parse failed');
-              }
-            };
-            reader.readAsText(file);
-          }
-        };
-
-        const handleBulkImport = async () => {
-          if (!importPreview.length) { setError('No data'); return; }
-          setImporting(true);
-          setImportProgress('Starting...');
-          let imported = 0, skipped = 0;
-          try {
-            for (let i = 0; i < importPreview.length; i++) {
-              const student = importPreview[i];
-              setImportProgress(`Importing ${i + 1}/${importPreview.length}...`);
-              const sectionName = student.section || student.sectionname || student['section name'];
-              const section = sections.find(s => s.name.toLowerCase().includes(sectionName.toLowerCase()));
-              if (!section) { skipped++; continue; }
-              await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'students'), {
-                name: student.name || '',
-                email: (student.email || '').toLowerCase(),
-                studentId: student.id || student.studentid || '',
-                sectionId: section.id,
-                presentationOrder: parseInt(student.order || '999'),
-                createdAt: window.firebaseFirestore.serverTimestamp()
-              });
-              imported++;
-              await new Promise(resolve => setTimeout(resolve, 100));
-            }
-            setSuccess(`Imported ${imported}, skipped ${skipped}`);
-            setImportProgress('');
-            setImportPreview([]);
-            setImportFile(null);
-            setShowBulkImport(false);
-            loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Import failed');
-          } finally {
-            setImporting(false);
-          }
-        };
-
-        const downloadTemplate = () => {
-          const template = `Name,Email,Student ID,Section,Order,Group
-John Doe,john@university.edu,12345,Section 11,1,1
-Jane Smith,jane@university.edu,12346,Section 11,2,1`;
-          const blob = new Blob([template], { type: 'text/csv' });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'evalflow_template.csv';
-          a.click();
-        };
-
-        // Render logic continues in next part due to length...
-        // LOGIN VIEW
-        if (loading) {
-          return React.createElement('div', { className: "min-h-screen bg-gray-50 flex items-center justify-center" },
-            React.createElement('div', { className: "text-center" },
-              React.createElement('div', { className: "animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto" }),
-              React.createElement('p', { className: "mt-4 text-gray-600" }, 'Loading...')
-            )
-          );
-        }
-
-        if (!currentUser || view === 'login') {
-          return React.createElement('div', { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4" },
-            React.createElement('div', { className: "bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full" },
-              React.createElement('div', { className: "text-center mb-8" },
-                React.createElement('h1', { className: "text-4xl font-bold text-indigo-600 mb-2" }, 'EvalFlow'),
-                React.createElement('p', { className: "text-gray-600" }, 'Peer Evaluation System')
-              ),
-              error && React.createElement('div', { className: "mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm" }, error),
-              React.createElement('div', { className: "space-y-4" },
-                React.createElement('div', { className: "flex gap-2" },
-                  React.createElement('button', { onClick: () => setView('login'), className: `flex-1 py-2 rounded-lg font-medium ${view === 'login' ? 'bg-indigo-600 text-white' : 'bg-gray-100'}` }, 'Instructor'),
-                  React.createElement('button', { onClick: () => setView('student-login'), className: `flex-1 py-2 rounded-lg font-medium ${view === 'student-login' ? 'bg-green-600 text-white' : 'bg-gray-100'}` }, 'Student')
+// INSTRUCTOR DASHBOARD
+        if (userRole === 'instructor') {
+          return React.createElement('div', { className: "min-h-screen bg-gray-50" },
+            // Header
+            React.createElement('div', { className: "bg-white shadow" },
+              React.createElement('div', { className: "max-w-7xl mx-auto px-4 py-4 flex justify-between items-center" },
+                React.createElement('div', null,
+                  React.createElement('h1', { className: "text-2xl font-bold text-indigo-600" }, 'EvalFlow'),
+                  React.createElement('p', { className: "text-sm text-gray-600" }, currentUser.email)
                 ),
-                view === 'login' ? 
-                  React.createElement('form', { onSubmit: handleInstructorLogin, className: "space-y-4" },
-                    React.createElement('input', { type: "email", placeholder: "Instructor Email", value: loginEmail, onChange: (e) => setLoginEmail(e.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
-                    React.createElement('input', { type: showPassword ? 'text' : 'password', placeholder: "Password", value: loginPassword, onChange: (e) => setLoginPassword(e.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
-                    React.createElement('button', { type: "submit", className: "w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700" }, 'Login')
-                  ) :
-                  React.createElement('form', { onSubmit: handleStudentLogin, className: "space-y-4" },
-                    React.createElement('input', { type: "text", placeholder: "Your Name", value: studentName, onChange: (e) => setStudentName(e.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
-                    React.createElement('input', { type: "email", placeholder: "Your Email", value: studentEmail, onChange: (e) => setStudentEmail(e.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
-                    React.createElement('select', { value: selectedSection || '', onChange: (e) => setSelectedSection(e.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" },
-                      React.createElement('option', { value: "" }, 'Select Section'),
-                      sections.map(sec => React.createElement('option', { key: sec.id, value: sec.id }, sec.name))
-                    ),
-                    React.createElement('button', { type: "submit", className: "w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700" }, 'Continue')
+                React.createElement('button', { onClick: handleLogout, className: "flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" },
+                  React.createElement(LogOut, { size: 18 }),
+                  'Logout'
+                )
+              )
+            ),
+
+            // Messages
+            React.createElement('div', { className: "max-w-7xl mx-auto px-4 py-4" },
+              error && React.createElement('div', { className: "mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex justify-between items-center" },
+                error,
+                React.createElement('button', { onClick: () => setError(''), className: "text-red-900 hover:text-red-700" },
+                  React.createElement(X, { size: 16 })
+                )
+              ),
+              success && React.createElement('div', { className: "mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm flex justify-between items-center" },
+                success,
+                React.createElement('button', { onClick: () => setSuccess(''), className: "text-green-900 hover:text-green-700" },
+                  React.createElement(X, { size: 16 })
+                )
+              )
+            ),
+
+            // Tabs
+            React.createElement('div', { className: "max-w-7xl mx-auto px-4" },
+              React.createElement('div', { className: "flex gap-2 border-b mb-6" },
+                ['courses', 'sections', 'students', 'groups', 'reports'].map(tab =>
+                  React.createElement('button', {
+                    key: tab,
+                    onClick: () => setActiveTab(tab),
+                    className: `px-4 py-2 font-medium capitalize ${activeTab === tab ? 'border-b-2 border-indigo-600 text-indigo-600' : 'text-gray-600 hover:text-gray-900'}`
+                  }, tab)
+                )
+              ),
+
+              // COURSES TAB
+              activeTab === 'courses' && React.createElement('div', { className: "space-y-6" },
+                React.createElement('div', { className: "bg-white p-6 rounded-lg shadow" },
+                  React.createElement('h2', { className: "text-xl font-bold mb-4" }, 'Add Course'),
+                  React.createElement('div', { className: "flex gap-2" },
+                    React.createElement('input', {
+                      type: "text",
+                      placeholder: "Course Name",
+                      value: courseName,
+                      onChange: (e) => setCourseName(e.target.value),
+                      className: "flex-1 px-4 py-2 border rounded-lg"
+                    }),
+                    React.createElement('button', {
+                      onClick: addCourse,
+                      className: "px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                    }, 'Add')
                   )
+                ),
+                React.createElement('div', { className: "bg-white p-6 rounded-lg shadow" },
+                  React.createElement('h2', { className: "text-xl font-bold mb-4" }, 'My Courses'),
+                  courses.length === 0 ? React.createElement('p', { className: "text-gray-500" }, 'No courses yet') :
+                    React.createElement('div', { className: "space-y-2" },
+                      courses.map(course =>
+                        React.createElement('div', {
+                          key: course.id,
+                          className: "flex justify-between items-center p-4 border rounded-lg hover:bg-gray-50"
+                        },
+                          React.createElement('span', { className: "font-medium" }, course.name),
+                          React.createElement('button', {
+                            onClick: () => setDeleteConfirm({ type: 'courses', id: course.id, name: course.name }),
+                            className: "p-2 text-red-600 hover:bg-red-50 rounded"
+                          }, React.createElement(Trash2, { size: 18 }))
+                        )
+                      )
+                    )
+                )
+              ),
+
+              // SECTIONS TAB
+              activeTab === 'sections' && React.createElement('div', { className: "space-y-6" },
+                React.createElement('div', { className: "bg-white p-6 rounded-lg shadow" },
+                  React.createElement('h2', { className: "text-xl font-bold mb-4" }, 'Add Section'),
+                  React.createElement('div', { className: "space-y-3" },
+                    React.createElement('select', {
+                      value: selectedCourse || '',
+                      onChange: (e) => setSelectedCourse(e.target.value),
+                      className: "w-full px-4 py-2 border rounded-lg"
+                    },
+                      React.createElement('option', { value: "" }, 'Select Course'),
+                      courses.map(c => React.createElement('option', { key: c.id, value: c.id }, c.name))
+                    ),
+                    React.createElement('div', { className: "flex gap-2" },
+                      React.createElement('input', {
+                        type: "text",
+                        placeholder: "Section Name",
+                        value: sectionName,
+                        onChange: (e) => setSectionName(e.target.value),
+                        className: "flex-1 px-4 py-2 border rounded-lg"
+                      }),
+                      React.createElement('button', {
+                        onClick: addSection,
+                        className: "px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                      }, 'Add')
+                    )
+                  )
+                ),
+                React.createElement('div', { className: "bg-white p-6 rounded-lg shadow" },
+                  React.createElement('h2', { className: "text-xl font-bold mb-4" }, 'All Sections'),
+                  sections.length === 0 ? React.createElement('p', { className: "text-gray-500" }, 'No sections yet') :
+                    React.createElement('div', { className: "space-y-2" },
+                      sections.map(section => {
+                        const course = courses.find(c => c.id === section.courseId);
+                        return React.createElement('div', {
+                          key: section.id,
+                          className: "flex justify-between items-center p-4 border rounded-lg hover:bg-gray-50"
+                        },
+                          React.createElement('div', null,
+                            React.createElement('span', { className: "font-medium" }, section.name),
+                            course && React.createElement('span', { className: "ml-2 text-sm text-gray-600" }, `(${course.name})`)
+                          ),
+                          React.createElement('button', {
+                            onClick: () => setDeleteConfirm({ type: 'sections', id: section.id, name: section.name }),
+                            className: "p-2 text-red-600 hover:bg-red-50 rounded"
+                          }, React.createElement(Trash2, { size: 18 }))
+                        );
+                      })
+                    )
+                )
+              ),
+
+              // STUDENTS TAB
+              activeTab === 'students' && React.createElement('div', { className: "space-y-6" },
+                React.createElement('div', { className: "bg-white p-6 rounded-lg shadow" },
+                  React.createElement('div', { className: "flex justify-between items-center mb-4" },
+                    React.createElement('h2', { className: "text-xl font-bold" }, 'Import Students'),
+                    React.createElement('button', {
+                      onClick: downloadTemplate,
+                      className: "flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
+                    },
+                      React.createElement(FileDown, { size: 18 }),
+                      'Download Template'
+                    )
+                  ),
+                  React.createElement('button', {
+                    onClick: () => setShowBulkImport(!showBulkImport),
+                    className: "w-full flex items-center justify-center gap-2 px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                  },
+                    React.createElement(Upload, { size: 20 }),
+                    'Bulk Import CSV'
+                  ),
+                  showBulkImport && React.createElement('div', { className: "mt-4 p-4 border rounded-lg bg-gray-50" },
+                    React.createElement('input', {
+                      type: "file",
+                      accept: ".csv",
+                      onChange: handleImportFileChange,
+                      className: "mb-3 w-full"
+                    }),
+                    importPreview.length > 0 && React.createElement('div', null,
+                      React.createElement('p', { className: "text-sm font-medium mb-2" }, `Preview: ${importPreview.length} students`),
+                      React.createElement('div', { className: "max-h-48 overflow-y-auto mb-3 p-2 bg-white border rounded text-xs" },
+                        importPreview.slice(0, 5).map((s, i) =>
+                          React.createElement('div', { key: i, className: "py-1" },
+                            `${s.name} - ${s.email} - ${s.section || s.sectionname || s['section name']}`
+                          )
+                        ),
+                        importPreview.length > 5 && React.createElement('p', { className: "text-gray-500 py-1" }, `... and ${importPreview.length - 5} more`)
+                      ),
+                      importProgress && React.createElement('p', { className: "text-sm text-indigo-600 mb-2" }, importProgress),
+                      React.createElement('button', {
+                        onClick: handleBulkImport,
+                        disabled: importing,
+                        className: "w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+                      }, importing ? 'Importing...' : `Import ${importPreview.length} Students`)
+                    )
+                  )
+                ),
+                React.createElement('div', { className: "bg-white p-6 rounded-lg shadow" },
+                  React.createElement('h2', { className: "text-xl font-bold mb-4" }, 'All Students'),
+                  React.createElement('select', {
+                    value: selectedSection || '',
+                    onChange: (e) => setSelectedSection(e.target.value),
+                    className: "w-full px-4 py-2 border rounded-lg mb-4"
+                  },
+                    React.createElement('option', { value: "" }, 'All Sections'),
+                    sections.map(s => React.createElement('option', { key: s.id, value: s.id }, s.name))
+                  ),
+                  students.filter(s => !selectedSection || s.sectionId === selectedSection).length === 0 ?
+                    React.createElement('p', { className: "text-gray-500" }, 'No students yet') :
+                    React.createElement('div', { className: "space-y-2" },
+                      students.filter(s => !selectedSection || s.sectionId === selectedSection)
+                        .sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999))
+                        .map(student => {
+                          const section = sections.find(sec => sec.id === student.sectionId);
+                          const group = groups.find(g => g.id === student.groupId);
+                          return React.createElement('div', {
+                            key: student.id,
+                            className: "flex justify-between items-center p-4 border rounded-lg hover:bg-gray-50"
+                          },
+                            React.createElement('div', { className: "flex-1" },
+                              React.createElement('div', { className: "font-medium" }, student.name),
+                              React.createElement('div', { className: "text-sm text-gray-600" },
+                                `${student.email} • ${section?.name || 'No section'} • Order: ${student.presentationOrder || 'N/A'}${group ? ` • Group ${group.name}` : ''}`
+                              )
+                            ),
+                            React.createElement('div', { className: "flex gap-2" },
+                              React.createElement('input', {
+                                type: "number",
+                                placeholder: "Order",
+                                defaultValue: student.presentationOrder || '',
+                                onBlur: (e) => e.target.value && updatePresentationOrder(student.id, e.target.value),
+                                className: "w-20 px-2 py-1 border rounded text-sm"
+                              }),
+                              React.createElement('button', {
+                                onClick: () => setDeleteConfirm({ type: 'students', id: student.id, name: student.name }),
+                                className: "p-2 text-red-600 hover:bg-red-50 rounded"
+                              }, React.createElement(Trash2, { size: 18 }))
+                            )
+                          );
+                        })
+                    )
+                )
+              ),
+
+              // GROUPS TAB
+              activeTab === 'groups' && React.createElement('div', { className: "space-y-6" },
+                React.createElement('div', { className: "bg-white p-6 rounded-lg shadow" },
+                  React.createElement('h2', { className: "text-xl font-bold mb-4" }, 'Groups'),
+                  React.createElement('p', { className: "text-gray-600" }, 'Groups are managed via CSV import. Include "Group" column in your import file.')
+                )
+              ),
+
+              // REPORTS TAB
+              activeTab === 'reports' && React.createElement('div', { className: "space-y-6" },
+                React.createElement('div', { className: "bg-white p-6 rounded-lg shadow" },
+                  React.createElement('h2', { className: "text-xl font-bold mb-4" }, 'Export Reports'),
+                  React.createElement('select', {
+                    value: selectedSection || '',
+                    onChange: (e) => setSelectedSection(e.target.value),
+                    className: "w-full px-4 py-2 border rounded-lg mb-4"
+                  },
+                    React.createElement('option', { value: "" }, 'Select Section'),
+                    sections.map(s => React.createElement('option', { key: s.id, value: s.id }, s.name))
+                  ),
+                  React.createElement('button', {
+                    onClick: exportToCSV,
+                    className: "w-full flex items-center justify-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                  },
+                    React.createElement(FileDown, { size: 20 }),
+                    'Export to CSV'
+                  )
+                ),
+                selectedSection && React.createElement('div', { className: "bg-white p-6 rounded-lg shadow" },
+                  React.createElement('h2', { className: "text-xl font-bold mb-4" }, 'Section Overview'),
+                  React.createElement('div', { className: "space-y-4" },
+                    students.filter(s => s.sectionId === selectedSection).map(student => {
+                      const presEvals = evaluations.filter(e => e.evaluatedStudentId === student.id && e.type === 'presentation');
+                      const groupEvals = evaluations.filter(e => e.evaluatedStudentId === student.id && e.type === 'group');
+                      const presAvg = presEvals.length > 0 ? (presEvals.reduce((sum, e) => sum + e.score, 0) / presEvals.length).toFixed(1) : 'N/A';
+                      const groupAvg = groupEvals.length > 0 ? (groupEvals.reduce((sum, e) => sum + e.score, 0) / groupEvals.length).toFixed(1) : 'N/A';
+                      return React.createElement('div', {
+                        key: student.id,
+                        className: "p-4 border rounded-lg"
+                      },
+                        React.createElement('div', { className: "font-medium mb-2" }, student.name),
+                        React.createElement('div', { className: "grid grid-cols-2 gap-4 text-sm" },
+                          React.createElement('div', null,
+                            React.createElement('span', { className: "text-gray-600" }, 'Presentation: '),
+                            React.createElement('span', { className: "font-medium" }, `${presAvg} (${presEvals.length} evals)`)
+                          ),
+                          React.createElement('div', null,
+                            React.createElement('span', { className: "text-gray-600" }, 'Group: '),
+                            React.createElement('span', { className: "font-medium" }, `${groupAvg} (${groupEvals.length} evals)`)
+                          )
+                        )
+                      );
+                    })
+                  )
+                )
+              )
+            ),
+
+            // Delete Confirmation Modal
+            deleteConfirm && React.createElement('div', {
+              className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50",
+              onClick: () => setDeleteConfirm(null)
+            },
+              React.createElement('div', {
+                className: "bg-white p-6 rounded-lg shadow-xl max-w-md",
+                onClick: (e) => e.stopPropagation()
+              },
+                React.createElement('h3', { className: "text-lg font-bold mb-2" }, 'Confirm Delete'),
+                React.createElement('p', { className: "text-gray-600 mb-4" }, `Are you sure you want to delete "${deleteConfirm.name}"?`),
+                React.createElement('div', { className: "flex gap-2 justify-end" },
+                  React.createElement('button', {
+                    onClick: () => setDeleteConfirm(null),
+                    className: "px-4 py-2 border rounded-lg hover:bg-gray-50"
+                  }, 'Cancel'),
+                  React.createElement('button', {
+                    onClick: () => deleteItem(deleteConfirm.type, deleteConfirm.id),
+                    className: "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                  }, 'Delete')
+                )
               )
             )
           );
         }
 
-        // For brevity, showing simplified instructor/student views
-        // The full UI code would go here - same structure as before
-        if (userRole === 'instructor') {
-          return React.createElement('div', { className: "min-h-screen bg-gray-50 p-8" },
-            React.createElement('h1', { className: "text-3xl font-bold mb-4" }, 'Instructor Dashboard'),
-            React.createElement('p', null, 'Students: ', students.length, ' | Sections: ', sections.length),
-            React.createElement('button', { onClick: handleLogout, className: "mt-4 px-4 py-2 bg-red-600 text-white rounded" }, 'Logout')
-          );
-        }
-
-        return React.createElement('div', { className: "min-h-screen bg-gray-50 p-8" },
-          React.createElement('h1', { className: "text-2xl font-bold" }, 'Student View'),
-          React.createElement('button', { onClick: handleLogout, className: "mt-4 px-4 py-2 bg-red-600 text-white rounded" }, 'Logout')
+        // STUDENT VIEW
+        return React.createElement('div', { className: "min-h-screen bg-gray-50" },
+          React.createElement('div', { className: "bg-white shadow mb-6" },
+            React.createElement('div', { className: "max-w-4xl mx-auto px-4 py-4 flex justify-between items-center" },
+              React.createElement('div', null,
+                React.createElement('h1', { className: "text-2xl font-bold text-green-600" }, 'EvalFlow Student'),
+                React.createElement('p', { className: "text-sm text-gray-600" }, currentUser.name)
+              ),
+              React.createElement('button', {
+                onClick: handleLogout,
+                className: "flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              },
+                React.createElement(LogOut, { size: 18 }),
+                'Logout'
+              )
+            )
+          ),
+          React.createElement('div', { className: "max-w-4xl mx-auto px-4" },
+            error && React.createElement('div', { className: "mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm" }, error),
+            success && React.createElement('div', { className: "mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm" }, success),
+            
+            React.createElement('div', { className: "grid md:grid-cols-2 gap-6" },
+              // Presentation Evaluations
+              React.createElement('div', { className: "bg-white p-6 rounded-lg shadow" },
+                React.createElement('h2', { className: "text-xl font-bold mb-4" }, 'Presentation Evaluations'),
+                students.filter(s => s.sectionId === selectedSection && s.id !== currentUser.id)
+                  .sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999))
+                  .map(student => {
+                    const submitted = submittedEvals.has(`presentation-${student.id}`);
+                    return React.createElement('div', {
+                      key: student.id,
+                      className: "mb-4 p-4 border rounded-lg"
+                    },
+                      React.createElement('div', { className: "font-medium mb-2" }, student.name),
+                      submitted ? React.createElement('p', { className: "text-sm text-green-600" }, '✓ Submitted') :
+                        React.createElement('div', { className: "flex gap-2" },
+                          React.createElement('input', {
+                            type: "number",
+                            min: "1",
+                            max: "10",
+                            placeholder: "Score (1-10)",
+                            value: presentationScores[student.id] || '',
+                            onChange: (e) => setPresentationScores(prev => ({ ...prev, [student.id]: e.target.value })),
+                            className: "flex-1 px-3 py-2 border rounded-lg"
+                          }),
+                          React.createElement('button', {
+                            onClick: () => submitPresentationEval(student.id, presentationScores[student.id]),
+                            className: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                          }, 'Submit')
+                        )
+                    );
+                  })
+              ),
+              
+              // Group Evaluations
+              React.createElement('div', { className: "bg-white p-6 rounded-lg shadow" },
+                React.createElement('h2', { className: "text-xl font-bold mb-4" }, 'Group Member Evaluations'),
+                students.filter(s => s.sectionId === selectedSection && s.groupId === currentUser.groupId && s.id !== currentUser.id)
+                  .map(student => {
+                    const submitted = submittedEvals.has(`group-${student.id}`);
+                    return React.createElement('div', {
+                      key: student.id,
+                      className: "mb-4 p-4 border rounded-lg"
+                    },
+                      React.createElement('div', { className: "font-medium mb-2" }, student.name),
+                      submitted ? React.createElement('p', { className: "text-sm text-green-600" }, '✓ Submitted') :
+                        React.createElement('div', { className: "flex gap-2" },
+                          React.createElement('input', {
+                            type: "number",
+                            min: "1",
+                            max: "10",
+                            placeholder: "Score (1-10)",
+                            value: groupScores[student.id] || '',
+                            onChange: (e) => setGroupScores(prev => ({ ...prev, [student.id]: e.target.value })),
+                            className: "flex-1 px-3 py-2 border rounded-lg"
+                          }),
+                          React.createElement('button', {
+                            onClick: () => submitGroupEval(student.id, groupScores[student.id]),
+                            className: "px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                          }, 'Submit')
+                        )
+                    );
+                  })
+              )
+            )
+          )
         );
-      }
-
-      const root = ReactDOM.createRoot(document.getElementById('root'));
-      root.render(React.createElement(EvalFlow));
-    }
-
-    // Start app when Firebase is ready
-    if (window.firebaseReady) {
-      startApp();
-    } else {
-      window.addEventListener('firebaseready', startApp);
-    }
-  </script>
-</body>
-</html>
