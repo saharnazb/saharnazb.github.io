@@ -12,10 +12,10 @@ permalink: /teaching/teaching-experience/
 <!-- First Block - Assistant Teaching Professor -->
 #### <span style="color: #3cb1e7;">Assistant Teaching Professor, University of Wisconsin - La Crosse</span>
 
-#### <i class="fas fa-chart-bar"></i> **Data Analysis for Business Applications**
+#### <i class="fas fa-chart-bar"></i> **[Data Analysis for Business Applications](/teaching/intro-data/)**
 - Fall 2025 (In-Person) - Details Coming Soon
 
-#### <i class="fas fa-exchange-alt"></i> **Global Macroeconomics**
+#### <i class="fas fa-exchange-alt"></i> **[Global Macroeconomics](/teaching/intro-macro/)**
 - Spring 2025 (In-person) - Evaluations: [SECTION 02](/assets/teaching/IntroMacro/LENS_ECO120_02_Spring2025.pdf) ; [SECTION 04](/assets/teaching/IntroMacro/LENS_ECO120_04_Spring2025.pdf) ; [SECTION 05](/assets/teaching/IntroMacro/LENS_ECO120_05_Spring2025.pdf) ; [SECTION 06](/assets/teaching/IntroMacro/LENS_ECO120_06_Spring2025.pdf)
 - Fall 2024 (In-person) - Evaluations: [SECTION 04](/assets/teaching/IntroMacro/LENS_ECO120_04_Fall2024.pdf) ; [SECTION 06](/assets/teaching/IntroMacro/LENS_ECO120_07_Fall2024.pdf) ; [SECTION 07](/assets/teaching/IntroMacro/LENS_ECO120_07_Fall2024.pdf) ; [SECTION 08](/assets/teaching/IntroMacro/LENS_ECO120_08_Fall2024.pdf)
 
@@ -24,33 +24,11 @@ permalink: /teaching/teaching-experience/
 <!-- Second Block - Instructor -->
 #### <span style="color: #3cb1e7;">Instructor, University of South Carolina</span>
 
-#### <i class="fas fa-book-open"></i> **Principles of Microeconomics**
+#### <i class="fas fa-book-open"></i> **[Principles of Microeconomics](/teaching/intro-micro/)**
 - Spring 2024 (In-person) - [Evaluation 4.2/5](/assets/teaching/IntroMicro//Evaluation_ECON221_Spring2024.pdf)
 
-#### <i class="fas fa-book-open"></i> **Introduction to Economics**
+#### <i class="fas fa-book-open"></i> **[Introduction to Economics](/teaching/intro-econ/)**
 - Spring 2023 (In-person) - [Evaluation 4.5/5](/assets/teaching/IntroEcon//Evaluations_ECON224_Spring2023.pdf)
 - Spring 2022 (In-person) - [Evaluation 3.7/5](/assets/teaching/IntroEcon/Evaluations_ECON224_Spring2022.pdf)
 - Spring 2021 (Online) - [Evaluation 4.3/5](/assets/teaching/IntroEcon/Evaluations_ECON224_Spring2021.pdf)
 
----
-
-<!-- Third Block - Teaching Assistant -->
-#### <span style="color: #3cb1e7;">Teaching Assistant, University of South Carolina</span>
-
-#### <i class="fas fa-chalkboard-teacher"></i> **Introductory Econometrics**
-- Fall 2018, Spring 2019, Fall 2019, Spring 2020
-
-#### <i class="fas fa-chalkboard-teacher"></i> **Public Finance**
-- Spring 2019
-
-#### <i class="fas fa-chalkboard-teacher"></i> **Industrial Organization**
-- Spring 2019
-
-#### <i class="fas fa-chalkboard-teacher"></i> **Labor Economics and Labor Markets**
-- Fall 2019
-
-#### <i class="fas fa-chalkboard-teacher"></i> **International Trade Economics**
-- Fall 2019
-
-#### <i class="fas fa-chalkboard-teacher"></i> **Intermediate Macroeconomics**
-- Spring 2020
