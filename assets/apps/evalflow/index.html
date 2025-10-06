@@ -4,97 +4,93 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EvalFlow - Saharnaz Babaei-Balderlou</title>
+  
+  <!-- Link to your site's CSS -->
+  <link rel="stylesheet" href="/css/main.css">
+  
+  <!-- React and Tailwind for the app -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <style>
-    body { 
-      margin: 0; 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-    }
     @keyframes spin { to { transform: rotate(360deg); } }
     
-    /* Site Header Styles */
-    .site-header {
-      background: linear-gradient(135deg, #7b2d5e 0%, #4a1942 100%);
-      color: white;
-      padding: 1rem 0;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    /* Override Tailwind for the app container only */
+    #evalflow-app {
+      all: initial;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
-    .site-header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-    .site-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .site-nav {
-      display: flex;
-      gap: 1.5rem;
-      margin-top: 0.5rem;
-    }
-    .nav-item {
-      color: white;
-      text-decoration: none;
-      padding: 0.5rem 0;
-      position: relative;
-      transition: opacity 0.2s;
-    }
-    .nav-item:hover {
-      opacity: 0.8;
-    }
-    .nav-item.active {
-      border-bottom: 2px solid white;
-    }
-    @media (max-width: 768px) {
-      .site-header-content {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .site-nav {
-        width: 100%;
-        flex-wrap: wrap;
-      }
+    #evalflow-app * {
+      box-sizing: border-box;
     }
   </style>
 </head>
 <body>
-  <!-- Site Header -->
-  <header class="site-header">
-    <div class="site-header-content">
-      <h1 class="site-title">
-        <span style="width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #7b2d5e; font-weight: bold;">SB</span>
-        Saharnaz Babaei-Balderlou, Ph.D.
-      </h1>
-      <nav class="site-nav">
-        <a href="/" class="nav-item">Home</a>
-        <a href="/contact/" class="nav-item">Contact</a>
-        <a href="/cv/" class="nav-item">CV</a>
-        <a href="/research/" class="nav-item">Research</a>
-        <a href="/teaching/" class="nav-item">Teaching</a>
-        <a href="/service/" class="nav-item">Service</a>
-        <a href="/resources/" class="nav-item active">Resources</a>
-        <a href="/blogs/" class="nav-item">Blogs</a>
-      </nav>
+  <!-- Site Header (matching your site structure) -->
+  <div id="header" style="background: linear-gradient(135deg, #7b2d5e 0%, #4a1942 100%); color: white; padding: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
+      <div class="row">
+        <div class="col-sm-12" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+            <span style="width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #7b2d5e; font-weight: bold; font-size: 14px;">SB</span>
+            <h3 style="margin: 0; font-size: 1.25rem; font-weight: 600;">Saharnaz Babaei-Balderlou, Ph.D.</h3>
+          </div>
+          <nav style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+            <a href="/" style="color: white; text-decoration: none; padding: 0.25rem 0;">Home</a>
+            <a href="/contact/" style="color: white; text-decoration: none; padding: 0.25rem 0;">Contact</a>
+            <a href="/cv/" style="color: white; text-decoration: none; padding: 0.25rem 0;">CV</a>
+            <a href="/research/" style="color: white; text-decoration: none; padding: 0.25rem 0;">Research</a>
+            <a href="/teaching/" style="color: white; text-decoration: none; padding: 0.25rem 0;">Teaching</a>
+            <a href="/resources/" style="color: white; text-decoration: none; padding: 0.25rem 0; border-bottom: 2px solid white;">Resources</a>
+          </nav>
+        </div>
+      </div>
     </div>
-  </header>
+  </div>
 
-  <!-- EvalFlow App -->
-  <div id="root">
-    <div style="display: flex; align-items: center; justify-content: center; min-height: 80vh; background: #f9fafb;">
-      <div style="text-align: center;">
-        <div style="width: 48px; height: 48px; border: 4px solid #e5e7eb; border-top-color: #7b2d5e; border-radius: 50%; margin: 0 auto; animation: spin 1s linear infinite;"></div>
-        <p style="margin-top: 16px; color: #6b7280;">Loading EvalFlow...</p>
+  <!-- EvalFlow App Container -->
+  <div id="evalflow-app">
+    <div id="root">
+      <div style="display: flex; align-items: center; justify-content: center; min-height: 80vh; background: #f9fafb;">
+        <div style="text-align: center;">
+          <div style="width: 48px; height: 48px; border: 4px solid #e5e7eb; border-top-color: #7b2d5e; border-radius: 50%; margin: 0 auto; animation: spin 1s linear infinite;"></div>
+          <p style="margin-top: 16px; color: #6b7280;">Loading EvalFlow...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer (matching your site structure) -->
+  <div id="footer" style="background: linear-gradient(135deg, #7b2d5e 0%, #4a1942 100%); color: white; padding: 2rem 0; margin-top: 4rem;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
+      <div class="row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+        <div>
+          <h4 style="margin-bottom: 1rem; font-size: 1.1rem;">About</h4>
+          <p style="margin: 0; line-height: 1.6; font-size: 0.9rem;">
+            Saharnaz Babaei-Balderlou<br>
+            Assistant Teaching Professor of Economics<br>
+            University of Wisconsin - La Crosse
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 1rem; font-size: 1.1rem;">Contact</h4>
+          <p style="margin: 0; line-height: 1.6; font-size: 0.9rem;">
+            <a href="mailto:sbabaei@uwlax.edu" style="color: white; text-decoration: underline;">Contact me via email</a>
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 1rem; font-size: 1.1rem;">Office Location</h4>
+          <p style="margin: 0; line-height: 1.6; font-size: 0.9rem;">
+            University of Wisconsin - La Crosse<br>
+            2134 Wittich Hall<br>
+            1725 State St<br>
+            La Crosse, WI 54601
+          </p>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2);">
+        <p style="margin: 0; font-size: 0.85rem;">© 2025 Saharnaz Babaei-Balderlou, Ph.D.</p>
       </div>
     </div>
   </div>
