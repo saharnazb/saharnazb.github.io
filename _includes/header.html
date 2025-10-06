@@ -40,21 +40,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/intro-data/">Data Analysis for Business Applications (ECO230)</a></li>
                     <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/intro-macro/">Global Macroeconomics (ECO120)</a></li>
-                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/intro-micro/">Principles of Microeconomics (ECON221)</a></li>
-                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/intro-econ/">Introduction to Economics (ECON224)</a></li>
                     <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/teaching-experience/">Past Teaching</a></li>
                     <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/teaching/makeappt/">Office Hours Appointments</a></li>
-
                 </ul>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link {% if page.url contains '/service/' %}active{% endif %}" href="{{ site.url }}{{ site.baseurl }}/service/">Service</a>
-            </li>
 
-
-            <li class="nav-item"></li>
-                <a class="nav-link {% if page.url contains '/resources/' %}active{% endif %}" href="{{ site.url }}{{ site.baseurl }}/resources/">Resources</a>
+            <!-- Dropdown for Resources -->
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="{{ site.url }}{{ site.baseurl }}/resources/">Resources</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/resources/apps-forms/">My Apps and Forms</a></li>
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/resources/links/">Helpful Links</a></li>
+                    <li><a class="dropdown-item" href="{{ site.url }}{{ site.baseurl }}/resources/books/">Suggested Books</a></li>
+                </ul>
             </li>
 
             <li class="nav-item"></li>
