@@ -203,6 +203,8 @@
         const [criteriaQuestions, setCriteriaQuestions] = useState([]);
         const [newQuestion, setNewQuestion] = useState('');
         const [editingCriteria, setEditingCriteria] = useState(null);
+        const [selectedStudents, setSelectedStudents] = useState(new Set());
+        const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
 
         useEffect(() => {
           const unsubscribe = window.firebaseAuth.onAuthStateChanged(window.auth, (user) => {
@@ -570,6 +572,40 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
           a.href = url;
           a.download = 'evalflow_template.csv';
           a.click();
+        };
+
+        const toggleStudentSelection = (studentId) => {
+          const newSelection = new Set(selectedStudents);
+          if (newSelection.has(studentId)) {
+            newSelection.delete(studentId);
+          } else {
+            newSelection.add(studentId);
+          }
+          setSelectedStudents(newSelection);
+        };
+
+        const toggleSelectAll = () => {
+          const visibleStudents = students.filter(s => !selectedSection || s.sectionId === selectedSection);
+          if (selectedStudents.size === visibleStudents.length) {
+            setSelectedStudents(new Set());
+          } else {
+            setSelectedStudents(new Set(visibleStudents.map(s => s.id)));
+          }
+        };
+
+        const bulkDeleteStudents = async () => {
+          try {
+            const deletePromises = Array.from(selectedStudents).map(id =>
+              window.firebaseFirestore.deleteDoc(window.firebaseFirestore.doc(window.db, 'students', id))
+            );
+            await Promise.all(deletePromises);
+            setSuccess(`Deleted ${selectedStudents.size} students`);
+            setSelectedStudents(new Set());
+            setBulkDeleteConfirm(false);
+            loadInstructorData(currentUser.uid);
+          } catch (err) {
+            setError('Bulk delete failed');
+          }
         };
 
         if (loading) {
