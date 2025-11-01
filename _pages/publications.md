@@ -29,6 +29,23 @@ permalink: /research/published/
     <img border="0" src="https://www.scimagojr.com/journal_img.php?id=23316" alt="SCImago Journal &amp; Country Rank" style="margin-left: 10px; vertical-align: middle; width: 100px;" />
 </a>
 
+<h3 style="color:#800020;">Media Feature: Faculti Interview</h3>
+<div style="margin-top:20px;border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);max-width:720px;margin-left:auto;margin-right:auto;">
+<a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener">
+<img alt="Faculti Interview - Saharnaz Babaei-Balderlou" style="width:100%;display:block;">
+</a>
+<div style="padding:15px;text-align:justify;">
+<p>🎥 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">Watch the full interview</a></p>
+<p>🔗 DOI: <a href="https://doi.org/10.64240/6af819da8a" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">10.64240/6af819da8a</a></p>
+</div>
+</div>
+
+
+---
+
+</div>
+
+
 ##### Abstract:
 This study investigates the impact of frontloading salary structures (higher early-career salaries) on teacher turnover using data from South Carolina public school districts in the U.S. from FY2014- FY2023. Employing a Difference-in-Differences (DID) model, the analysis reveals that frontloading salary schedules is associated with lower turnover among novice teachers but have a less pronounced effect on seasoned educators. The study highlights that the impact of frontloading varies by district demographics and teacher qualifications. Results indicate that higher experience premiums for early-career teachers can increase turnover when compared to mid-career premiums, suggesting a need for balanced salary structures, targeted financial incentives.
 
@@ -46,23 +63,6 @@ This study investigates the impact of frontloading salary structures (higher ear
 ##### Abstract:
 Situated against teacher demand problems worldwide, rising teacher turnover and declining teacher education enrollment have rendered the state of South Carolina a region commonly described as facing a “teacher shortage crisis.” This paper evaluates the Rural Recruitment Initiative (RRI) in South Carolina, which aims to improve teacher retention in hard-to-staff districts through discretionary funding and flexible purposes. Utilizing a Difference-in-Differences model, the analysis reveals that RRI has a modest impact, reducing teacher turnover by less than 1\%. The findings suggest slightly better retention in rural fringe districts but highlight the need for continued support and possibly expanding the initiative to achieve more significant results and a longer evaluation period to better assess the policy's overall effectiveness.
 
-<h3 style="color:#800020;">Media Feature: Faculti Interview</h3>
-<div style="margin-top:20px;border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);max-width:720px;margin-left:auto;margin-right:auto;">
-<a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener">
-<img src="/assets/img/faculti.png" alt="Faculti Interview - Saharnaz Babaei-Balderlou" style="width:100%;display:block;">
-</a>
-<div style="padding:15px;text-align:justify;">
-<p><strong>Frontloading Teacher Salaries and Retention: Balancing Novice Support with Veteran Stability</strong></p>
-<p><em>Interview with Saharnaz Babaei-Balderlou, University of Wisconsin–La Crosse (2025)</em></p>
-<p>🎥 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">Watch the full interview</a></p>
-<p>🔗 DOI: <a href="https://doi.org/10.64240/6af819da8a" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">10.64240/6af819da8a</a></p>
-</div>
-</div>
-
-
----
-
-</div>
 
 
 
