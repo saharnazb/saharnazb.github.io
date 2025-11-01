@@ -11,7 +11,7 @@ permalink: /research/published/
   <p>Visit my <a href="https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en" style="color: #fff; text-decoration: underline;">Google Scholar</a> page for the most up-to-date list of publications.</p>
 </div>
 
-<div style="text-align: center; margin-top: 40px;">
+<div style="text-align: center; margin-top: 28px;">
   <a href="https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en" target="_blank" class="btn btn-primary" style="background-color: #800020; border-color: #800020; font-size:18px;padding:12px 22px;border-radius:10px;display:inline-block;">
     <i class="ai ai-google-scholar-square"></i> My Google Scholar 
   </a>
