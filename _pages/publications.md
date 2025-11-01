@@ -29,6 +29,9 @@ permalink: /research/published/
     <img border="0" src="https://www.scimagojr.com/journal_img.php?id=23316" alt="SCImago Journal &amp; Country Rank" style="margin-left: 10px; vertical-align: middle; width: 100px;" />
 </a>
 
+
+
+{% raw %}
 <h4 style="color:#800020;margin-top:16px;">Media features</h4>
 <div style="margin-top:8px;border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.06);max-width:760px;">
   <div style="padding:14px;">
@@ -48,6 +51,8 @@ permalink: /research/published/
     </p>
   </div>
 </div>
+{% endraw %}
+
 
 
 
