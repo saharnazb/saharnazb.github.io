@@ -12,7 +12,7 @@ permalink: /research/published/
 </div>
 
 <div style="text-align: center; margin-top: 40px;">
-  <a href="https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en" target="_blank" class="btn btn-primary" style="background-color: #800020; border-color: #800020;">
+  <a href="https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en" target="_blank" class="btn btn-primary" style="background-color: #800020; border-color: #800020; font-size:18px;padding:12px 22px;border-radius:10px;display:inline-block;">
     <i class="ai ai-google-scholar-square"></i> My Google Scholar 
   </a>
 </div>
@@ -29,21 +29,26 @@ permalink: /research/published/
     <img border="0" src="https://www.scimagojr.com/journal_img.php?id=23316" alt="SCImago Journal &amp; Country Rank" style="margin-left: 10px; vertical-align: middle; width: 100px;" />
 </a>
 
-<h3 style="color:#800020;">Media Feature: </h3>
-<div style="margin-top:20px;border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);max-width:720px;margin-left:auto;margin-right:auto;">
-<a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener">
-<img alt="Faculti Interview - Saharnaz Babaei-Balderlou" style="width:100%;display:block;">
-</a>
-<div style="padding:15px;text-align:justify;">
-<p>🎥 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">Watch the full interview</a></p>
-<p>🔗 DOI: <a href="https://doi.org/10.64240/6af819da8a" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">10.64240/6af819da8a</a></p>
-</div>
+<h4 style="color:#800020;margin-top:16px;">Media features</h4>
+<div style="margin-top:8px;border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.06);max-width:760px;">
+  <div style="padding:14px;">
+    <p style="margin:0 0 6px 0;"><strong>Frontloading Teacher Salaries and Retention: Balancing Novice Support with Veteran Stability</strong></p>
+    <p style="margin:0 0 8px 0;"><em>Interview with Saharnaz Babaei-Balderlou (2025)</em></p>
+    <p style="margin:0;">
+      🎥 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability"
+            target="_blank" rel="noopener"
+            style="color:#800020;text-decoration:underline;">
+            Watch the interview on Faculti.net
+      </a><br>
+      🔗 DOI: <a href="https://doi.org/10.64240/6af819da8a"
+            target="_blank" rel="noopener"
+            style="color:#800020;text-decoration:underline;">
+            10.64240/6af819da8a
+      </a>
+    </p>
+  </div>
 </div>
 
-
----
-
-</div>
 
 
 ##### Abstract:
@@ -59,6 +64,16 @@ This study investigates the impact of frontloading salary structures (higher ear
 <a href="https://www.scimagojr.com/journalsearch.php?q=18400156720&amp;tip=sid&amp;exact=no" title="SCImago Journal &amp; Country Rank">
     <img border="0" src="https://www.scimagojr.com/journal_img.php?id=18400156720" alt="SCImago Journal &amp; Country Rank" style="margin-left: 10px; vertical-align: middle; width: 100px;"  />
 </a>
+
+<div style="margin-top:15px; text-align:center;">
+  <iframe width="720" height="405"
+          src="https://www.youtube.com/embed/v6a5sIWsA7Y"
+          title="Teaching and Teacher Education Interview"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+  </iframe>
+</div>
 
 ##### Abstract:
 Situated against teacher demand problems worldwide, rising teacher turnover and declining teacher education enrollment have rendered the state of South Carolina a region commonly described as facing a “teacher shortage crisis.” This paper evaluates the Rural Recruitment Initiative (RRI) in South Carolina, which aims to improve teacher retention in hard-to-staff districts through discretionary funding and flexible purposes. Utilizing a Difference-in-Differences model, the analysis reveals that RRI has a modest impact, reducing teacher turnover by less than 1\%. The findings suggest slightly better retention in rural fringe districts but highlight the need for continued support and possibly expanding the initiative to achieve more significant results and a longer evaluation period to better assess the policy's overall effectiveness.
