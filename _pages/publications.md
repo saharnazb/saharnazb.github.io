@@ -31,28 +31,21 @@ permalink: /research/published/
 
 
 
-{% raw %}
-<h4 style="color:#800020;margin-top:16px;">Media features</h4>
-<div style="margin-top:8px;border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.06);max-width:760px;">
-  <div style="padding:14px;">
-    <p style="margin:0 0 6px 0;"><strong>Frontloading Teacher Salaries and Retention: Balancing Novice Support with Veteran Stability</strong></p>
-    <p style="margin:0 0 8px 0;"><em>Interview with Saharnaz Babaei-Balderlou (2025)</em></p>
-    <p style="margin:0;">
-      🎥 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability"
-            target="_blank" rel="noopener"
-            style="color:#800020;text-decoration:underline;">
-            Watch the interview on Faculti.net
-      </a><br>
-      🔗 DOI: <a href="https://doi.org/10.64240/6af819da8a"
-            target="_blank" rel="noopener"
-            style="color:#800020;text-decoration:underline;">
-            10.64240/6af819da8a
-      </a>
-    </p>
-  </div>
+<h3 style="color:#800020;">Media Feature: </h3>
+<div style="margin-top:20px;border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);max-width:720px;margin-left:auto;margin-right:auto;">
+<a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener">
+<img alt="Faculti Interview - Saharnaz Babaei-Balderlou" style="width:100%;display:block;">
+</a>
+<div style="padding:15px;text-align:justify;">
+<p>🎥 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">Watch the full interview</a></p>
+<p>🔗 DOI: <a href="https://doi.org/10.64240/6af819da8a" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">10.64240/6af819da8a</a></p>
 </div>
-{% endraw %}
+</div>
 
+
+---
+
+</div>
 
 
 
