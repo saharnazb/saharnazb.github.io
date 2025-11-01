@@ -29,19 +29,20 @@ permalink: /research/published/
     <img border="0" src="https://www.scimagojr.com/journal_img.php?id=23316" alt="SCImago Journal &amp; Country Rank" style="margin-left: 10px; vertical-align: middle; width: 100px;" />
 </a>
 
-<h3 style="color:#800020;">Media Feature: Faculti Interview</h3>
 
+<h3 style="color:#800020;">Media Feature: Faculti Interview</h3>
 <div style="margin-top:20px;border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);max-width:720px;margin-left:auto;margin-right:auto;">
   <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener">
-    <img src="https://faculti.net/wp-content/uploads/2024/01/faculti-logo-1.png" alt="Faculti Interview - Saharnaz Babaei-Balderlou" style="width:100%;display:block;">
+    <img src="/assets/img/faculti.png" alt="Faculti Interview - Saharnaz Babaei-Balderlou" style="width:100%;display:block;">
   </a>
   <div style="padding:15px;text-align:justify;">
-    <strong>Frontloading Teacher Salaries and Retention: Balancing Novice Support with Veteran Stability</strong><br>
-    <em>Interview with Saharnaz Babaei-Balderlou, University of Wisconsin–La Crosse (2025)</em><br><br>
-    🎥 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">Watch the full interview</a><br>
-    🔗 DOI: <a href="https://doi.org/10.64240/6af819da8a" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">10.64240/6af819da8a</a>
+    <p><strong>Frontloading Teacher Salaries and Retention: Balancing Novice Support with Veteran Stability</strong></p>
+    <p><em>Interview with Saharnaz Babaei-Balderlou, University of Wisconsin–La Crosse (2025)</em></p>
+    <p>🎥 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">Watch the full interview</a></p>
+    <p>🔗 DOI: <a href="https://doi.org/10.64240/6af819da8a" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">10.64240/6af819da8a</a></p>
   </div>
 </div>
+
 
 
 ##### Abstract:
