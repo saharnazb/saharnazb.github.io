@@ -34,7 +34,7 @@ permalink: /research/published/
 <h3 style="color:#800020;">Media Feature: </h3>
 <div style="margin-top:20px;border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);max-width:720px;margin-left:auto;margin-right:auto;">
 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener">
-<img alt="Faculti Interview - Saharnaz Babaei-Balderlou" style="width:100%;display:block;">
+<img src="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" alt="Faculti Interview - Saharnaz Babaei-Balderlou" style="width:100%;display:block;">
 </a>
 <div style="padding:15px;text-align:justify;">
 <p>🎥 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">Watch the full interview</a></p>
