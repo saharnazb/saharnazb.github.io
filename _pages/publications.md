@@ -11,7 +11,7 @@ permalink: /research/published/
   <p>Visit my <a href="https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en" style="color: #fff; text-decoration: underline;">Google Scholar</a> page for the most up-to-date list of publications.</p>
 </div>
 
-<div style="text-align: center; margin-top: 32px;">
+<div style="text-align: center; margin-top: 40px;">
   <a href="https://scholar.google.com/citations?user=0x9ZdXEAAAAJ&hl=en" target="_blank" class="btn btn-primary" style="background-color: #800020; border-color: #800020;">
     <i class="ai ai-google-scholar-square"></i> My Google Scholar 
   </a>
@@ -29,23 +29,20 @@ permalink: /research/published/
     <img border="0" src="https://www.scimagojr.com/journal_img.php?id=23316" alt="SCImago Journal &amp; Country Rank" style="margin-left: 10px; vertical-align: middle; width: 100px;" />
 </a>
 
-#### <span style="color: #800020;">Media Feature: Faculti Interview</span>
+<h3 style="color:#800020;">Media Feature: Faculti Interview</h3>
 
-<div style="margin-top: 20px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 720px; margin-left: auto; margin-right: auto;">
-  <!-- Thumbnail link (acts like an embedded video preview) -->
-  <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank">
-    <img src="https://faculti.net/wp-content/uploads/2024/01/faculti-logo-1.png" alt="Faculti Interview - Saharnaz Babaei-Balderlou" style="width:100%; display:block;">
+<div style="margin-top:20px;border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);max-width:720px;margin-left:auto;margin-right:auto;">
+  <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener">
+    <img src="https://faculti.net/wp-content/uploads/2024/01/faculti-logo-1.png" alt="Faculti Interview - Saharnaz Babaei-Balderlou" style="width:100%;display:block;">
   </a>
-  <div style="padding: 15px; text-align: justify;">
+  <div style="padding:15px;text-align:justify;">
     <strong>Frontloading Teacher Salaries and Retention: Balancing Novice Support with Veteran Stability</strong><br>
     <em>Interview with Saharnaz Babaei-Balderlou, University of Wisconsin–La Crosse (2025)</em><br><br>
-    <p>
-      This interview on <a href="https://faculti.net" target="_blank" style="color:#800020; font-weight:bold;">Faculti</a> discusses how evidence-based pay design can improve workforce retention and equity in education.  
-    </p>
-    🎥 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" style="color:#800020; text-decoration:underline;">Watch the full interview</a><br>
-    🔗 DOI: <a href="https://doi.org/10.64240/6af819da8a" target="_blank" style="color:#800020; text-decoration:underline;">10.64240/6af819da8a</a>
+    🎥 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">Watch the full interview</a><br>
+    🔗 DOI: <a href="https://doi.org/10.64240/6af819da8a" target="_blank" rel="noopener" style="color:#800020;text-decoration:underline;">10.64240/6af819da8a</a>
   </div>
 </div>
+
 
 ##### Abstract:
 This study investigates the impact of frontloading salary structures (higher early-career salaries) on teacher turnover using data from South Carolina public school districts in the U.S. from FY2014- FY2023. Employing a Difference-in-Differences (DID) model, the analysis reveals that frontloading salary schedules is associated with lower turnover among novice teachers but have a less pronounced effect on seasoned educators. The study highlights that the impact of frontloading varies by district demographics and teacher qualifications. Results indicate that higher experience premiums for early-career teachers can increase turnover when compared to mid-career premiums, suggesting a need for balanced salary structures, targeted financial incentives.
