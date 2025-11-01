@@ -29,7 +29,7 @@ permalink: /research/published/
     <img border="0" src="https://www.scimagojr.com/journal_img.php?id=23316" alt="SCImago Journal &amp; Country Rank" style="margin-left: 10px; vertical-align: middle; width: 100px;" />
 </a>
 
-<h3 style="color:#800020;">Media Feature: Faculti Interview</h3>
+<h3 style="color:#800020;">Media Feature: </h3>
 <div style="margin-top:20px;border:1px solid #ddd;border-radius:10px;overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,0.1);max-width:720px;margin-left:auto;margin-right:auto;">
 <a href="https://faculti.net/frontloading-teacher-salaries-and-retention-balancing-novice-support-with-veteran-stability" target="_blank" rel="noopener">
 <img alt="Faculti Interview - Saharnaz Babaei-Balderlou" style="width:100%;display:block;">
