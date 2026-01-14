@@ -2,7 +2,7 @@
 title: "Data Analysis for Business Applications (ECO230)"
 layout: gridlay
 sitemap: false
-permalink: /teaching/intro-data/Fall2025
+permalink: /teaching/intro-data/Winter2026
 ---
 
 ## Data Analysis for Business Applications (ECO230)
