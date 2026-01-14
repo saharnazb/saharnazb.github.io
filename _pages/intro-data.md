@@ -26,8 +26,8 @@ QQ is an AI teaching assistant I trained specifically for this course. It is des
 👉 **[Open QQ](https://chatgpt.com/g/g-68a7e1536ae48191ad3b70b45168e1b9-quokka-query)**
 
 - **Semester**:
-    - [Spring 2026](/teaching/intro-data/Spring2025)
-    - [Winter 2026](/teaching/intro-data/Winter2025)
+    - [Spring 2026](/teaching/intro-data/Spring2026)
+    - [Winter 2026](/teaching/intro-data/Winter2026)
     - [Fall 2025](/teaching/intro-data/Fall2025)
   
 ---
