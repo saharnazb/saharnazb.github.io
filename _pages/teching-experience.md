@@ -13,7 +13,9 @@ permalink: /teaching/teaching-experience/
 #### <span style="color: #3cb1e7;">Assistant Teaching Professor, University of Wisconsin - La Crosse</span>
 
 #### <i class="fas fa-chart-bar"></i> **[Data Analysis for Business Applications](/teaching/intro-data/)**
-- Fall 2025 (In-Person) - Details Coming Soon
+- Spring 2026 (In-Person) - Details Coming Soon
+- Winter 2026 (Online) - Details Coming Soon
+- Fall 2025 (In-Person) - Evaluations: [SECTION 11](/assets/teaching/IntroData/LENS_ECO230_11_Fall2025.pdf) ; [SECTION 13](/assets/teaching/IntroData/LENS_ECO230_13_Fall2025.pdf) ; [SECTION 14](/assets/teaching/IntroData/LENS_ECO230_14_Fall2025.pdf) ; [SECTION 15](/assets/teaching/IntroData/LENS_ECO230_15_Fall2025.pdf)
 
 #### <i class="fas fa-exchange-alt"></i> **[Global Macroeconomics](/teaching/intro-macro/)**
 - Spring 2025 (In-person) - Evaluations: [SECTION 02](/assets/teaching/IntroMacro/LENS_ECO120_02_Spring2025.pdf) ; [SECTION 04](/assets/teaching/IntroMacro/LENS_ECO120_04_Spring2025.pdf) ; [SECTION 05](/assets/teaching/IntroMacro/LENS_ECO120_05_Spring2025.pdf) ; [SECTION 06](/assets/teaching/IntroMacro/LENS_ECO120_06_Spring2025.pdf)
