@@ -6,7 +6,7 @@ permalink: /teaching/makeappt/
 ---
 
 ## Schedule an Office Hour Appointment
-
+ 
 <div class="shb-wrap" markdown="0">
 <p class="shb-lede">Office hours are by appointment. Pick a time below and it books straight onto my calendar — no email back-and-forth. Students in my current courses are welcome at any open slot, and you don't need a reason to come.</p>
 <div class="shb-routes">
