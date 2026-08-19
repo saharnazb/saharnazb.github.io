@@ -19,7 +19,6 @@ permalink: /contact/
 <div class="col-xs-12 text-center">
   <h3>{{ member.name }}</h3>
   <h4><i style="white-space: nowrap;">{{ member.info }}</i></h4>
-   {% if member.job %} <a href="{{ member.job }}" target="_blank" title="UMD faculty profile"><i class="fas fa-building-columns fa-3x"></i></a> {% endif %} 
    {% if member.email %}<a href="mailto:{{ member.email }}" target="_blank"><i class="fa fa-envelope-square fa-3x"></i></a> {% endif %}
    {% if member.cv %} <a href="https://saharnaz.org/cv/" target="_blank"><i class="ai ai-cv-square ai-3x"></i></a> {% endif %}
    {% if member.scholar %} <a href="{{ member.scholar }}" target="_blank"><i class="ai ai-google-scholar-square ai-3x"></i></a> {% endif %}
