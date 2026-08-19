@@ -39,7 +39,7 @@ $baseurl: "{{ site.url }}{{ site.baseurl }}";
 }
 
 /* ============================================================
-   SITE THEME — paste at the very END of assets/main.scss
+   SITE THEME 
    Colours: University of Maryland. To switch to USC garnet,
    swap the four values in the :root block below.
    ============================================================ */
@@ -74,7 +74,7 @@ body a:focus {
 }
 
 /* Navbar */
-.navbar {
+.navbar.bg-dark {
   background-color: var(--brand) !important;
   border-bottom: 4px solid var(--brand-accent) !important;
 }
