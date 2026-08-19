@@ -1,7 +1,7 @@
 # Site settings
 title: "Saharnaz Babaei-Balderlou, Ph.D."
-email: sbabaeibalderlou@uwlax.edu
-description: "I'm an Assistant Teaching Professor of Economics at UWL. My research focuses on labor economics, includion and diversity at workplace, and teacher ..."
+email: saharnaz@umd.edu
+description: "I'm an Economics lecturer at UMD. My research focuses on labor economics, includion and diversity at workplace, and teacher ..."
 baseurl: ""
 url: "https://saharnaz.org"
 
@@ -13,14 +13,14 @@ url: "https://saharnaz.org"
 # Footer info
 affiliation: >
   Saharnaz Babaei-Balderlou<br/>
-  Assistant Teaching Professor of Economics<br/>
-  University of Wisconsin - La Crosse 
+  Lecturer<br/>
+  University of Maryland 
 
 location: >
-  University of Wisconsin - La Crosse<br/>
-  2134 Wittich Hall<br/>
-  1725 State St<br/>
-  La Crosse, WI 54601
+  University of Maryland, College Park<br/>
+  3127C Millard and Joseph Tydings Hall<br/>
+  7343 Preinkert Dr., <br/>
+  College Park, MD 20742
 
 contact: >
   <a href="mailto:sbabaeibalderlou@uwlax.edu" target="_blank"><i class="fa fa-envelope fa-1x"></i> Contact me via email</a> <br/>
