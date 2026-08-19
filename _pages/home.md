@@ -27,7 +27,7 @@ permalink: /
 ## Saharnaz Babaei-Balderlou 
 
 **Lecturer - University of Maryland, College Park** \\
-**Google Higher Ed Faculty AI Fellows - North America Cohort**  \\
+**Google Higher Ed Faculty AI Fellow - North America Inaugural Cohort**  \\
 **Ph.D. in Economics - University of South Carolina, U.S.** 
 
 
@@ -45,7 +45,7 @@ I'm glad you're here. This website provides an overview of my teaching, research
 #### About me
 
 <div class="justified">
-I am an Economics Lecturer at the University of MAryland - College Park (UMD), where I joined the Department of Economics in Fall 2026. Before joining UMD, I was at the University of Wisconsin, La Crosse (UWL). I earned my Ph.D. in Economics from the Darla Moore School of Business at the University of South Carolina, with a focus on applied microeconomics. My research lies at the intersection of labor economics, education policy, and the integration of artificial intelligence into education and labor markets. I am particularly interested in how public policy can improve outcomes for historically underserved and marginalized communities.
+I am an Economics Lecturer at the University of Maryland - College Park (UMD), where I joined the Department of Economics in Fall 2026. Before joining UMD, I was an  Assistant Teaching Professor at the University of Wisconsin-La Crosse (UWL). I earned my Ph.D. in Economics from the Darla Moore School of Business at the University of South Carolina, with a focus on applied microeconomics. My research lies at the intersection of labor economics, education policy, and the integration of artificial intelligence into education and labor markets. I am particularly interested in how public policy can improve outcomes for historically underserved and marginalized communities.
 
   I have taught a range of undergraduate courses, including Global Macroeconomics and Data Analysis for Business Applications at UWL, and Introduction to Economics and Principles of Microeconomics at USC. 
 
