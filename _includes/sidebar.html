@@ -5,9 +5,9 @@
    <a href="{{site.url}}{{site.baseurl}}/about"><img src="{{site.url}}{{site.baseurl}}/images/{{ member.photo }}" width="100%" style="block:inline; margin-left:auto; margin-right:auto; margin-bottom:5px;"/></a>
    <h4>{{ member.name }}</h4>
    <div style="margin-bottom:5px">
+   {% if member.job %} <a href="{{ member.job }}" target="_blank" title="UMD faculty profile"><i class="fas fa-building-columns fa-3x"></i></a> {% endif %}
    {% if member.email %}<a href="mailto:{{ member.email }}" target="_blank"><i class="fa fa-envelope-square fa-3x"></i></a> {% endif %}
    {% if member.cv %} <a href="https://saharnaz.org/cv/" target="_blank"><i class="ai ai-cv-square ai-3x"></i></a> {% endif %}
-   {% if member.job %} <a href="{{ member.job }}" target="_blank" title="UMD faculty profile"><i class="fas fa-building-columns fa-3x"></i></a> {% endif %}
    {% if member.scholar %} <a href="{{ member.scholar }}" target="_blank"><i class="ai ai-google-scholar-square ai-3x"></i></a> {% endif %}
    {% if member.linkedin %} <a href="{{ member.linkedin }}" target="_blank"><i class="fab fa-linkedin fa-3x"></i></a> {% endif %}
    {% if member.orcid %} <a href="{{ member.orcid }}" target="_blank" title="ORCID"><i class="fab fa-orcid fa-3x"></i></a> {% endif %}
