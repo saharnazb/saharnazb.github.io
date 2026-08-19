@@ -37,3 +37,211 @@ $baseurl: "{{ site.url }}{{ site.baseurl }}";
     vertical-align: middle;
   }
 }
+
+/* ============================================================
+   SITE THEME — paste at the very END of assets/main.scss
+   Colours: University of Maryland. To switch to USC garnet,
+   swap the four values in the :root block below.
+   ============================================================ */
+
+:root {
+  /* --- UMD palette (active) --- */
+  --brand:        #e21833;  /* Maryland Red  — navbar, icons */
+  --brand-dark:   #b0122a;  /* darker red    — body links */
+  --brand-accent: #ffd200;  /* Maryland Gold — rules, accents */
+  --brand-deep:   #1a1a1a;  /* near-black    — footer */
+
+  /* --- USC garnet: delete the four lines above, uncomment these ---
+  --brand:        #73000a;
+  --brand-dark:   #5c0008;
+  --brand-accent: #c9a227;
+  --brand-deep:   #1a1a1a;
+  */
+
+  --ink:      #1b2233;
+  --ink-soft: #55607a;
+  --rule:     #d9dee6;
+}
+
+/* Links. "body a" outranks the Bootswatch theme's plain "a" rule. */
+body a {
+  color: var(--brand-dark);
+}
+
+body a:hover,
+body a:focus {
+  color: var(--brand);
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--brand) !important;
+  border-bottom: 4px solid var(--brand-accent) !important;
+}
+
+.navbar-brand,
+.navbar .nav-link {
+  color: #ffffff !important;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus,
+.navbar .nav-link.active {
+  color: var(--brand-accent) !important;
+}
+
+/* Footer */
+#footer {
+  background-color: var(--brand-deep);
+  border-top: 4px solid var(--brand-accent);
+
+  h5 {
+    color: var(--brand-accent);
+  }
+
+  a {
+    color: #e8e8e8;
+
+    &:hover,
+    &:focus {
+      color: var(--brand-accent);
+    }
+  }
+}
+
+/* Buttons */
+body .btn-primary {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+body .btn-primary:hover,
+body .btn-primary:focus {
+  background-color: var(--brand-dark);
+  border-color: var(--brand-dark);
+}
+
+/* Section headings */
+body h2 {
+  color: var(--ink);
+  border-bottom: 2px solid var(--brand-accent);
+  padding-bottom: 6px;
+}
+
+/* Social icon rows (home + contact).
+   Colour set on the icon itself, so no link colour can reach it. */
+i.fa-3x,
+i.ai-3x {
+  color: var(--brand);
+  transition: color 0.15s ease;
+}
+
+a:hover i.fa-3x,
+a:hover i.ai-3x,
+a:focus i.fa-3x,
+a:focus i.ai-3x {
+  color: var(--brand-dark);
+}
+
+/* ---------- Appointment + contact page components ---------- */
+
+.shb-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.shb-lede {
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  margin-bottom: 26px;
+}
+
+.shb-routes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 34px;
+}
+
+@media (min-width: 700px) {
+  .shb-routes {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+body .shb-routes a {
+  display: block;
+  padding: 24px 22px;
+  border: 1px solid var(--rule);
+  border-left: 5px solid var(--brand);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+body .shb-routes a:hover,
+body .shb-routes a:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.shb-routes strong {
+  display: block;
+  font-size: 1.15rem;
+  margin-bottom: 4px;
+}
+
+.shb-routes span {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+.shb-routes i {
+  color: var(--brand);
+  margin-right: 9px;
+}
+
+.shb-note {
+  border-top: 1px solid var(--rule);
+  margin-top: 28px;
+  padding-top: 16px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+/* Embedded Google Form */
+.shb-embed {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ffffff;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.shb-embed iframe {
+  display: block;
+  width: 100%;
+  height: 1100px;
+  border: 0;
+}
+
+@media (max-width: 576px) {
+  .shb-embed iframe {
+    height: 1350px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body .shb-routes a,
+  i.fa-3x,
+  i.ai-3x {
+    transition: none;
+  }
+}
