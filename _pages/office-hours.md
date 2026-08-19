@@ -24,7 +24,7 @@ permalink: /teaching/makeappt/
 <ul>
   <li>Bring the specific problem, draft, or error message you're stuck on — we'll get much further than with a general question.</li>
   <li>If it's about a graded assignment, have it open and ready to look at together.</li>
-  <li>Booking for a group? One person books and adds the others in the description field.</li>
+  <li>Booking for a group? One person books and adds the others later as a guest using the confirmation email from Google Calendar.</li>
 </ul>
 <p class="shb-note">If none of the available times work for you, <a href="/contact/">send me a message</a> and we'll find another slot. To cancel or reschedule, use the link in your confirmation email.</p>
 </div>
