@@ -26,7 +26,7 @@ permalink: /
 
 ## Saharnaz Babaei-Balderlou 
 
-**Lecturer - <a href="YOUR-PROFILE-URL" target="_blank" rel="noopener">University of Maryland, College Park</a>** \\
+**Lecturer - <a href="https://www.econ.umd.edu/facultyprofile/babaei-balderlou/saharnaz" target="_blank" rel="noopener">University of Maryland, College Park</a>** \\
 **Google Higher Ed Faculty AI Fellow - North America Inaugural Cohort**  \\
 **Ph.D. in Economics - University of South Carolina, U.S.** 
 
