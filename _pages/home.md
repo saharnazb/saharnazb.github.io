@@ -26,8 +26,8 @@ permalink: /
 
 ## Saharnaz Babaei-Balderlou 
 
-**Teaching Assistant Professor of Economics** \\
-**University of Wisconsin - La Crosse**  \\
+**Lecturer - University of Maryland, College Park** \\
+**Google Higher Ed Faculty AI Fellows - North America Cohort**  \\
 **Ph.D. in Economics - University of South Carolina, U.S.** 
 
 
@@ -45,9 +45,9 @@ I'm glad you're here. This website provides an overview of my teaching, research
 #### About me
 
 <div class="justified">
-I am a Teaching Assistant Professor of Economics at the University of Wisconsin - La Crosse (UWL), where I joined the Department of Economics in Fall 2024. I earned my Ph.D. in Economics from the Darla Moore School of Business at the University of South Carolina, with a focus on applied microeconomics. My research lies at the intersection of labor economics, education policy, and the integration of artificial intelligence into education and labor markets. I am particularly interested in how public policy can improve outcomes for historically underserved and marginalized communities.
+I am an Economics Lecturer at the University of MAryland - College Park (UMD), where I joined the Department of Economics in Fall 2026. Before joining UMD, I was at the University of Wisconsin, La Crosse (UWL). I earned my Ph.D. in Economics from the Darla Moore School of Business at the University of South Carolina, with a focus on applied microeconomics. My research lies at the intersection of labor economics, education policy, and the integration of artificial intelligence into education and labor markets. I am particularly interested in how public policy can improve outcomes for historically underserved and marginalized communities.
 
-  I have taught a range of undergraduate courses, including Introduction to Economics and Principles of Microeconomics at USC, and Global Macroeconomics and Data Analysis for Business Applications at UWL. 
+  I have taught a range of undergraduate courses, including Global Macroeconomics and Data Analysis for Business Applications at UWL, and Introduction to Economics and Principles of Microeconomics at USC. 
 
 </div>
 
