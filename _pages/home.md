@@ -56,9 +56,9 @@ I am an Economics Lecturer at the University of Maryland - College Park (UMD), w
 ---
 
 <div class="quote-section">
- >   “Do not go where the path may lead, go instead where there is no path and leave a trail.”
+ >   “I will not follow where the path may lead, but I will go where there is no path, and I will leave a trail.”
     <br><br>
- >   — Ralph Waldo Emerson
+ >   — Muriel Strode, "Wind-Wafted Wild Flowers" (1903)
 </div>
 ---
 
