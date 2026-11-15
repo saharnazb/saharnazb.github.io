@@ -22,7 +22,7 @@
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, doc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
     const firebaseConfig = {
       apiKey: "AIzaSyDbAgwMiEAZCezKy3t7j4ZW8xQyjgXqrKI",
@@ -38,7 +38,7 @@
     window.auth = getAuth(app);
     window.db = getFirestore(app);
     window.firebaseAuth = { signInWithEmailAndPassword, signOut, onAuthStateChanged };
-    window.firebaseFirestore = { collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, doc, serverTimestamp };
+    window.firebaseFirestore = { collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, doc, setDoc, serverTimestamp };
 
     window.firebaseReady = true;
     window.dispatchEvent(new Event('firebaseready'));
@@ -104,6 +104,7 @@
         const [loginPassword, setLoginPassword] = useState('');
         const [studentName, setStudentName] = useState('');
         const [studentEmail, setStudentEmail] = useState('');
+        const [studentIdInput, setStudentIdInput] = useState('');
         const [courseName, setCourseName] = useState('');
         const [courseSemester, setCourseSemester] = useState('');
         const [sectionName, setSectionName] = useState('');
@@ -224,20 +225,24 @@
         const handleStudentLogin = async (ev) => {
           ev.preventDefault();
           setError('');
-          if (!studentName.trim() || !studentEmail.trim() || !selectedSection) {
+          if (!studentName.trim() || !studentEmail.trim() || !studentIdInput.trim() || !selectedSection) {
             setError('Please fill in all fields and select your section');
             return;
           }
-          // FIX: re-fetch public data if sections were empty when page loaded
           if (sections.length === 0) {
             await loadPublicData();
           }
           const normalizedEmail = studentEmail.trim().toLowerCase();
+          const normalizedId = studentIdInput.trim();
           const student = students.find(
             s => s.email.toLowerCase() === normalizedEmail && s.sectionId === selectedSection
           );
           if (!student) {
             setError('Student not found in this section. Check your email and section selection.');
+            return;
+          }
+          if (student.studentId && student.studentId.trim() !== normalizedId) {
+            setError('Student ID does not match our records. Please check and try again.');
             return;
           }
           // FIX: load this student's already-submitted evaluations from Firestore
@@ -269,6 +274,7 @@
           setView('login');
           setStudentName('');
           setStudentEmail('');
+          setStudentIdInput('');
           setSelectedSection(null);
           setSubmittedEvals(new Set());
           setPresentationScores({});
@@ -450,7 +456,8 @@
 
           try {
             const parsedScores = scoresArray.map(s => parseInt(s));
-            await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'evaluations'), {
+            const docId = `${currentUser.email.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${evaluatedStudentId}_${type}_${selectedSection}`;
+            await window.firebaseFirestore.setDoc(window.firebaseFirestore.doc(window.db, 'evaluations', docId), {
               evaluatorEmail: currentUser.email.toLowerCase(),
               evaluatedStudentId,
               sectionId: selectedSection,
@@ -475,7 +482,8 @@
           const s = parseInt(score);
           if (!score || s < 1 || s > 10) { setError('Score must be between 1 and 10'); return; }
           try {
-            await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'evaluations'), {
+            const docId = `${currentUser.email.toLowerCase().replace(/[^a-z0-9]/g, '_')}_${evaluatedStudentId}_${type}_${selectedSection}`;
+            await window.firebaseFirestore.setDoc(window.firebaseFirestore.doc(window.db, 'evaluations', docId), {
               evaluatorEmail: currentUser.email.toLowerCase(),
               evaluatedStudentId,
               sectionId: selectedSection,
@@ -781,6 +789,7 @@
                   : e('form', { onSubmit: handleStudentLogin, className: "space-y-4" },
                       e('input', { type: "text", placeholder: "Your Full Name", value: studentName, onChange: ev => setStudentName(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
                       e('input', { type: "email", placeholder: "Your University Email", value: studentEmail, onChange: ev => setStudentEmail(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
+                      e('input', { type: "text", placeholder: "Your Student ID (UID)", value: studentIdInput, onChange: ev => setStudentIdInput(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
                       loadingPublicData
                         ? e('div', { className: "px-4 py-3 border rounded-lg text-gray-400 text-sm" }, '⏳ Loading sections...')
                         : e('select', { value: selectedSection || '', onChange: ev => setSelectedSection(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" },
