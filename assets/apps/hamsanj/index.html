@@ -133,6 +133,10 @@
         const [newStudentOrder, setNewStudentOrder] = useState('');
         const [newStudentGroup, setNewStudentGroup] = useState('');
         const [editingStudent, setEditingStudent] = useState(null);
+        const [editingCourse, setEditingCourse] = useState(null);
+        const [editingCourseName, setEditingCourseName] = useState('');
+        const [editingSectionItem, setEditingSectionItem] = useState(null);
+        const [editingSectionNameVal, setEditingSectionNameVal] = useState('');
 
         // ── Data loading ─────────────────────────────────────────────────────
 
@@ -276,10 +280,37 @@
             await window.firebaseFirestore.deleteDoc(window.firebaseFirestore.doc(window.db, type, id));
             setSuccess('Deleted successfully');
             setDeleteConfirm(null);
+            if (type === 'criteria' && id === editingCriteria) cancelEditCriteria();
+            if (type === 'courses' && id === editingCourse) { setEditingCourse(null); setEditingCourseName(''); }
+            if (type === 'sections' && id === editingSectionItem) { setEditingSectionItem(null); setEditingSectionNameVal(''); }
             loadInstructorData(currentUser.uid);
           } catch (err) {
-            setError('Delete failed');
+            setError('Delete failed: ' + err.message);
           }
+        };
+
+        const updateCourse = async (courseId) => {
+          if (!editingCourseName.trim()) return;
+          try {
+            await window.firebaseFirestore.updateDoc(window.firebaseFirestore.doc(window.db, 'courses', courseId), {
+              name: editingCourseName.trim()
+            });
+            setEditingCourse(null); setEditingCourseName('');
+            setSuccess('Course updated');
+            loadInstructorData(currentUser.uid);
+          } catch (err) { setError('Failed to update course: ' + err.message); }
+        };
+
+        const updateSection = async (sectionId) => {
+          if (!editingSectionNameVal.trim()) return;
+          try {
+            await window.firebaseFirestore.updateDoc(window.firebaseFirestore.doc(window.db, 'sections', sectionId), {
+              name: editingSectionNameVal.trim()
+            });
+            setEditingSectionItem(null); setEditingSectionNameVal('');
+            setSuccess('Section updated');
+            loadInstructorData(currentUser.uid);
+          } catch (err) { setError('Failed to update section: ' + err.message); }
         };
 
         const addCourse = async () => {
@@ -339,7 +370,7 @@
             }
             setCriteriaName(''); setCriteriaType('presentation'); setCriteriaQuestions([]); setEditingCriteria(null);
             loadInstructorData(currentUser.uid);
-          } catch (err) { setError('Failed to save criteria'); }
+          } catch (err) { setError('Failed to save criteria: ' + err.message); }
         };
 
         const addQuestion = () => {
@@ -681,7 +712,7 @@
             ),
             e('div', { className: "max-w-7xl mx-auto px-4" },
               e('div', { className: "flex gap-2 border-b mb-6 overflow-x-auto" },
-                ['courses', 'sections', 'students', 'criteria', 'reports'].map(tab =>
+                ['courses', 'sections', 'criteria', 'students', 'reports'].map(tab =>
                   e('button', {
                     key: tab,
                     onClick: () => setActiveTab(tab),
@@ -705,9 +736,20 @@
                   courses.length === 0
                     ? e('p', { className: "text-gray-500" }, 'No courses yet')
                     : e('div', { className: "space-y-2" },
-                        courses.map(course => e('div', { key: course.id, className: "flex justify-between items-center p-4 border rounded-lg hover:bg-gray-50" },
-                          e('span', { className: "font-medium" }, course.name),
-                          e('button', { onClick: () => setDeleteConfirm({ type: 'courses', id: course.id, name: course.name }), className: "p-2 text-red-600 hover:bg-red-50 rounded" }, e(Trash2, { size: 18 }))
+                        courses.map(course => e('div', { key: course.id, className: "p-4 border rounded-lg hover:bg-gray-50" },
+                          editingCourse === course.id
+                            ? e('div', { className: "flex gap-2" },
+                                e('input', { type: "text", value: editingCourseName, onChange: ev => setEditingCourseName(ev.target.value), autoFocus: true, className: "flex-1 px-3 py-1 border rounded-lg" }),
+                                e('button', { onClick: () => updateCourse(course.id), className: "px-4 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 whitespace-nowrap" }, 'Save'),
+                                e('button', { onClick: () => { setEditingCourse(null); setEditingCourseName(''); }, className: "px-3 py-1 border rounded-lg hover:bg-gray-100" }, 'Cancel')
+                              )
+                            : e('div', { className: "flex justify-between items-center" },
+                                e('span', { className: "font-medium" }, course.name),
+                                e('div', { className: "flex gap-2" },
+                                  e('button', { onClick: () => { setEditingCourse(course.id); setEditingCourseName(course.name); }, className: "px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700" }, 'Edit'),
+                                  e('button', { onClick: () => setDeleteConfirm({ type: 'courses', id: course.id, name: course.name }), className: "p-2 text-red-600 hover:bg-red-50 rounded" }, e(Trash2, { size: 18 }))
+                                )
+                              )
                         ))
                       )
                 )
@@ -736,13 +778,22 @@
                         sections.map(section => {
                           const course = courses.find(c => c.id === section.courseId);
                           return e('div', { key: section.id, className: "p-4 border rounded-lg hover:bg-gray-50" },
-                            e('div', { className: "flex justify-between items-start mb-3" },
-                              e('div', null,
-                                e('span', { className: "font-medium" }, section.name),
-                                course && e('span', { className: "ml-2 text-sm text-gray-600" }, `(${course.name})`)
-                              ),
-                              e('button', { onClick: () => setDeleteConfirm({ type: 'sections', id: section.id, name: section.name }), className: "p-2 text-red-600 hover:bg-red-50 rounded" }, e(Trash2, { size: 18 }))
-                            ),
+                            editingSectionItem === section.id
+                              ? e('div', { className: "flex gap-2 mb-3" },
+                                  e('input', { type: "text", value: editingSectionNameVal, onChange: ev => setEditingSectionNameVal(ev.target.value), autoFocus: true, className: "flex-1 px-3 py-1 border rounded-lg" }),
+                                  e('button', { onClick: () => updateSection(section.id), className: "px-4 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 whitespace-nowrap" }, 'Save'),
+                                  e('button', { onClick: () => { setEditingSectionItem(null); setEditingSectionNameVal(''); }, className: "px-3 py-1 border rounded-lg hover:bg-gray-100" }, 'Cancel')
+                                )
+                              : e('div', { className: "flex justify-between items-start mb-3" },
+                                  e('div', null,
+                                    e('span', { className: "font-medium" }, section.name),
+                                    course && e('span', { className: "ml-2 text-sm text-gray-600" }, `(${course.name})`)
+                                  ),
+                                  e('div', { className: "flex gap-2" },
+                                    e('button', { onClick: () => { setEditingSectionItem(section.id); setEditingSectionNameVal(section.name); }, className: "px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700" }, 'Edit'),
+                                    e('button', { onClick: () => setDeleteConfirm({ type: 'sections', id: section.id, name: section.name }), className: "p-2 text-red-600 hover:bg-red-50 rounded" }, e(Trash2, { size: 18 }))
+                                  )
+                                ),
                             e('div', { className: "grid grid-cols-2 gap-3 text-sm" },
                               e('div', null,
                                 e('span', { className: "font-medium" }, 'Presentation Criteria: '),
