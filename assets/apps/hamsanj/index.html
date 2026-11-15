@@ -482,8 +482,8 @@
         // ── Student management ───────────────────────────────────────────────
 
         const addStudent = async () => {
-          if (!newStudentName.trim() || !newStudentEmail.trim() || !newStudentSection) {
-            setError('Name, email, and section are required'); return;
+          if (!newStudentName.trim() || !newStudentSection) {
+            setError('Name and section are required'); return;
           }
           try {
             await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'students'), {
@@ -511,8 +511,8 @@
         };
 
         const updateStudent = async () => {
-          if (!newStudentName.trim() || !newStudentEmail.trim() || !newStudentSection) {
-            setError('Name, email, and section are required'); return;
+          if (!newStudentName.trim() || !newStudentSection) {
+            setError('Name and section are required'); return;
           }
           try {
             await window.firebaseFirestore.updateDoc(window.firebaseFirestore.doc(window.db, 'students', editingStudent), {
@@ -570,38 +570,99 @@
           const reader = new FileReader();
           reader.onload = (ev) => {
             try {
-              const lines = ev.target.result.split('\n');
-              const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, '').toLowerCase());
+              const text = ev.target.result;
+              const lines = text.split('\n').filter(l => l.trim());
+              if (!lines.length) { setError('CSV file is empty'); return; }
+
+              const parseCSVLine = (line) => {
+                const result = []; let cur = ''; let inQ = false;
+                for (const c of line) {
+                  if (c === '"') { inQ = !inQ; }
+                  else if (c === ',' && !inQ) { result.push(cur.trim()); cur = ''; }
+                  else { cur += c; }
+                }
+                result.push(cur.trim());
+                return result;
+              };
+
+              const firstLineLower = lines[0].toLowerCase();
+              const isCanvas = firstLineLower.includes('sis login id') || (firstLineLower.includes('student') && firstLineLower.includes('section') && firstLineLower.includes('id'));
+              const isTemplate = !isCanvas && firstLineLower.includes('name') && firstLineLower.includes('email');
               const data = [];
-              for (let i = 1; i < lines.length; i++) {
-                if (!lines[i].trim()) continue;
-                const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
-                const row = {};
-                headers.forEach((h, idx) => { row[h] = values[idx] || ''; });
-                data.push(row);
+
+              if (isCanvas) {
+                const headers = parseCSVLine(lines[0]).map(h => h.toLowerCase().trim());
+                const iStudent = headers.findIndex(h => h === 'student');
+                const iLogin = headers.findIndex(h => h.includes('sis login'));
+                const iUID = headers.findIndex(h => h.includes('sis user'));
+                const iSection = headers.findIndex(h => h === 'section');
+                for (let i = 1; i < lines.length; i++) {
+                  const vals = parseCSVLine(lines[i]);
+                  const rawName = iStudent >= 0 ? (vals[iStudent] || '') : '';
+                  if (!rawName || rawName.toLowerCase().includes('points possible')) continue;
+                  const nameParts = rawName.split(',').map(p => p.trim());
+                  const name = nameParts.length > 1 ? `${nameParts[1]} ${nameParts[0]}` : nameParts[0];
+                  if (!name) continue;
+                  const loginId = iLogin >= 0 ? (vals[iLogin] || '').trim() : '';
+                  const email = loginId ? `${loginId}@terpmail.umd.edu` : '';
+                  const section = iSection >= 0 ? (vals[iSection] || '').trim() : '';
+                  const studentId = iUID >= 0 ? (vals[iUID] || '').trim() : '';
+                  data.push({ name, email, studentid: studentId, section });
+                }
+              } else if (isTemplate) {
+                const headers = parseCSVLine(lines[0]).map(h => h.toLowerCase().trim());
+                for (let i = 1; i < lines.length; i++) {
+                  if (!lines[i].trim()) continue;
+                  const vals = parseCSVLine(lines[i]);
+                  const row = {};
+                  headers.forEach((h, idx) => { row[h] = vals[idx] || ''; });
+                  data.push(row);
+                }
+              } else {
+                for (let i = 0; i < lines.length; i++) {
+                  const vals = parseCSVLine(lines[i]);
+                  if (vals.length >= 1 && vals[0]) {
+                    data.push({ name: vals[0], email: vals[1] || '', studentid: '', section: '' });
+                  }
+                }
               }
+
               setImportPreview(data); setError('');
-            } catch (err) { setError('Could not parse CSV file'); }
+            } catch (err) { setError('Could not parse CSV file: ' + err.message); }
           };
           reader.readAsText(file);
+        };
+
+        const findSectionMatch = (rawSection) => {
+          if (!rawSection) return null;
+          const raw = rawSection.trim().toLowerCase();
+          let s = sections.find(sec => sec.name.toLowerCase() === raw);
+          if (!s) s = sections.find(sec => raw.includes(sec.name.toLowerCase()) || sec.name.toLowerCase().includes(raw));
+          if (!s && rawSection.includes('-')) {
+            const suffix = rawSection.split('-').pop();
+            s = sections.find(sec => sec.name.includes(suffix));
+          }
+          return s || null;
         };
 
         const handleBulkImport = async () => {
           if (!importPreview.length) { setError('No data to import'); return; }
           setImporting(true); setImportProgress('Starting...');
-          let imported = 0, skipped = 0;
+          let imported = 0, noSectionCount = 0;
           try {
             for (let i = 0; i < importPreview.length; i++) {
               const row = importPreview[i];
               setImportProgress(`Importing ${i + 1}/${importPreview.length}...`);
-              const rawSection = row.section || row.sectionname || row['section name'] || '';
-              const section = sections.find(s => s.name.toLowerCase().includes(rawSection.toLowerCase()));
-              if (!section) { skipped++; continue; }
+              const name = (row.name || '').trim();
+              if (!name) continue;
+              const rawSection = (row.section || row.sectionname || row['section name'] || '').trim();
+              const section = findSectionMatch(rawSection);
+              if (!section) noSectionCount++;
               await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'students'), {
-                name: row.name || '',
-                email: (row.email || '').toLowerCase(),
-                studentId: row['student id'] || row.id || row.studentid || '',
-                sectionId: section.id,
+                name,
+                email: (row.email || '').toLowerCase().trim(),
+                studentId: (row['student id'] || row.studentid || row.id || '').trim(),
+                sectionId: section ? section.id : null,
                 presentationOrder: parseInt(row.order || '999'),
                 groupId: row.group || null,
                 createdAt: window.firebaseFirestore.serverTimestamp()
@@ -609,7 +670,10 @@
               imported++;
               await new Promise(r => setTimeout(r, 100));
             }
-            setSuccess(`Imported ${imported} students${skipped > 0 ? `, skipped ${skipped} (section not found)` : ''}`);
+            const msg = noSectionCount > 0
+              ? `Imported ${imported} students (${noSectionCount} without a matching section — assign sections manually in the student list)`
+              : `Imported ${imported} students`;
+            setSuccess(msg);
             setImportProgress(''); setImportPreview([]); setImportFile(null); setShowBulkImport(false);
             loadInstructorData(currentUser.uid);
           } catch (err) { setError('Import failed: ' + err.message); }
@@ -857,7 +921,7 @@
                       e('p', { className: "text-sm font-medium mb-2" }, `Preview: ${importPreview.length} students`),
                       e('div', { className: "max-h-48 overflow-y-auto mb-3 p-2 bg-white border rounded text-xs" },
                         importPreview.slice(0, 5).map((s, i) =>
-                          e('div', { key: i, className: "py-1" }, `${s.name} — ${s.email} — ${s.section || s.sectionname || s['section name'] || '(no section)'}`)
+                          e('div', { key: i, className: "py-1" }, `${s.name || '(no name)'} — ${s.email || '(no email)'} — ${s.section || s.sectionname || s['section name'] || '(no section)'}`)
                         ),
                         importPreview.length > 5 && e('p', { className: "text-gray-500 py-1" }, `... and ${importPreview.length - 5} more`)
                       ),
