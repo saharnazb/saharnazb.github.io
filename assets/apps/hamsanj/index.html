@@ -138,6 +138,7 @@
         const [editingCourseName, setEditingCourseName] = useState('');
         const [editingSectionItem, setEditingSectionItem] = useState(null);
         const [editingSectionNameVal, setEditingSectionNameVal] = useState('');
+        const [reportSections, setReportSections] = useState(new Set());
 
         // ── Data loading ─────────────────────────────────────────────────────
 
@@ -425,6 +426,15 @@
           } catch (err) { setError('Failed to assign criteria'); }
         };
 
+        const toggleSectionEval = async (sectionId, type, currentVal) => {
+          try {
+            await window.firebaseFirestore.updateDoc(window.firebaseFirestore.doc(window.db, 'sections', sectionId), {
+              [`${type}Enabled`]: !currentVal
+            });
+            loadInstructorData(currentUser.uid);
+          } catch (err) { setError('Failed to update setting'); }
+        };
+
         // ── Student eval submission ─────────────────────────────────────────
 
         const submitEvalWithCriteria = async (evaluatedStudentId, type, scoresByIndex) => {
@@ -487,22 +497,30 @@
         // ── Reports / export ─────────────────────────────────────────────────
 
         const exportToCSV = () => {
-          if (!selectedSection) { setError('Select a section first'); return; }
-          const sectionStudents = students.filter(s => s.sectionId === selectedSection);
-          const rows = ['Student Name,Student ID,Email,Presentation Avg,Presentation Count,Group Avg,Group Count,Overall Avg,Total Evals'];
-          sectionStudents.forEach(student => {
-            const presEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'presentation');
-            const groupEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'group');
-            const presAvg = presEvals.length > 0 ? (presEvals.reduce((sum, ev) => sum + ev.score, 0) / presEvals.length).toFixed(2) : 'N/A';
-            const groupAvg = groupEvals.length > 0 ? (groupEvals.reduce((sum, ev) => sum + ev.score, 0) / groupEvals.length).toFixed(2) : 'N/A';
-            const all = [...presEvals, ...groupEvals];
-            const overall = all.length > 0 ? (all.reduce((sum, ev) => sum + ev.score, 0) / all.length).toFixed(2) : 'N/A';
-            rows.push(`"${student.name}","${student.studentId || ''}","${student.email}",${presAvg},${presEvals.length},${groupAvg},${groupEvals.length},${overall},${all.length}`);
+          if (reportSections.size === 0) { setError('Select at least one section'); return; }
+          const rows = ['Section,Student Name,Student ID,Email,Group,Presentation Avg,Presentation Count,Group Avg,Group Count,Overall Avg,Total Evals'];
+          Array.from(reportSections).forEach(secId => {
+            const sec = sections.find(s => s.id === secId);
+            students.filter(s => s.sectionId === secId)
+              .sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999))
+              .forEach(student => {
+                const presEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'presentation');
+                const groupEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'group');
+                const presAvg = presEvals.length > 0 ? (presEvals.reduce((sum, ev) => sum + ev.score, 0) / presEvals.length).toFixed(2) : 'N/A';
+                const groupAvg = groupEvals.length > 0 ? (groupEvals.reduce((sum, ev) => sum + ev.score, 0) / groupEvals.length).toFixed(2) : 'N/A';
+                const all = [...presEvals, ...groupEvals];
+                const overall = all.length > 0 ? (all.reduce((sum, ev) => sum + ev.score, 0) / all.length).toFixed(2) : 'N/A';
+                rows.push(`"${sec?.name || ''}","${student.name}","${student.studentId || ''}","${student.email}","${student.groupId || ''}",${presAvg},${presEvals.length},${groupAvg},${groupEvals.length},${overall},${all.length}`);
+              });
           });
           const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
           const url = URL.createObjectURL(blob);
           const a = document.createElement('a');
-          a.href = url; a.download = `HamSanj_${sections.find(s => s.id === selectedSection)?.name.replace(/\s/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`;
+          const dateStr = new Date().toISOString().split('T')[0];
+          const label = reportSections.size === 1
+            ? sections.find(s => s.id === Array.from(reportSections)[0])?.name.replace(/\s/g, '_')
+            : `${reportSections.size}_sections`;
+          a.href = url; a.download = `HamSanj_${label}_${dateStr}.csv`;
           a.click(); URL.revokeObjectURL(url);
           setSuccess('Exported successfully');
         };
@@ -895,14 +913,26 @@
                                 ),
                             e('div', { className: "grid grid-cols-2 gap-3 text-sm" },
                               e('div', null,
-                                e('span', { className: "font-medium" }, 'Presentation Criteria: '),
+                                e('div', { className: "flex items-center gap-2 mb-1" },
+                                  e('button', {
+                                    onClick: () => toggleSectionEval(section.id, 'presentation', section.presentationEnabled !== false),
+                                    className: `px-2 py-0.5 rounded text-xs font-medium ${section.presentationEnabled !== false ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`
+                                  }, section.presentationEnabled !== false ? '✓ Presentation On' : '✗ Presentation Off'),
+                                ),
+                                e('span', { className: "font-medium" }, 'Criteria: '),
                                 e('select', { value: section.presentationCriteriaId || '', onChange: ev => assignCriteriaToSection(section.id, ev.target.value, 'presentation'), className: "ml-1 px-2 py-1 border rounded text-sm" },
                                   e('option', { value: "" }, 'None'),
                                   criteria.filter(c => c.type === 'presentation').map(c => e('option', { key: c.id, value: c.id }, c.name))
                                 )
                               ),
                               e('div', null,
-                                e('span', { className: "font-medium" }, 'Group Criteria: '),
+                                e('div', { className: "flex items-center gap-2 mb-1" },
+                                  e('button', {
+                                    onClick: () => toggleSectionEval(section.id, 'group', section.groupEnabled !== false),
+                                    className: `px-2 py-0.5 rounded text-xs font-medium ${section.groupEnabled !== false ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`
+                                  }, section.groupEnabled !== false ? '✓ Group Eval On' : '✗ Group Eval Off'),
+                                ),
+                                e('span', { className: "font-medium" }, 'Criteria: '),
                                 e('select', { value: section.groupCriteriaId || '', onChange: ev => assignCriteriaToSection(section.id, ev.target.value, 'group'), className: "ml-1 px-2 py-1 border rounded text-sm" },
                                   e('option', { value: "" }, 'None'),
                                   criteria.filter(c => c.type === 'group').map(c => e('option', { key: c.id, value: c.id }, c.name))
@@ -1078,42 +1108,73 @@
               activeTab === 'reports' && e('div', { className: "space-y-6" },
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('h2', { className: "text-xl font-bold mb-4" }, 'Export Evaluation Report'),
-                  e('select', { value: selectedSection || '', onChange: ev => setSelectedSection(ev.target.value), className: "w-full px-4 py-2 border rounded-lg mb-4" },
-                    e('option', { value: "" }, 'Select Section'),
-                    sections.map(s => e('option', { key: s.id, value: s.id }, s.name))
-                  ),
-                  e('button', { onClick: exportToCSV, className: "w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700" },
-                    e(FileDown, { size: 20 }), 'Export to CSV'
+                  e('p', { className: "text-sm text-gray-600 mb-3" }, 'Select one or more sections to export together:'),
+                  courses.length === 0
+                    ? e('p', { className: "text-gray-500 text-sm" }, 'No courses yet')
+                    : courses.map(course => {
+                        const courseSections = sections.filter(s => s.courseId === course.id);
+                        if (courseSections.length === 0) return null;
+                        const allChecked = courseSections.every(s => reportSections.has(s.id));
+                        return e('div', { key: course.id, className: "mb-4 border rounded-lg p-3" },
+                          e('div', { className: "flex items-center gap-2 mb-2" },
+                            e('button', {
+                              onClick: () => {
+                                const next = new Set(reportSections);
+                                if (allChecked) { courseSections.forEach(s => next.delete(s.id)); }
+                                else { courseSections.forEach(s => next.add(s.id)); }
+                                setReportSections(next);
+                              },
+                              className: "flex-shrink-0"
+                            }, allChecked ? e(CheckSquare, { size: 18 }) : e(Square, { size: 18 })),
+                            e('span', { className: "font-medium" }, course.name),
+                            course.semester && e('span', { className: "text-sm text-gray-500 ml-1" }, course.semester)
+                          ),
+                          courseSections.map(sec => e('div', { key: sec.id, className: "flex items-center gap-2 ml-6 py-1" },
+                            e('button', {
+                              onClick: () => {
+                                const next = new Set(reportSections);
+                                next.has(sec.id) ? next.delete(sec.id) : next.add(sec.id);
+                                setReportSections(next);
+                              },
+                              className: "flex-shrink-0"
+                            }, reportSections.has(sec.id) ? e(CheckSquare, { size: 16 }) : e(Square, { size: 16 })),
+                            e('span', { className: "text-sm" }, sec.name),
+                            e('span', { className: "text-xs text-gray-400 ml-1" }, `(${students.filter(s => s.sectionId === sec.id).length} students)`)
+                          ))
+                        );
+                      }),
+                  reportSections.size > 0 && e('div', { className: "mt-3 text-sm text-gray-600" }, `${reportSections.size} section(s) selected — ${Array.from(reportSections).reduce((n, id) => n + students.filter(s => s.sectionId === id).length, 0)} students total`),
+                  e('button', { onClick: exportToCSV, className: "w-full mt-4 inline-flex items-center justify-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50", disabled: reportSections.size === 0 },
+                    e(FileDown, { size: 20 }), reportSections.size === 0 ? 'Select sections above' : `Export ${reportSections.size > 1 ? reportSections.size + ' Sections' : '1 Section'} to CSV`
                   )
                 ),
-                selectedSection && e('div', { className: "bg-white p-6 rounded-lg shadow" },
-                  e('h2', { className: "text-xl font-bold mb-4" }, 'Section Overview'),
-                  students.filter(s => s.sectionId === selectedSection).length === 0
-                    ? e('p', { className: "text-gray-500" }, 'No students in this section yet')
-                    : e('div', { className: "space-y-4" },
-                        students.filter(s => s.sectionId === selectedSection)
-                          .sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999))
-                          .map(student => {
-                            const presEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'presentation');
-                            const groupEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'group');
-                            const presAvg = presEvals.length > 0 ? (presEvals.reduce((s, ev) => s + ev.score, 0) / presEvals.length).toFixed(1) : 'N/A';
-                            const groupAvg = groupEvals.length > 0 ? (groupEvals.reduce((s, ev) => s + ev.score, 0) / groupEvals.length).toFixed(1) : 'N/A';
-                            return e('div', { key: student.id, className: "p-4 border rounded-lg" },
-                              e('div', { className: "font-medium mb-1" }, student.name),
-                              e('div', { className: "text-xs text-gray-500 mb-2" }, `${student.email}${student.groupId ? ` • Group ${student.groupId}` : ''}`),
-                              e('div', { className: "grid grid-cols-2 gap-4 text-sm" },
-                                e('div', null,
-                                  e('span', { className: "text-gray-600" }, 'Presentation: '),
-                                  e('span', { className: "font-medium" }, `${presAvg} (${presEvals.length} eval${presEvals.length !== 1 ? 's' : ''})`)
-                                ),
-                                e('div', null,
-                                  e('span', { className: "text-gray-600" }, 'Group peer: '),
-                                  e('span', { className: "font-medium" }, `${groupAvg} (${groupEvals.length} eval${groupEvals.length !== 1 ? 's' : ''})`)
+                reportSections.size > 0 && e('div', { className: "bg-white p-6 rounded-lg shadow" },
+                  e('h2', { className: "text-xl font-bold mb-4" }, 'Preview'),
+                  Array.from(reportSections).map(secId => {
+                    const sec = sections.find(s => s.id === secId);
+                    const secStudents = students.filter(s => s.sectionId === secId).sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999));
+                    return e('div', { key: secId, className: "mb-6" },
+                      e('h3', { className: "font-semibold mb-2 text-gray-700" }, sec?.name),
+                      secStudents.length === 0
+                        ? e('p', { className: "text-gray-500 text-sm" }, 'No students')
+                        : e('div', { className: "space-y-3" },
+                            secStudents.map(student => {
+                              const presEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'presentation');
+                              const groupEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'group');
+                              const presAvg = presEvals.length > 0 ? (presEvals.reduce((s, ev) => s + ev.score, 0) / presEvals.length).toFixed(1) : 'N/A';
+                              const groupAvg = groupEvals.length > 0 ? (groupEvals.reduce((s, ev) => s + ev.score, 0) / groupEvals.length).toFixed(1) : 'N/A';
+                              return e('div', { key: student.id, className: "p-3 border rounded-lg" },
+                                e('div', { className: "font-medium text-sm" }, student.name),
+                                e('div', { className: "text-xs text-gray-500 mb-1" }, `${student.email}${student.groupId ? ` • Group ${student.groupId}` : ''}`),
+                                e('div', { className: "grid grid-cols-2 gap-4 text-xs" },
+                                  e('div', null, e('span', { className: "text-gray-600" }, 'Presentation: '), e('span', { className: "font-medium" }, `${presAvg} (${presEvals.length})`)),
+                                  e('div', null, e('span', { className: "text-gray-600" }, 'Group peer: '), e('span', { className: "font-medium" }, `${groupAvg} (${groupEvals.length})`))
                                 )
-                              )
-                            );
-                          })
-                      )
+                              );
+                            })
+                          )
+                    );
+                  })
                 )
               )
             ),
@@ -1159,16 +1220,23 @@
         const groupCriteria = section?.groupCriteriaId
           ? criteria.find(c => c.id === section.groupCriteriaId) : null;
 
-        const presStudents = students
-          .filter(s => s.sectionId === selectedSection && s.id !== currentUser.id)
-          .sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999));
+        const presEnabled = section?.presentationEnabled !== false;
+        const groupEnabled = section?.groupEnabled !== false;
 
-        const groupStudents = students.filter(
-          s => s.sectionId === selectedSection &&
-               s.groupId && currentUser.groupId &&
-               s.groupId === currentUser.groupId &&
-               s.id !== currentUser.id
-        );
+        const presStudents = presEnabled
+          ? students
+              .filter(s => s.sectionId === selectedSection && s.id !== currentUser.id)
+              .sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999))
+          : [];
+
+        const groupStudents = groupEnabled
+          ? students.filter(
+              s => s.sectionId === selectedSection &&
+                   s.groupId && currentUser.groupId &&
+                   s.groupId === currentUser.groupId &&
+                   s.id !== currentUser.id
+            )
+          : [];
 
         const totalPresRequired = presStudents.length;
         const totalGroupRequired = groupStudents.length;
@@ -1226,6 +1294,9 @@
               // Presentation evaluations
               e('div', { className: "bg-white p-6 rounded-lg shadow" },
                 e('h2', { className: "text-xl font-bold mb-1" }, 'Presentation Evaluations'),
+                !presEnabled
+                  ? e('p', { className: "text-gray-400 text-sm italic" }, 'Presentation evaluations are not required for this section.')
+                  : e('div', null,
                 e('p', { className: "text-sm text-gray-500 mb-4" }, `${presSubmitted} / ${totalPresRequired} submitted`),
                 presentationCriteria && e('div', { className: "mb-4 p-3 bg-blue-50 rounded-lg" },
                   e('p', { className: "text-sm font-medium" }, presentationCriteria.name),
@@ -1278,17 +1349,20 @@
                               )
                       );
                     })
+                )
               ),
 
               // Group member evaluations
               e('div', { className: "bg-white p-6 rounded-lg shadow" },
                 e('h2', { className: "text-xl font-bold mb-1" }, 'Group Member Evaluations'),
+                !groupEnabled
+                  ? e('p', { className: "text-gray-400 text-sm italic" }, 'Group evaluations are not required for this section.')
+                  : e('div', null,
                 e('p', { className: "text-sm text-gray-500 mb-4" }, `${groupSubmitted} / ${totalGroupRequired} submitted`),
                 groupCriteria && e('div', { className: "mb-4 p-3 bg-green-50 rounded-lg" },
                   e('p', { className: "text-sm font-medium" }, groupCriteria.name),
                   e('p', { className: "text-xs text-gray-600 mt-1" }, 'Rate each question 1 (lowest) – 10 (highest)')
                 ),
-                // FIX: show helpful message when student has no group members
                 !currentUser.groupId
                   ? e('p', { className: "text-gray-500 text-sm" }, 'You are not assigned to a group. No group evaluations required.')
                   : groupStudents.length === 0
@@ -1334,6 +1408,7 @@
                                 )
                         );
                       })
+                )
               )
             )
           )
