@@ -614,7 +614,7 @@
               };
 
               const firstLineLower = lines[0].toLowerCase();
-              const isCanvas = firstLineLower.includes('sis login id') || (firstLineLower.includes('student') && firstLineLower.includes('section') && firstLineLower.includes('id'));
+              const isCanvas = firstLineLower.includes('sis login id') || firstLineLower.includes('sis user id');
               const isTemplate = !isCanvas && firstLineLower.includes('name') && firstLineLower.includes('email');
               const data = [];
 
