@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HamSanj - Complete</title>
-  
+  <title>HamSanj - Peer Evaluation System</title>
+
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  
+
   <style>
     @keyframes spin { to { transform: rotate(360deg); } }
     #HamSanj-app * { box-sizing: border-box; }
@@ -18,12 +18,12 @@
   <div id="HamSanj-app">
     <div id="root"></div>
   </div>
-  
+
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
     import { getFirestore, collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, doc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-    
+
     const firebaseConfig = {
       apiKey: "AIzaSyDbAgwMiEAZCezKy3t7j4ZW8xQyjgXqrKI",
       authDomain: "evalflow-b3da2.firebaseapp.com",
@@ -33,68 +33,64 @@
       appId: "1:376143096721:web:8399e278170f1c3f4f8830",
       measurementId: "G-CRL51V7SZL"
     };
-    
+
     const app = initializeApp(firebaseConfig);
     window.auth = getAuth(app);
     window.db = getFirestore(app);
     window.firebaseAuth = { signInWithEmailAndPassword, signOut, onAuthStateChanged };
     window.firebaseFirestore = { collection, addDoc, updateDoc, deleteDoc, getDocs, query, where, doc, serverTimestamp };
-    
+
     window.firebaseReady = true;
     window.dispatchEvent(new Event('firebaseready'));
   </script>
-  
+
   <script>
     function startApp() {
       const { useState, useEffect, createElement: e } = React;
-      
+
+      // ── Icons ──────────────────────────────────────────────────────────────
       const Trash2 = ({ size = 20 }) => e('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" },
         e('polyline', { points: "3 6 5 6 21 6" }),
         e('path', { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" })
       );
-      
       const X = ({ size = 20 }) => e('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
         e('line', { x1: "18", y1: "6", x2: "6", y2: "18" }),
         e('line', { x1: "6", y1: "6", x2: "18", y2: "18" })
       );
-      
       const Upload = ({ size = 20 }) => e('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
         e('path', { d: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" }),
         e('polyline', { points: "17 8 12 3 7 8" }),
         e('line', { x1: "12", y1: "3", x2: "12", y2: "15" })
       );
-      
       const FileDown = ({ size = 20 }) => e('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
         e('path', { d: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" }),
         e('polyline', { points: "14 2 14 8 20 8" }),
         e('path', { d: "M12 18v-6" }),
         e('path', { d: "M9 15l3 3 3-3" })
       );
-      
       const LogOut = ({ size = 20 }) => e('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
         e('path', { d: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" }),
         e('polyline', { points: "16 17 21 12 16 7" }),
         e('line', { x1: "21", y1: "12", x2: "9", y2: "12" })
       );
-
       const Plus = ({ size = 20 }) => e('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
         e('line', { x1: "12", y1: "5", x2: "12", y2: "19" }),
         e('line', { x1: "5", y1: "12", x2: "19", y2: "12" })
       );
-
       const CheckSquare = ({ size = 20 }) => e('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
         e('polyline', { points: "9 11 12 14 22 4" }),
         e('path', { d: "M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" })
       );
-
       const Square = ({ size = 20 }) => e('svg', { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2" },
         e('rect', { x: "3", y: "3", width: "18", height: "18", rx: "2", ry: "2" })
       );
 
+      // ── Main component ─────────────────────────────────────────────────────
       function HamSanj() {
         const [currentUser, setCurrentUser] = useState(null);
         const [userRole, setUserRole] = useState(null);
         const [loading, setLoading] = useState(true);
+        const [loadingPublicData, setLoadingPublicData] = useState(false);
         const [view, setView] = useState('login');
         const [courses, setCourses] = useState([]);
         const [sections, setSections] = useState([]);
@@ -129,7 +125,6 @@
         const [editingCriteria, setEditingCriteria] = useState(null);
         const [selectedStudents, setSelectedStudents] = useState(new Set());
         const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
-        const [sectionCriteria, setSectionCriteria] = useState({});
         const [showAddStudent, setShowAddStudent] = useState(false);
         const [newStudentName, setNewStudentName] = useState('');
         const [newStudentEmail, setNewStudentEmail] = useState('');
@@ -139,7 +134,60 @@
         const [newStudentGroup, setNewStudentGroup] = useState('');
         const [editingStudent, setEditingStudent] = useState(null);
 
+        // ── Data loading ─────────────────────────────────────────────────────
+
+        // FIX: Load sections/students/criteria publicly (no auth required).
+        // Called on initial mount so the student login dropdown is populated.
+        const loadPublicData = async () => {
+          setLoadingPublicData(true);
+          try {
+            const { collection, getDocs } = window.firebaseFirestore;
+            const [sectionsSnap, studentsSnap, criteriaSnap, groupsSnap] = await Promise.all([
+              getDocs(collection(window.db, 'sections')),
+              getDocs(collection(window.db, 'students')),
+              getDocs(collection(window.db, 'criteria')),
+              getDocs(collection(window.db, 'groups')),
+            ]);
+            setSections(sectionsSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+            setStudents(studentsSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+            setCriteria(criteriaSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+            setGroups(groupsSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+          } catch (err) {
+            console.error('Public data load error:', err);
+          } finally {
+            setLoadingPublicData(false);
+          }
+        };
+
+        const loadInstructorData = async (uid) => {
+          try {
+            const { collection, getDocs, query, where } = window.firebaseFirestore;
+            const coursesRef = collection(window.db, 'courses');
+            const coursesQuery = query(coursesRef, where('instructorId', '==', uid));
+            const [coursesSnap, sectionsSnap, studentsSnap, groupsSnap, evalsSnap, criteriaSnap] = await Promise.all([
+              getDocs(coursesQuery),
+              getDocs(collection(window.db, 'sections')),
+              getDocs(collection(window.db, 'students')),
+              getDocs(collection(window.db, 'groups')),
+              getDocs(collection(window.db, 'evaluations')),
+              getDocs(collection(window.db, 'criteria')),
+            ]);
+            setCourses(coursesSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+            setSections(sectionsSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+            setStudents(studentsSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+            setGroups(groupsSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+            setEvaluations(evalsSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+            setCriteria(criteriaSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+          } catch (err) {
+            console.error('Instructor data load error:', err);
+            setError('Failed to load data');
+          }
+        };
+
+        // On mount: check Firebase auth AND load public data so student
+        // login form is always populated with sections.
         useEffect(() => {
+          loadPublicData(); // load now, before auth resolves
           const unsubscribe = window.firebaseAuth.onAuthStateChanged(window.auth, (user) => {
             if (user) {
               setCurrentUser(user);
@@ -155,37 +203,10 @@
           return unsubscribe;
         }, []);
 
-        const loadInstructorData = async (uid) => {
-          try {
-            const { collection, getDocs, query, where } = window.firebaseFirestore;
-            
-            const coursesRef = collection(window.db, 'courses');
-            const coursesQuery = query(coursesRef, where('instructorId', '==', uid));
-            const coursesSnap = await getDocs(coursesQuery);
-            setCourses(coursesSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        // ── Auth handlers ────────────────────────────────────────────────────
 
-            const sectionsSnap = await getDocs(collection(window.db, 'sections'));
-            setSections(sectionsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-            const studentsSnap = await getDocs(collection(window.db, 'students'));
-            setStudents(studentsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-            const groupsSnap = await getDocs(collection(window.db, 'groups'));
-            setGroups(groupsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-            const evalsSnap = await getDocs(collection(window.db, 'evaluations'));
-            setEvaluations(evalsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-
-            const criteriaSnap = await getDocs(collection(window.db, 'criteria'));
-            setCriteria(criteriaSnap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-          } catch (err) {
-            console.error('Error:', err);
-            setError('Failed to load data');
-          }
-        };
-
-        const handleInstructorLogin = async (e) => {
-          e.preventDefault();
+        const handleInstructorLogin = async (ev) => {
+          ev.preventDefault();
           setError('');
           try {
             await window.firebaseAuth.signInWithEmailAndPassword(window.auth, loginEmail, loginPassword);
@@ -194,21 +215,43 @@
           }
         };
 
-        const handleStudentLogin = async (e) => {
-          e.preventDefault();
+        const handleStudentLogin = async (ev) => {
+          ev.preventDefault();
           setError('');
-          if (!studentName || !studentEmail || !selectedSection) {
-            setError('Please fill in all fields');
+          if (!studentName.trim() || !studentEmail.trim() || !selectedSection) {
+            setError('Please fill in all fields and select your section');
             return;
           }
-          const student = students.find(s => s.email.toLowerCase() === studentEmail.toLowerCase() && s.sectionId === selectedSection);
+          // FIX: re-fetch public data if sections were empty when page loaded
+          if (sections.length === 0) {
+            await loadPublicData();
+          }
+          const normalizedEmail = studentEmail.trim().toLowerCase();
+          const student = students.find(
+            s => s.email.toLowerCase() === normalizedEmail && s.sectionId === selectedSection
+          );
           if (!student) {
-            setError('Student not found');
+            setError('Student not found in this section. Check your email and section selection.');
             return;
           }
-          const studentEvals = evaluations.filter(ev => ev.evaluatorEmail === studentEmail);
-          setSubmittedEvals(new Set(studentEvals.map(ev => `${ev.type}-${ev.evaluatedStudentId}`)));
-          setCurrentUser({ ...student, name: studentName });
+          // FIX: load this student's already-submitted evaluations from Firestore
+          // so they can't double-submit after a page refresh.
+          try {
+            const { collection, getDocs, query, where } = window.firebaseFirestore;
+            const prevEvalsSnap = await getDocs(
+              query(collection(window.db, 'evaluations'),
+                where('evaluatorEmail', '==', normalizedEmail),
+                where('sectionId', '==', selectedSection)
+              )
+            );
+            const prevEvals = prevEvalsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+            setSubmittedEvals(new Set(prevEvals.map(ev => `${ev.type}-${ev.evaluatedStudentId}`)));
+          } catch (err) {
+            // Non-fatal: student just might be able to re-submit; instructor
+            // can deduplicate in the report.
+            console.warn('Could not check previous submissions:', err);
+          }
+          setCurrentUser({ ...student, name: studentName.trim() });
           setUserRole('student');
           setView('student-eval');
         };
@@ -218,7 +261,15 @@
           setCurrentUser(null);
           setUserRole(null);
           setView('login');
+          setStudentName('');
+          setStudentEmail('');
+          setSelectedSection(null);
+          setSubmittedEvals(new Set());
+          setPresentationScores({});
+          setGroupScores({});
         };
+
+        // ── Instructor CRUD ──────────────────────────────────────────────────
 
         const deleteItem = async (type, id) => {
           try {
@@ -235,46 +286,42 @@
           if (!courseName.trim()) return;
           try {
             await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'courses'), {
-              name: courseName,
+              name: courseName.trim(),
               instructorId: currentUser.uid,
               createdAt: window.firebaseFirestore.serverTimestamp()
             });
             setCourseName('');
             setSuccess('Course added');
             loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Failed to add');
-          }
+          } catch (err) { setError('Failed to add course'); }
         };
 
         const addSection = async () => {
           if (!sectionName.trim() || !selectedCourse) {
-            setError('Select course and enter name');
+            setError('Select a course and enter a section name');
             return;
           }
           try {
             await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'sections'), {
-              name: sectionName,
+              name: sectionName.trim(),
               courseId: selectedCourse,
               createdAt: window.firebaseFirestore.serverTimestamp()
             });
             setSectionName('');
             setSuccess('Section added');
             loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Failed');
-          }
+          } catch (err) { setError('Failed to add section'); }
         };
 
         const saveCriteria = async () => {
           if (!criteriaName.trim() || criteriaQuestions.length === 0) {
-            setError('Enter name and add at least one question');
+            setError('Enter a name and add at least one question');
             return;
           }
           try {
             if (editingCriteria) {
               await window.firebaseFirestore.updateDoc(window.firebaseFirestore.doc(window.db, 'criteria', editingCriteria), {
-                name: criteriaName,
+                name: criteriaName.trim(),
                 type: criteriaType,
                 questions: criteriaQuestions,
                 updatedAt: window.firebaseFirestore.serverTimestamp()
@@ -282,7 +329,7 @@
               setSuccess('Criteria updated');
             } else {
               await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'criteria'), {
-                name: criteriaName,
+                name: criteriaName.trim(),
                 type: criteriaType,
                 questions: criteriaQuestions,
                 instructorId: currentUser.uid,
@@ -290,14 +337,9 @@
               });
               setSuccess('Criteria added');
             }
-            setCriteriaName('');
-            setCriteriaType('presentation');
-            setCriteriaQuestions([]);
-            setEditingCriteria(null);
+            setCriteriaName(''); setCriteriaType('presentation'); setCriteriaQuestions([]); setEditingCriteria(null);
             loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Failed to save');
-          }
+          } catch (err) { setError('Failed to save criteria'); }
         };
 
         const addQuestion = () => {
@@ -305,23 +347,13 @@
           setCriteriaQuestions([...criteriaQuestions, newQuestion.trim()]);
           setNewQuestion('');
         };
-
-        const removeQuestion = (index) => {
-          setCriteriaQuestions(criteriaQuestions.filter((_, i) => i !== index));
-        };
-
+        const removeQuestion = (index) => setCriteriaQuestions(criteriaQuestions.filter((_, i) => i !== index));
         const startEditCriteria = (crit) => {
-          setEditingCriteria(crit.id);
-          setCriteriaName(crit.name);
-          setCriteriaType(crit.type);
+          setEditingCriteria(crit.id); setCriteriaName(crit.name); setCriteriaType(crit.type);
           setCriteriaQuestions(crit.questions || []);
         };
-
         const cancelEditCriteria = () => {
-          setEditingCriteria(null);
-          setCriteriaName('');
-          setCriteriaType('presentation');
-          setCriteriaQuestions([]);
+          setEditingCriteria(null); setCriteriaName(''); setCriteriaType('presentation'); setCriteriaQuestions([]);
         };
 
         const assignCriteriaToSection = async (sectionId, criteriaId, type) => {
@@ -329,244 +361,98 @@
             await window.firebaseFirestore.updateDoc(window.firebaseFirestore.doc(window.db, 'sections', sectionId), {
               [`${type}CriteriaId`]: criteriaId
             });
-            setSectionCriteria(prev => ({
-              ...prev,
-              [sectionId]: {
-                ...prev[sectionId],
-                [type]: criteriaId
-              }
-            }));
-            setSuccess('Criteria assigned to section');
+            setSuccess('Criteria assigned');
             loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Failed to assign criteria');
-          }
+          } catch (err) { setError('Failed to assign criteria'); }
         };
 
-        const submitEvalWithCriteria = async (evaluatedStudentId, type, scores) => {
+        // ── Student eval submission ─────────────────────────────────────────
+
+        const submitEvalWithCriteria = async (evaluatedStudentId, type, scoresByIndex) => {
           const section = sections.find(s => s.id === selectedSection);
           const criteriaId = type === 'presentation' ? section?.presentationCriteriaId : section?.groupCriteriaId;
           const criteriaTemplate = criteria.find(c => c.id === criteriaId);
-          
-          if (!criteriaTemplate) {
-            setError('No criteria template found');
-            return;
-          }
+          if (!criteriaTemplate) { setError('No criteria template found for this section'); return; }
 
-          const allAnswered = criteriaTemplate.questions.every((_, i) => scores[i] && scores[i] >= 1 && scores[i] <= 10);
-          if (!allAnswered) {
-            setError('Please answer all questions (1-10)');
-            return;
-          }
+          // FIX: build scores array by explicit question index (not Object.values order)
+          const scoresArray = criteriaTemplate.questions.map((_, i) => scoresByIndex[i]);
+          const allAnswered = scoresArray.every(s => s !== undefined && s !== '' && parseInt(s) >= 1 && parseInt(s) <= 10);
+          if (!allAnswered) { setError('Please rate all questions (1–10)'); return; }
 
           try {
+            const parsedScores = scoresArray.map(s => parseInt(s));
             await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'evaluations'), {
-              evaluatorEmail: currentUser.email,
+              evaluatorEmail: currentUser.email.toLowerCase(),
               evaluatedStudentId,
               sectionId: selectedSection,
-              type: type,
+              type,
               criteriaId: criteriaTemplate.id,
-              scores: scores.map(s => parseInt(s)),
-              score: scores.reduce((sum, s) => sum + parseInt(s), 0) / scores.length,
+              scores: parsedScores,
+              score: parsedScores.reduce((sum, s) => sum + s, 0) / parsedScores.length,
               timestamp: window.firebaseFirestore.serverTimestamp()
             });
             setSubmittedEvals(prev => new Set([...prev, `${type}-${evaluatedStudentId}`]));
             if (type === 'presentation') {
-              setPresentationScores(prev => ({ ...prev, [evaluatedStudentId]: {} }));
+              setPresentationScores(prev => { const n = { ...prev }; delete n[evaluatedStudentId]; return n; });
             } else {
-              setGroupScores(prev => ({ ...prev, [evaluatedStudentId]: {} }));
+              setGroupScores(prev => { const n = { ...prev }; delete n[evaluatedStudentId]; return n; });
             }
-            setSuccess('Submitted');
-          } catch (err) {
-            setError('Failed to submit');
-          }
+            setSuccess('Evaluation submitted!');
+            setTimeout(() => setSuccess(''), 3000);
+          } catch (err) { setError('Failed to submit: ' + err.message); }
         };
 
-        const submitPresentationEval = async (evaluatedStudentId, score) => {
-          if (score < 1 || score > 10) { setError('Score 1-10'); return; }
+        const submitSimpleEval = async (evaluatedStudentId, type, score) => {
+          const s = parseInt(score);
+          if (!score || s < 1 || s > 10) { setError('Score must be between 1 and 10'); return; }
           try {
             await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'evaluations'), {
-              evaluatorEmail: currentUser.email,
+              evaluatorEmail: currentUser.email.toLowerCase(),
               evaluatedStudentId,
               sectionId: selectedSection,
-              type: 'presentation',
-              score: parseInt(score),
+              type,
+              score: s,
               timestamp: window.firebaseFirestore.serverTimestamp()
             });
-            setSubmittedEvals(prev => new Set([...prev, `presentation-${evaluatedStudentId}`]));
-            setPresentationScores(prev => ({ ...prev, [evaluatedStudentId]: '' }));
-            setSuccess('Submitted');
-          } catch (err) {
-            setError('Failed');
-          }
+            setSubmittedEvals(prev => new Set([...prev, `${type}-${evaluatedStudentId}`]));
+            if (type === 'presentation') {
+              setPresentationScores(prev => { const n = { ...prev }; delete n[evaluatedStudentId]; return n; });
+            } else {
+              setGroupScores(prev => { const n = { ...prev }; delete n[evaluatedStudentId]; return n; });
+            }
+            setSuccess('Evaluation submitted!');
+            setTimeout(() => setSuccess(''), 3000);
+          } catch (err) { setError('Failed to submit: ' + err.message); }
         };
 
-        const submitGroupEval = async (evaluatedStudentId, score) => {
-          if (score < 1 || score > 10) { setError('Score 1-10'); return; }
-          try {
-            await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'evaluations'), {
-              evaluatorEmail: currentUser.email,
-              evaluatedStudentId,
-              sectionId: selectedSection,
-              type: 'group',
-              score: parseInt(score),
-              timestamp: window.firebaseFirestore.serverTimestamp()
-            });
-            setSubmittedEvals(prev => new Set([...prev, `group-${evaluatedStudentId}`]));
-            setGroupScores(prev => ({ ...prev, [evaluatedStudentId]: '' }));
-            setSuccess('Submitted');
-          } catch (err) {
-            setError('Failed');
-          }
-        };
+        // ── Reports / export ─────────────────────────────────────────────────
 
         const exportToCSV = () => {
-          if (!selectedSection) { setError('Select section'); return; }
+          if (!selectedSection) { setError('Select a section first'); return; }
           const sectionStudents = students.filter(s => s.sectionId === selectedSection);
-          const csvRows = ['Student Name,Student ID,Email,Presentation Avg,Presentation Count,Group Avg,Group Count,Overall Avg,Total Evals'];
+          const rows = ['Student Name,Student ID,Email,Presentation Avg,Presentation Count,Group Avg,Group Count,Overall Avg,Total Evals'];
           sectionStudents.forEach(student => {
             const presEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'presentation');
             const groupEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'group');
             const presAvg = presEvals.length > 0 ? (presEvals.reduce((sum, ev) => sum + ev.score, 0) / presEvals.length).toFixed(2) : 'N/A';
             const groupAvg = groupEvals.length > 0 ? (groupEvals.reduce((sum, ev) => sum + ev.score, 0) / groupEvals.length).toFixed(2) : 'N/A';
-            const allEvals = [...presEvals, ...groupEvals];
-            const overall = allEvals.length > 0 ? (allEvals.reduce((sum, ev) => sum + ev.score, 0) / allEvals.length).toFixed(2) : 'N/A';
-            csvRows.push(`"${student.name}","${student.studentId}","${student.email}",${presAvg},${presEvals.length},${groupAvg},${groupEvals.length},${overall},${allEvals.length}`);
+            const all = [...presEvals, ...groupEvals];
+            const overall = all.length > 0 ? (all.reduce((sum, ev) => sum + ev.score, 0) / all.length).toFixed(2) : 'N/A';
+            rows.push(`"${student.name}","${student.studentId || ''}","${student.email}",${presAvg},${presEvals.length},${groupAvg},${groupEvals.length},${overall},${all.length}`);
           });
-          const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
-          const url = window.URL.createObjectURL(blob);
+          const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+          const url = URL.createObjectURL(blob);
           const a = document.createElement('a');
-          a.href = url;
-          a.download = `HamSanj_${sections.find(s => s.id === selectedSection)?.name.replace(/\s/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`;
-          a.click();
-          setSuccess('Exported');
+          a.href = url; a.download = `HamSanj_${sections.find(s => s.id === selectedSection)?.name.replace(/\s/g, '_')}_${new Date().toISOString().split('T')[0]}.csv`;
+          a.click(); URL.revokeObjectURL(url);
+          setSuccess('Exported successfully');
         };
 
-        const updatePresentationOrder = async (studentId, newOrder) => {
-          try {
-            await window.firebaseFirestore.updateDoc(window.firebaseFirestore.doc(window.db, 'students', studentId), {
-              presentationOrder: parseInt(newOrder)
-            });
-            loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Update failed');
-          }
-        };
-
-        const handleImportFileChange = (ev) => {
-          const file = ev.target.files[0];
-          if (file) {
-            setImportFile(file);
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-              try {
-                const lines = ev.target.result.split('\n');
-                const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-                const data = [];
-                for (let i = 1; i < lines.length; i++) {
-                  if (!lines[i].trim()) continue;
-                  const values = lines[i].split(',').map(v => v.trim());
-                  const row = {};
-                  headers.forEach((header, index) => { row[header] = values[index] || ''; });
-                  data.push(row);
-                }
-                setImportPreview(data);
-                setError('');
-              } catch (err) {
-                setError('Parse failed');
-              }
-            };
-            reader.readAsText(file);
-          }
-        };
-
-        const handleBulkImport = async () => {
-          if (!importPreview.length) { setError('No data'); return; }
-          setImporting(true);
-          setImportProgress('Starting...');
-          let imported = 0, skipped = 0;
-          try {
-            for (let i = 0; i < importPreview.length; i++) {
-              const student = importPreview[i];
-              setImportProgress(`Importing ${i + 1}/${importPreview.length}...`);
-              const sectionName = student.section || student.sectionname || student['section name'];
-              const section = sections.find(s => s.name.toLowerCase().includes(sectionName.toLowerCase()));
-              if (!section) { skipped++; continue; }
-              await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'students'), {
-                name: student.name || '',
-                email: (student.email || '').toLowerCase(),
-                studentId: student['student id'] || student.id || student.studentid || '',
-                sectionId: section.id,
-                presentationOrder: parseInt(student.order || '999'),
-                groupId: student.group || null,
-                createdAt: window.firebaseFirestore.serverTimestamp()
-              });
-              imported++;
-              await new Promise(resolve => setTimeout(resolve, 100));
-            }
-            setSuccess(`Imported ${imported}, skipped ${skipped}`);
-            setImportProgress('');
-            setImportPreview([]);
-            setImportFile(null);
-            setShowBulkImport(false);
-            loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Import failed: ' + err.message);
-          } finally {
-            setImporting(false);
-          }
-        };
-
-        const downloadTemplate = () => {
-          const template = `Name,Email,Student ID,Section,Order,Group
-John Doe,john@university.edu,12345,Section 11,1,1
-Jane Smith,jane@university.edu,12346,Section 11,2,1`;
-          const blob = new Blob([template], { type: 'text/csv' });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'HamSanj_template.csv';
-          a.click();
-        };
-
-        const toggleStudentSelection = (studentId) => {
-          const newSelection = new Set(selectedStudents);
-          if (newSelection.has(studentId)) {
-            newSelection.delete(studentId);
-          } else {
-            newSelection.add(studentId);
-          }
-          setSelectedStudents(newSelection);
-        };
-
-        const toggleSelectAll = () => {
-          const visibleStudents = students.filter(s => !selectedSection || s.sectionId === selectedSection);
-          if (selectedStudents.size === visibleStudents.length && visibleStudents.length > 0) {
-            setSelectedStudents(new Set());
-          } else {
-            setSelectedStudents(new Set(visibleStudents.map(s => s.id)));
-          }
-        };
-
-        const bulkDeleteStudents = async () => {
-          try {
-            const deletePromises = Array.from(selectedStudents).map(id =>
-              window.firebaseFirestore.deleteDoc(window.firebaseFirestore.doc(window.db, 'students', id))
-            );
-            await Promise.all(deletePromises);
-            setSuccess(`Deleted ${selectedStudents.size} students`);
-            setSelectedStudents(new Set());
-            setBulkDeleteConfirm(false);
-            loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Bulk delete failed');
-          }
-        };
+        // ── Student management ───────────────────────────────────────────────
 
         const addStudent = async () => {
           if (!newStudentName.trim() || !newStudentEmail.trim() || !newStudentSection) {
-            setError('Name, email, and section are required');
-            return;
+            setError('Name, email, and section are required'); return;
           }
           try {
             await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'students'), {
@@ -579,34 +465,23 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
               createdAt: window.firebaseFirestore.serverTimestamp()
             });
             setSuccess('Student added');
-            setNewStudentName('');
-            setNewStudentEmail('');
-            setNewStudentId('');
-            setNewStudentSection('');
-            setNewStudentOrder('');
-            setNewStudentGroup('');
+            setNewStudentName(''); setNewStudentEmail(''); setNewStudentId('');
+            setNewStudentSection(''); setNewStudentOrder(''); setNewStudentGroup('');
             setShowAddStudent(false);
             loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Failed to add student');
-          }
+          } catch (err) { setError('Failed to add student'); }
         };
 
         const startEditStudent = (student) => {
-          setEditingStudent(student.id);
-          setNewStudentName(student.name);
-          setNewStudentEmail(student.email);
-          setNewStudentId(student.studentId || '');
-          setNewStudentSection(student.sectionId);
-          setNewStudentOrder(student.presentationOrder?.toString() || '');
-          setNewStudentGroup(student.groupId || '');
-          setShowAddStudent(true);
+          setEditingStudent(student.id); setNewStudentName(student.name);
+          setNewStudentEmail(student.email); setNewStudentId(student.studentId || '');
+          setNewStudentSection(student.sectionId); setNewStudentOrder(student.presentationOrder?.toString() || '');
+          setNewStudentGroup(student.groupId || ''); setShowAddStudent(true);
         };
 
         const updateStudent = async () => {
           if (!newStudentName.trim() || !newStudentEmail.trim() || !newStudentSection) {
-            setError('Name, email, and section are required');
-            return;
+            setError('Name, email, and section are required'); return;
           }
           try {
             await window.firebaseFirestore.updateDoc(window.firebaseFirestore.doc(window.db, 'students', editingStudent), {
@@ -619,76 +494,171 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
               updatedAt: window.firebaseFirestore.serverTimestamp()
             });
             setSuccess('Student updated');
-            setNewStudentName('');
-            setNewStudentEmail('');
-            setNewStudentId('');
-            setNewStudentSection('');
-            setNewStudentOrder('');
-            setNewStudentGroup('');
-            setEditingStudent(null);
-            setShowAddStudent(false);
+            setNewStudentName(''); setNewStudentEmail(''); setNewStudentId('');
+            setNewStudentSection(''); setNewStudentOrder(''); setNewStudentGroup('');
+            setEditingStudent(null); setShowAddStudent(false);
             loadInstructorData(currentUser.uid);
-          } catch (err) {
-            setError('Failed to update student');
-          }
+          } catch (err) { setError('Failed to update student'); }
         };
 
         const cancelEditStudent = () => {
-          setEditingStudent(null);
-          setNewStudentName('');
-          setNewStudentEmail('');
-          setNewStudentId('');
-          setNewStudentSection('');
-          setNewStudentOrder('');
-          setNewStudentGroup('');
-          setShowAddStudent(false);
+          setEditingStudent(null); setShowAddStudent(false);
+          setNewStudentName(''); setNewStudentEmail(''); setNewStudentId('');
+          setNewStudentSection(''); setNewStudentOrder(''); setNewStudentGroup('');
         };
+
+        const toggleStudentSelection = (id) => {
+          const s = new Set(selectedStudents);
+          s.has(id) ? s.delete(id) : s.add(id);
+          setSelectedStudents(s);
+        };
+
+        const toggleSelectAll = () => {
+          const visible = students.filter(s => !selectedSection || s.sectionId === selectedSection);
+          setSelectedStudents(selectedStudents.size === visible.length && visible.length > 0
+            ? new Set() : new Set(visible.map(s => s.id)));
+        };
+
+        const bulkDeleteStudents = async () => {
+          try {
+            await Promise.all(Array.from(selectedStudents).map(id =>
+              window.firebaseFirestore.deleteDoc(window.firebaseFirestore.doc(window.db, 'students', id))
+            ));
+            setSuccess(`Deleted ${selectedStudents.size} students`);
+            setSelectedStudents(new Set()); setBulkDeleteConfirm(false);
+            loadInstructorData(currentUser.uid);
+          } catch (err) { setError('Bulk delete failed'); }
+        };
+
+        // ── CSV import ───────────────────────────────────────────────────────
+
+        const handleImportFileChange = (ev) => {
+          const file = ev.target.files[0];
+          if (!file) return;
+          setImportFile(file);
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            try {
+              const lines = ev.target.result.split('\n');
+              const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, '').toLowerCase());
+              const data = [];
+              for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
+                const row = {};
+                headers.forEach((h, idx) => { row[h] = values[idx] || ''; });
+                data.push(row);
+              }
+              setImportPreview(data); setError('');
+            } catch (err) { setError('Could not parse CSV file'); }
+          };
+          reader.readAsText(file);
+        };
+
+        const handleBulkImport = async () => {
+          if (!importPreview.length) { setError('No data to import'); return; }
+          setImporting(true); setImportProgress('Starting...');
+          let imported = 0, skipped = 0;
+          try {
+            for (let i = 0; i < importPreview.length; i++) {
+              const row = importPreview[i];
+              setImportProgress(`Importing ${i + 1}/${importPreview.length}...`);
+              const rawSection = row.section || row.sectionname || row['section name'] || '';
+              const section = sections.find(s => s.name.toLowerCase().includes(rawSection.toLowerCase()));
+              if (!section) { skipped++; continue; }
+              await window.firebaseFirestore.addDoc(window.firebaseFirestore.collection(window.db, 'students'), {
+                name: row.name || '',
+                email: (row.email || '').toLowerCase(),
+                studentId: row['student id'] || row.id || row.studentid || '',
+                sectionId: section.id,
+                presentationOrder: parseInt(row.order || '999'),
+                groupId: row.group || null,
+                createdAt: window.firebaseFirestore.serverTimestamp()
+              });
+              imported++;
+              await new Promise(r => setTimeout(r, 100));
+            }
+            setSuccess(`Imported ${imported} students${skipped > 0 ? `, skipped ${skipped} (section not found)` : ''}`);
+            setImportProgress(''); setImportPreview([]); setImportFile(null); setShowBulkImport(false);
+            loadInstructorData(currentUser.uid);
+          } catch (err) { setError('Import failed: ' + err.message); }
+          finally { setImporting(false); }
+        };
+
+        const downloadTemplate = () => {
+          const csv = `Name,Email,Student ID,Section,Order,Group\nJohn Doe,john@university.edu,12345,Section 11,1,1\nJane Smith,jane@university.edu,12346,Section 11,2,1`;
+          const blob = new Blob([csv], { type: 'text/csv' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = 'HamSanj_template.csv'; a.click(); URL.revokeObjectURL(url);
+        };
+
+        // ── Spinner ──────────────────────────────────────────────────────────
 
         if (loading) {
           return e('div', { className: "min-h-screen bg-gray-50 flex items-center justify-center" },
             e('div', { className: "text-center" },
-              e('div', { className: "animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto" }),
+              e('div', { style: { width: 48, height: 48, border: '4px solid #e5e7eb', borderTopColor: '#7b2d5e', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto' } }),
               e('p', { className: "mt-4 text-gray-600" }, 'Loading...')
             )
           );
         }
 
-        if (!currentUser || view === 'login') {
+        // ── Login page ───────────────────────────────────────────────────────
+
+        if (!currentUser || view === 'login' || view === 'student-login') {
           return e('div', { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4" },
             e('div', { className: "bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full" },
               e('div', { className: "text-center mb-8" },
                 e('h1', { className: "text-4xl font-bold mb-2", style: { color: '#7b2d5e' } }, 'HamSanj'),
                 e('p', { className: "text-gray-600" }, 'Peer Evaluation System')
               ),
-              error && e('div', { className: "mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm" }, error),
+              error && e('div', { className: "mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex justify-between items-center" },
+                error, e('button', { onClick: () => setError('') }, e(X, { size: 16 }))
+              ),
               e('div', { className: "space-y-4" },
                 e('div', { className: "flex gap-2" },
-                  e('button', { onClick: () => setView('login'), className: `flex-1 py-2 rounded-lg font-medium ${view === 'login' ? 'text-white' : 'bg-gray-100'}`, style: view === 'login' ? { backgroundColor: '#7b2d5e' } : {} }, 'Instructor'),
-                  e('button', { onClick: () => setView('student-login'), className: `flex-1 py-2 rounded-lg font-medium ${view === 'student-login' ? 'bg-green-600 text-white' : 'bg-gray-100'}` }, 'Student')
+                  e('button', {
+                    onClick: () => setView('login'),
+                    className: `flex-1 py-2 rounded-lg font-medium ${view === 'login' ? 'text-white' : 'bg-gray-100'}`,
+                    style: view === 'login' ? { backgroundColor: '#7b2d5e' } : {}
+                  }, 'Instructor'),
+                  e('button', {
+                    onClick: () => { setView('student-login'); setError(''); },
+                    className: `flex-1 py-2 rounded-lg font-medium ${view === 'student-login' ? 'bg-green-600 text-white' : 'bg-gray-100'}`
+                  }, 'Student')
                 ),
-                view === 'login' ? 
-                  e('form', { onSubmit: handleInstructorLogin, className: "space-y-4" },
-                    e('input', { type: "email", placeholder: "Instructor Email", value: loginEmail, onChange: (ev) => setLoginEmail(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
-                    e('input', { type: 'password', placeholder: "Password", value: loginPassword, onChange: (ev) => setLoginPassword(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
-                    e('button', { type: "submit", className: "w-full text-white py-3 rounded-lg hover:opacity-90", style: { backgroundColor: '#7b2d5e' } }, 'Login')
-                  ) :
-                  e('form', { onSubmit: handleStudentLogin, className: "space-y-4" },
-                    e('input', { type: "text", placeholder: "Your Name", value: studentName, onChange: (ev) => setStudentName(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
-                    e('input', { type: "email", placeholder: "Your Email", value: studentEmail, onChange: (ev) => setStudentEmail(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
-                    e('select', { value: selectedSection || '', onChange: (ev) => setSelectedSection(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" },
-                      e('option', { value: "" }, 'Select Section'),
-                      sections.map(sec => e('option', { key: sec.id, value: sec.id }, sec.name))
-                    ),
-                    e('button', { type: "submit", className: "w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700" }, 'Continue')
-                  )
+                view === 'login'
+                  ? e('form', { onSubmit: handleInstructorLogin, className: "space-y-4" },
+                      e('input', { type: "email", placeholder: "Instructor Email", value: loginEmail, onChange: ev => setLoginEmail(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
+                      e('input', { type: "password", placeholder: "Password", value: loginPassword, onChange: ev => setLoginPassword(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
+                      e('button', { type: "submit", className: "w-full text-white py-3 rounded-lg hover:opacity-90", style: { backgroundColor: '#7b2d5e' } }, 'Login')
+                    )
+                  : e('form', { onSubmit: handleStudentLogin, className: "space-y-4" },
+                      e('input', { type: "text", placeholder: "Your Full Name", value: studentName, onChange: ev => setStudentName(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
+                      e('input', { type: "email", placeholder: "Your University Email", value: studentEmail, onChange: ev => setStudentEmail(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" }),
+                      loadingPublicData
+                        ? e('div', { className: "px-4 py-3 border rounded-lg text-gray-400 text-sm" }, '⏳ Loading sections...')
+                        : e('select', { value: selectedSection || '', onChange: ev => setSelectedSection(ev.target.value), required: true, className: "w-full px-4 py-3 border rounded-lg" },
+                            e('option', { value: "" }, sections.length === 0 ? 'No sections available yet' : 'Select Your Section'),
+                            sections.map(sec => e('option', { key: sec.id, value: sec.id }, sec.name))
+                          ),
+                      e('button', {
+                        type: "submit",
+                        disabled: loadingPublicData || sections.length === 0,
+                        className: "w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                      }, 'Continue to Peer Evaluation')
+                    )
               )
             )
           );
         }
 
+        // ── Instructor dashboard ─────────────────────────────────────────────
+
         if (userRole === 'instructor') {
           const visibleStudents = students.filter(s => !selectedSection || s.sectionId === selectedSection);
-          
+
           return e('div', { className: "min-h-screen bg-gray-50" },
             e('div', { className: "bg-white shadow" },
               e('div', { className: "max-w-7xl mx-auto px-4 py-4 flex justify-between items-center" },
@@ -697,19 +667,16 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
                   e('p', { className: "text-sm text-gray-600" }, currentUser.email)
                 ),
                 e('button', { onClick: handleLogout, className: "inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" },
-                  e(LogOut, { size: 18 }),
-                  'Logout'
+                  e(LogOut, { size: 18 }), 'Logout'
                 )
               )
             ),
             e('div', { className: "max-w-7xl mx-auto px-4 py-4" },
               error && e('div', { className: "mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex justify-between items-center" },
-                error,
-                e('button', { onClick: () => setError(''), className: "text-red-900 hover:text-red-700" }, e(X, { size: 16 }))
+                error, e('button', { onClick: () => setError('') }, e(X, { size: 16 }))
               ),
               success && e('div', { className: "mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm flex justify-between items-center" },
-                success,
-                e('button', { onClick: () => setSuccess(''), className: "text-green-900 hover:text-green-700" }, e(X, { size: 16 }))
+                success, e('button', { onClick: () => setSuccess('') }, e(X, { size: 16 }))
               )
             ),
             e('div', { className: "max-w-7xl mx-auto px-4" },
@@ -718,172 +685,120 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
                   e('button', {
                     key: tab,
                     onClick: () => setActiveTab(tab),
-                    className: `px-4 py-2 font-medium capitalize whitespace-nowrap ${activeTab === tab ? 'text-gray-600 hover:text-gray-900' : 'text-gray-600 hover:text-gray-900'}`,
+                    className: "px-4 py-2 font-medium capitalize whitespace-nowrap text-gray-600 hover:text-gray-900",
                     style: activeTab === tab ? { borderBottom: '2px solid #7b2d5e', color: '#7b2d5e' } : {}
                   }, tab)
                 )
               ),
+
+              // Courses tab
               activeTab === 'courses' && e('div', { className: "space-y-6" },
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('h2', { className: "text-xl font-bold mb-4" }, 'Add Course'),
                   e('div', { className: "flex gap-2" },
-                    e('input', { type: "text", placeholder: "Course Name", value: courseName, onChange: (ev) => setCourseName(ev.target.value), className: "flex-1 px-4 py-2 border rounded-lg" }),
-                    e('button', { onClick: addCourse, className: "inline-flex items-center px-6 py-2 text-white rounded-lg hover:opacity-90 whitespace-nowrap", style: { backgroundColor: '#7b2d5e' } }, 'Add')
+                    e('input', { type: "text", placeholder: "Course Name (e.g. ECON 433)", value: courseName, onChange: ev => setCourseName(ev.target.value), className: "flex-1 px-4 py-2 border rounded-lg" }),
+                    e('button', { onClick: addCourse, className: "px-6 py-2 text-white rounded-lg hover:opacity-90 whitespace-nowrap", style: { backgroundColor: '#7b2d5e' } }, 'Add')
                   )
                 ),
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('h2', { className: "text-xl font-bold mb-4" }, 'My Courses'),
-                  courses.length === 0 ? e('p', { className: "text-gray-500" }, 'No courses yet') :
-                    e('div', { className: "space-y-2" },
-                      courses.map(course =>
-                        e('div', { key: course.id, className: "flex justify-between items-center p-4 border rounded-lg hover:bg-gray-50" },
+                  courses.length === 0
+                    ? e('p', { className: "text-gray-500" }, 'No courses yet')
+                    : e('div', { className: "space-y-2" },
+                        courses.map(course => e('div', { key: course.id, className: "flex justify-between items-center p-4 border rounded-lg hover:bg-gray-50" },
                           e('span', { className: "font-medium" }, course.name),
                           e('button', { onClick: () => setDeleteConfirm({ type: 'courses', id: course.id, name: course.name }), className: "p-2 text-red-600 hover:bg-red-50 rounded" }, e(Trash2, { size: 18 }))
-                        )
+                        ))
                       )
-                    )
                 )
               ),
+
+              // Sections tab
               activeTab === 'sections' && e('div', { className: "space-y-6" },
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('h2', { className: "text-xl font-bold mb-4" }, 'Add Section'),
                   e('div', { className: "space-y-3" },
-                    e('select', { value: selectedCourse || '', onChange: (ev) => setSelectedCourse(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" },
+                    e('select', { value: selectedCourse || '', onChange: ev => setSelectedCourse(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" },
                       e('option', { value: "" }, 'Select Course'),
                       courses.map(c => e('option', { key: c.id, value: c.id }, c.name))
                     ),
                     e('div', { className: "flex gap-2" },
-                      e('input', { type: "text", placeholder: "Section Name", value: sectionName, onChange: (ev) => setSectionName(ev.target.value), className: "flex-1 px-4 py-2 border rounded-lg" }),
-                      e('button', { onClick: addSection, className: "inline-flex items-center px-6 py-2 text-white rounded-lg hover:opacity-90 whitespace-nowrap", style: { backgroundColor: '#7b2d5e' } }, 'Add')
+                      e('input', { type: "text", placeholder: "Section Name (e.g. Section 01)", value: sectionName, onChange: ev => setSectionName(ev.target.value), className: "flex-1 px-4 py-2 border rounded-lg" }),
+                      e('button', { onClick: addSection, className: "px-6 py-2 text-white rounded-lg hover:opacity-90 whitespace-nowrap", style: { backgroundColor: '#7b2d5e' } }, 'Add')
                     )
                   )
                 ),
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('h2', { className: "text-xl font-bold mb-4" }, 'All Sections'),
-                  sections.length === 0 ? e('p', { className: "text-gray-500" }, 'No sections yet') :
-                    e('div', { className: "space-y-2" },
-                      sections.map(section => {
-                        const course = courses.find(c => c.id === section.courseId);
-                        return e('div', { key: section.id, className: "p-4 border rounded-lg hover:bg-gray-50" },
-                          e('div', { className: "flex justify-between items-start mb-3" },
-                            e('div', null,
-                              e('span', { className: "font-medium" }, section.name),
-                              course && e('span', { className: "ml-2 text-sm text-gray-600" }, `(${course.name})`)
+                  sections.length === 0
+                    ? e('p', { className: "text-gray-500" }, 'No sections yet')
+                    : e('div', { className: "space-y-2" },
+                        sections.map(section => {
+                          const course = courses.find(c => c.id === section.courseId);
+                          return e('div', { key: section.id, className: "p-4 border rounded-lg hover:bg-gray-50" },
+                            e('div', { className: "flex justify-between items-start mb-3" },
+                              e('div', null,
+                                e('span', { className: "font-medium" }, section.name),
+                                course && e('span', { className: "ml-2 text-sm text-gray-600" }, `(${course.name})`)
+                              ),
+                              e('button', { onClick: () => setDeleteConfirm({ type: 'sections', id: section.id, name: section.name }), className: "p-2 text-red-600 hover:bg-red-50 rounded" }, e(Trash2, { size: 18 }))
                             ),
-                            e('button', { onClick: () => setDeleteConfirm({ type: 'sections', id: section.id, name: section.name }), className: "p-2 text-red-600 hover:bg-red-50 rounded" }, e(Trash2, { size: 18 }))
-                          ),
-                          e('div', { className: "space-y-2 text-sm" },
-                            e('div', null,
-                              e('span', { className: "font-medium" }, 'Presentation Criteria: '),
-                              e('select', { 
-                                value: section.presentationCriteriaId || '', 
-                                onChange: (ev) => assignCriteriaToSection(section.id, ev.target.value, 'presentation'),
-                                className: "ml-2 px-2 py-1 border rounded text-sm"
-                              },
-                                e('option', { value: "" }, 'None'),
-                                criteria.filter(c => c.type === 'presentation').map(c => 
-                                  e('option', { key: c.id, value: c.id }, c.name)
+                            e('div', { className: "grid grid-cols-2 gap-3 text-sm" },
+                              e('div', null,
+                                e('span', { className: "font-medium" }, 'Presentation Criteria: '),
+                                e('select', { value: section.presentationCriteriaId || '', onChange: ev => assignCriteriaToSection(section.id, ev.target.value, 'presentation'), className: "ml-1 px-2 py-1 border rounded text-sm" },
+                                  e('option', { value: "" }, 'None'),
+                                  criteria.filter(c => c.type === 'presentation').map(c => e('option', { key: c.id, value: c.id }, c.name))
                                 )
-                              )
-                            ),
-                            e('div', null,
-                              e('span', { className: "font-medium" }, 'Group Criteria: '),
-                              e('select', { 
-                                value: section.groupCriteriaId || '', 
-                                onChange: (ev) => assignCriteriaToSection(section.id, ev.target.value, 'group'),
-                                className: "ml-2 px-2 py-1 border rounded text-sm"
-                              },
-                                e('option', { value: "" }, 'None'),
-                                criteria.filter(c => c.type === 'group').map(c => 
-                                  e('option', { key: c.id, value: c.id }, c.name)
+                              ),
+                              e('div', null,
+                                e('span', { className: "font-medium" }, 'Group Criteria: '),
+                                e('select', { value: section.groupCriteriaId || '', onChange: ev => assignCriteriaToSection(section.id, ev.target.value, 'group'), className: "ml-1 px-2 py-1 border rounded text-sm" },
+                                  e('option', { value: "" }, 'None'),
+                                  criteria.filter(c => c.type === 'group').map(c => e('option', { key: c.id, value: c.id }, c.name))
                                 )
                               )
                             )
-                          )
-                        );
-                      })
-                    )
+                          );
+                        })
+                      )
                 )
               ),
+
+              // Students tab
               activeTab === 'students' && e('div', { className: "space-y-6" },
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('div', { className: "flex justify-between items-center mb-4" },
-                    e('h2', { className: "text-xl font-bold" }, editingStudent ? 'Edit Student' : 'Add Student Manually'),
-                    !showAddStudent && e('button', { 
-                      onClick: () => setShowAddStudent(true), 
-                      className: "inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap" 
-                    },
-                      e(Plus, { size: 18 }),
-                      'Add Student'
+                    e('h2', { className: "text-xl font-bold" }, editingStudent ? 'Edit Student' : 'Add Student'),
+                    !showAddStudent && e('button', { onClick: () => setShowAddStudent(true), className: "inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap" },
+                      e(Plus, { size: 18 }), 'Add Student'
                     )
                   ),
                   showAddStudent && e('div', { className: "space-y-3 p-4 border rounded-lg bg-gray-50" },
-                    e('input', { 
-                      type: "text", 
-                      placeholder: "Student Name *", 
-                      value: newStudentName, 
-                      onChange: (ev) => setNewStudentName(ev.target.value), 
-                      className: "w-full px-4 py-2 border rounded-lg" 
-                    }),
-                    e('input', { 
-                      type: "email", 
-                      placeholder: "Student Email *", 
-                      value: newStudentEmail, 
-                      onChange: (ev) => setNewStudentEmail(ev.target.value), 
-                      className: "w-full px-4 py-2 border rounded-lg" 
-                    }),
-                    e('input', { 
-                      type: "text", 
-                      placeholder: "Student ID", 
-                      value: newStudentId, 
-                      onChange: (ev) => setNewStudentId(ev.target.value), 
-                      className: "w-full px-4 py-2 border rounded-lg" 
-                    }),
-                    e('select', { 
-                      value: newStudentSection, 
-                      onChange: (ev) => setNewStudentSection(ev.target.value), 
-                      className: "w-full px-4 py-2 border rounded-lg" 
-                    },
+                    e('input', { type: "text", placeholder: "Student Name *", value: newStudentName, onChange: ev => setNewStudentName(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" }),
+                    e('input', { type: "email", placeholder: "Student Email *", value: newStudentEmail, onChange: ev => setNewStudentEmail(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" }),
+                    e('input', { type: "text", placeholder: "Student ID", value: newStudentId, onChange: ev => setNewStudentId(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" }),
+                    e('select', { value: newStudentSection, onChange: ev => setNewStudentSection(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" },
                       e('option', { value: "" }, 'Select Section *'),
                       sections.map(s => e('option', { key: s.id, value: s.id }, s.name))
                     ),
-                    e('input', { 
-                      type: "number", 
-                      placeholder: "Presentation Order (optional)", 
-                      value: newStudentOrder, 
-                      onChange: (ev) => setNewStudentOrder(ev.target.value), 
-                      className: "w-full px-4 py-2 border rounded-lg" 
-                    }),
-                    e('input', { 
-                      type: "text", 
-                      placeholder: "Group ID (optional)", 
-                      value: newStudentGroup, 
-                      onChange: (ev) => setNewStudentGroup(ev.target.value), 
-                      className: "w-full px-4 py-2 border rounded-lg" 
-                    }),
+                    e('input', { type: "number", placeholder: "Presentation Order (optional)", value: newStudentOrder, onChange: ev => setNewStudentOrder(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" }),
+                    e('input', { type: "text", placeholder: "Group ID (optional — must match for peer eval)", value: newStudentGroup, onChange: ev => setNewStudentGroup(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" }),
                     e('div', { className: "flex gap-2" },
-                      e('button', { 
-                        onClick: cancelEditStudent, 
-                        className: "px-4 py-2 border rounded-lg hover:bg-gray-100" 
-                      }, 'Cancel'),
-                      e('button', { 
-                        onClick: editingStudent ? updateStudent : addStudent, 
-                        className: "flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700" 
-                      }, editingStudent ? 'Update Student' : 'Add Student')
+                      e('button', { onClick: cancelEditStudent, className: "px-4 py-2 border rounded-lg hover:bg-gray-100" }, 'Cancel'),
+                      e('button', { onClick: editingStudent ? updateStudent : addStudent, className: "flex-1 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700" }, editingStudent ? 'Update Student' : 'Add Student')
                     )
                   )
                 ),
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('div', { className: "flex justify-between items-center mb-4" },
-                    e('h2', { className: "text-xl font-bold" }, 'Import Students'),
+                    e('h2', { className: "text-xl font-bold" }, 'Import Students via CSV'),
                     e('button', { onClick: downloadTemplate, className: "inline-flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 whitespace-nowrap" },
-                      e(FileDown, { size: 18 }),
-                      'Download Template'
+                      e(FileDown, { size: 18 }), 'Download Template'
                     )
                   ),
                   e('button', { onClick: () => setShowBulkImport(!showBulkImport), className: "w-full inline-flex items-center justify-center gap-2 px-4 py-3 text-white rounded-lg hover:opacity-90", style: { backgroundColor: '#7b2d5e' } },
-                    e(Upload, { size: 20 }),
-                    'Bulk Import CSV'
+                    e(Upload, { size: 20 }), 'Bulk Import CSV'
                   ),
                   showBulkImport && e('div', { className: "mt-4 p-4 border rounded-lg bg-gray-50" },
                     e('input', { type: "file", accept: ".csv", onChange: handleImportFileChange, className: "mb-3 w-full" }),
@@ -891,111 +806,103 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
                       e('p', { className: "text-sm font-medium mb-2" }, `Preview: ${importPreview.length} students`),
                       e('div', { className: "max-h-48 overflow-y-auto mb-3 p-2 bg-white border rounded text-xs" },
                         importPreview.slice(0, 5).map((s, i) =>
-                          e('div', { key: i, className: "py-1" }, `${s.name} - ${s.email} - ${s.section || s.sectionname || s['section name']}`)
+                          e('div', { key: i, className: "py-1" }, `${s.name} — ${s.email} — ${s.section || s.sectionname || s['section name'] || '(no section)'}`)
                         ),
                         importPreview.length > 5 && e('p', { className: "text-gray-500 py-1" }, `... and ${importPreview.length - 5} more`)
                       ),
                       importProgress && e('p', { className: "text-sm mb-2", style: { color: '#7b2d5e' } }, importProgress),
-                      e('button', { onClick: handleBulkImport, disabled: importing, className: "w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50" }, importing ? 'Importing...' : `Import ${importPreview.length} Students`)
+                      e('button', { onClick: handleBulkImport, disabled: importing, className: "w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50" },
+                        importing ? importProgress || 'Importing...' : `Import ${importPreview.length} Students`
+                      )
                     )
                   )
                 ),
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('h2', { className: "text-xl font-bold mb-4" }, 'All Students'),
-                  e('select', { value: selectedSection || '', onChange: (ev) => setSelectedSection(ev.target.value), className: "w-full px-4 py-2 border rounded-lg mb-4" },
+                  e('select', { value: selectedSection || '', onChange: ev => setSelectedSection(ev.target.value), className: "w-full px-4 py-2 border rounded-lg mb-4" },
                     e('option', { value: "" }, 'All Sections'),
                     sections.map(s => e('option', { key: s.id, value: s.id }, s.name))
                   ),
                   visibleStudents.length > 0 && e('div', { className: "mb-4 flex flex-wrap gap-2" },
-                    e('button', {
-                      onClick: toggleSelectAll,
-                      className: "inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap"
-                    },
-                      visibleStudents.length > 0 && selectedStudents.size === visibleStudents.length ? e(CheckSquare, { size: 18 }) : e(Square, { size: 18 }),
-                      visibleStudents.length > 0 && selectedStudents.size === visibleStudents.length ? 'Deselect All' : 'Select All'
+                    e('button', { onClick: toggleSelectAll, className: "inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap" },
+                      selectedStudents.size === visibleStudents.length && visibleStudents.length > 0 ? e(CheckSquare, { size: 18 }) : e(Square, { size: 18 }),
+                      selectedStudents.size === visibleStudents.length && visibleStudents.length > 0 ? 'Deselect All' : 'Select All'
                     ),
-                    selectedStudents.size > 0 && e('button', {
-                      onClick: () => setBulkDeleteConfirm(true),
-                      className: "inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 whitespace-nowrap"
-                    },
-                      e(Trash2, { size: 18 }),
-                      `Delete ${selectedStudents.size} Selected`
+                    selectedStudents.size > 0 && e('button', { onClick: () => setBulkDeleteConfirm(true), className: "inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 whitespace-nowrap" },
+                      e(Trash2, { size: 18 }), `Delete ${selectedStudents.size} Selected`
                     )
                   ),
-                  visibleStudents.length === 0 ?
-                    e('p', { className: "text-gray-500" }, 'No students yet') :
-                    e('div', { className: "space-y-2" },
-                      visibleStudents
-                        .sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999))
-                        .map(student => {
-                          const section = sections.find(sec => sec.id === student.sectionId);
-                          const isSelected = selectedStudents.has(student.id);
-                          return e('div', { 
-                            key: student.id, 
-                            className: `flex items-center gap-3 p-4 border rounded-lg hover:bg-gray-50 ${isSelected ? 'bg-blue-50 border-blue-300' : ''}`
-                          },
-                            e('button', {
-                              onClick: () => toggleStudentSelection(student.id),
-                              className: "flex-shrink-0"
-                            },
-                              isSelected ? e(CheckSquare, { size: 20 }) : e(Square, { size: 20 })
-                            ),
-                            e('div', { className: "flex-1" },
-                              e('div', { className: "font-medium" }, student.name),
-                              e('div', { className: "text-sm text-gray-600" }, `${student.email} • ${section?.name || 'No section'} • Order: ${student.presentationOrder || 'N/A'}${student.groupId ? ` • Group ${student.groupId}` : ''}`)
-                            ),
-                            e('div', { className: "flex gap-2 flex-shrink-0" },
-                              e('button', { 
-                                onClick: () => startEditStudent(student), 
-                                className: "px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap" 
-                              }, 'Edit'),
-                              e('button', { onClick: () => setDeleteConfirm({ type: 'students', id: student.id, name: student.name }), className: "p-2 text-red-600 hover:bg-red-50 rounded" }, e(Trash2, { size: 18 }))
-                            )
-                          );
-                        })
-                    )
+                  visibleStudents.length === 0
+                    ? e('p', { className: "text-gray-500" }, 'No students yet')
+                    : e('div', { className: "space-y-2" },
+                        visibleStudents
+                          .sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999))
+                          .map(student => {
+                            const section = sections.find(s => s.id === student.sectionId);
+                            const isSelected = selectedStudents.has(student.id);
+                            return e('div', { key: student.id, className: `flex items-center gap-3 p-4 border rounded-lg hover:bg-gray-50 ${isSelected ? 'bg-blue-50 border-blue-300' : ''}` },
+                              e('button', { onClick: () => toggleStudentSelection(student.id), className: "flex-shrink-0" },
+                                isSelected ? e(CheckSquare, { size: 20 }) : e(Square, { size: 20 })
+                              ),
+                              e('div', { className: "flex-1 min-w-0" },
+                                e('div', { className: "font-medium" }, student.name),
+                                e('div', { className: "text-sm text-gray-600 truncate" },
+                                  `${student.email} • ${section?.name || 'No section'} • Order: ${student.presentationOrder || 'N/A'}${student.groupId ? ` • Group: ${student.groupId}` : ''}`
+                                )
+                              ),
+                              e('div', { className: "flex gap-2 flex-shrink-0" },
+                                e('button', { onClick: () => startEditStudent(student), className: "px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap" }, 'Edit'),
+                                e('button', { onClick: () => setDeleteConfirm({ type: 'students', id: student.id, name: student.name }), className: "p-2 text-red-600 hover:bg-red-50 rounded" }, e(Trash2, { size: 18 }))
+                              )
+                            );
+                          })
+                      )
                 )
               ),
+
+              // Criteria tab
               activeTab === 'criteria' && e('div', { className: "space-y-6" },
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('h2', { className: "text-xl font-bold mb-4" }, editingCriteria ? 'Edit Evaluation Criteria' : 'Create Evaluation Criteria'),
                   e('div', { className: "space-y-4" },
-                    e('input', { type: "text", placeholder: "Criteria Name (e.g., Presentation Rubric)", value: criteriaName, onChange: (ev) => setCriteriaName(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" }),
-                    e('select', { value: criteriaType, onChange: (ev) => setCriteriaType(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" },
+                    e('input', { type: "text", placeholder: "Criteria Name (e.g., Group Peer Review Rubric)", value: criteriaName, onChange: ev => setCriteriaName(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" }),
+                    e('select', { value: criteriaType, onChange: ev => setCriteriaType(ev.target.value), className: "w-full px-4 py-2 border rounded-lg" },
                       e('option', { value: "presentation" }, 'Presentation Evaluation'),
                       e('option', { value: "group" }, 'Group Member Evaluation')
                     ),
                     e('div', { className: "border rounded-lg p-4" },
-                      e('h3', { className: "font-medium mb-3" }, 'Questions (Score 1-10)'),
-                      criteriaQuestions.length === 0 ? e('p', { className: "text-gray-500 text-sm mb-3" }, 'No questions yet. Add questions below.') :
-                        e('div', { className: "space-y-2 mb-3" },
-                          criteriaQuestions.map((q, i) =>
-                            e('div', { key: i, className: "flex justify-between items-center p-2 bg-gray-50 rounded" },
-                              e('span', { className: "text-sm" }, `${i + 1}. ${q}`),
-                              e('button', { onClick: () => removeQuestion(i), className: "text-red-600 hover:text-red-700" }, e(X, { size: 16 }))
+                      e('h3', { className: "font-medium mb-3" }, 'Questions (each rated 1–10 by peers)'),
+                      criteriaQuestions.length === 0
+                        ? e('p', { className: "text-gray-500 text-sm mb-3" }, 'No questions yet. Add at least one below.')
+                        : e('div', { className: "space-y-2 mb-3" },
+                            criteriaQuestions.map((q, i) =>
+                              e('div', { key: i, className: "flex justify-between items-center p-2 bg-gray-50 rounded" },
+                                e('span', { className: "text-sm" }, `${i + 1}. ${q}`),
+                                e('button', { onClick: () => removeQuestion(i), className: "text-red-600 hover:text-red-700 flex-shrink-0 ml-2" }, e(X, { size: 16 }))
+                              )
                             )
-                          )
-                        ),
+                          ),
                       e('div', { className: "flex gap-2" },
-                        e('input', { type: "text", placeholder: "Enter question (e.g., Clarity of presentation)", value: newQuestion, onChange: (ev) => setNewQuestion(ev.target.value), onKeyPress: (ev) => ev.key === 'Enter' && (ev.preventDefault(), addQuestion()), className: "flex-1 px-3 py-2 border rounded-lg text-sm" }),
+                        e('input', { type: "text", placeholder: "e.g., Contributed equally to the project", value: newQuestion, onChange: ev => setNewQuestion(ev.target.value), onKeyPress: ev => ev.key === 'Enter' && (ev.preventDefault(), addQuestion()), className: "flex-1 px-3 py-2 border rounded-lg text-sm" }),
                         e('button', { onClick: addQuestion, className: "inline-flex items-center gap-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 whitespace-nowrap" },
-                          e(Plus, { size: 16 }),
-                          'Add'
+                          e(Plus, { size: 16 }), 'Add'
                         )
                       )
                     ),
                     e('div', { className: "flex gap-2" },
                       editingCriteria && e('button', { onClick: cancelEditCriteria, className: "px-6 py-2 border rounded-lg hover:bg-gray-50" }, 'Cancel'),
-                      e('button', { onClick: saveCriteria, className: "flex-1 px-6 py-2 text-white rounded-lg hover:opacity-90", style: { backgroundColor: '#7b2d5e' } }, editingCriteria ? 'Update Criteria' : 'Save Criteria')
+                      e('button', { onClick: saveCriteria, className: "flex-1 px-6 py-2 text-white rounded-lg hover:opacity-90", style: { backgroundColor: '#7b2d5e' } },
+                        editingCriteria ? 'Update Criteria' : 'Save Criteria'
+                      )
                     )
                   )
                 ),
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('h2', { className: "text-xl font-bold mb-4" }, 'Your Evaluation Criteria'),
-                  criteria.length === 0 ? e('p', { className: "text-gray-500" }, 'No criteria yet. Create one above.') :
-                    e('div', { className: "space-y-3" },
-                      criteria.map(crit =>
-                        e('div', { key: crit.id, className: "border rounded-lg p-4 hover:bg-gray-50" },
+                  criteria.length === 0
+                    ? e('p', { className: "text-gray-500" }, 'No criteria yet. Create one above.')
+                    : e('div', { className: "space-y-3" },
+                        criteria.map(crit => e('div', { key: crit.id, className: "border rounded-lg p-4 hover:bg-gray-50" },
                           e('div', { className: "flex justify-between items-start mb-2" },
                             e('div', null,
                               e('h3', { className: "font-medium" }, crit.name),
@@ -1007,70 +914,77 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
                             )
                           ),
                           e('div', { className: "text-sm" },
-                            e('p', { className: "font-medium mb-1" }, 'Questions:'),
+                            e('p', { className: "font-medium mb-1" }, `${(crit.questions || []).length} question(s):`),
                             e('ol', { className: "list-decimal list-inside space-y-1 text-gray-700" },
-                              (crit.questions || []).map((q, i) =>
-                                e('li', { key: i }, q)
-                              )
+                              (crit.questions || []).map((q, i) => e('li', { key: i }, q))
                             )
                           )
-                        )
+                        ))
                       )
-                    )
                 )
               ),
+
+              // Reports tab
               activeTab === 'reports' && e('div', { className: "space-y-6" },
                 e('div', { className: "bg-white p-6 rounded-lg shadow" },
-                  e('h2', { className: "text-xl font-bold mb-4" }, 'Export Reports'),
-                  e('select', { value: selectedSection || '', onChange: (ev) => setSelectedSection(ev.target.value), className: "w-full px-4 py-2 border rounded-lg mb-4" },
+                  e('h2', { className: "text-xl font-bold mb-4" }, 'Export Evaluation Report'),
+                  e('select', { value: selectedSection || '', onChange: ev => setSelectedSection(ev.target.value), className: "w-full px-4 py-2 border rounded-lg mb-4" },
                     e('option', { value: "" }, 'Select Section'),
                     sections.map(s => e('option', { key: s.id, value: s.id }, s.name))
                   ),
                   e('button', { onClick: exportToCSV, className: "w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700" },
-                    e(FileDown, { size: 20 }),
-                    'Export to CSV'
+                    e(FileDown, { size: 20 }), 'Export to CSV'
                   )
                 ),
                 selectedSection && e('div', { className: "bg-white p-6 rounded-lg shadow" },
                   e('h2', { className: "text-xl font-bold mb-4" }, 'Section Overview'),
-                  e('div', { className: "space-y-4" },
-                    students.filter(s => s.sectionId === selectedSection).map(student => {
-                      const presEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'presentation');
-                      const groupEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'group');
-                      const presAvg = presEvals.length > 0 ? (presEvals.reduce((sum, ev) => sum + ev.score, 0) / presEvals.length).toFixed(1) : 'N/A';
-                      const groupAvg = groupEvals.length > 0 ? (groupEvals.reduce((sum, ev) => sum + ev.score, 0) / groupEvals.length).toFixed(1) : 'N/A';
-                      return e('div', { key: student.id, className: "p-4 border rounded-lg" },
-                        e('div', { className: "font-medium mb-2" }, student.name),
-                        e('div', { className: "grid grid-cols-2 gap-4 text-sm" },
-                          e('div', null,
-                            e('span', { className: "text-gray-600" }, 'Presentation: '),
-                            e('span', { className: "font-medium" }, `${presAvg} (${presEvals.length} evals)`)
-                          ),
-                          e('div', null,
-                            e('span', { className: "text-gray-600" }, 'Group: '),
-                            e('span', { className: "font-medium" }, `${groupAvg} (${groupEvals.length} evals)`)
-                          )
-                        )
-                      );
-                    })
-                  )
+                  students.filter(s => s.sectionId === selectedSection).length === 0
+                    ? e('p', { className: "text-gray-500" }, 'No students in this section yet')
+                    : e('div', { className: "space-y-4" },
+                        students.filter(s => s.sectionId === selectedSection)
+                          .sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999))
+                          .map(student => {
+                            const presEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'presentation');
+                            const groupEvals = evaluations.filter(ev => ev.evaluatedStudentId === student.id && ev.type === 'group');
+                            const presAvg = presEvals.length > 0 ? (presEvals.reduce((s, ev) => s + ev.score, 0) / presEvals.length).toFixed(1) : 'N/A';
+                            const groupAvg = groupEvals.length > 0 ? (groupEvals.reduce((s, ev) => s + ev.score, 0) / groupEvals.length).toFixed(1) : 'N/A';
+                            return e('div', { key: student.id, className: "p-4 border rounded-lg" },
+                              e('div', { className: "font-medium mb-1" }, student.name),
+                              e('div', { className: "text-xs text-gray-500 mb-2" }, `${student.email}${student.groupId ? ` • Group ${student.groupId}` : ''}`),
+                              e('div', { className: "grid grid-cols-2 gap-4 text-sm" },
+                                e('div', null,
+                                  e('span', { className: "text-gray-600" }, 'Presentation: '),
+                                  e('span', { className: "font-medium" }, `${presAvg} (${presEvals.length} eval${presEvals.length !== 1 ? 's' : ''})`)
+                                ),
+                                e('div', null,
+                                  e('span', { className: "text-gray-600" }, 'Group peer: '),
+                                  e('span', { className: "font-medium" }, `${groupAvg} (${groupEvals.length} eval${groupEvals.length !== 1 ? 's' : ''})`)
+                                )
+                              )
+                            );
+                          })
+                      )
                 )
               )
             ),
+
+            // Delete confirm modal
             deleteConfirm && e('div', { className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50", onClick: () => setDeleteConfirm(null) },
-              e('div', { className: "bg-white p-6 rounded-lg shadow-xl max-w-md", onClick: (ev) => ev.stopPropagation() },
+              e('div', { className: "bg-white p-6 rounded-lg shadow-xl max-w-md mx-4", onClick: ev => ev.stopPropagation() },
                 e('h3', { className: "text-lg font-bold mb-2" }, 'Confirm Delete'),
-                e('p', { className: "text-gray-600 mb-4" }, `Are you sure you want to delete "${deleteConfirm.name}"?`),
+                e('p', { className: "text-gray-600 mb-4" }, `Delete "${deleteConfirm.name}"? This cannot be undone.`),
                 e('div', { className: "flex gap-2 justify-end" },
                   e('button', { onClick: () => setDeleteConfirm(null), className: "px-4 py-2 border rounded-lg hover:bg-gray-50" }, 'Cancel'),
                   e('button', { onClick: () => deleteItem(deleteConfirm.type, deleteConfirm.id), className: "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" }, 'Delete')
                 )
               )
             ),
+
+            // Bulk delete confirm modal
             bulkDeleteConfirm && e('div', { className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50", onClick: () => setBulkDeleteConfirm(false) },
-              e('div', { className: "bg-white p-6 rounded-lg shadow-xl max-w-md", onClick: (ev) => ev.stopPropagation() },
+              e('div', { className: "bg-white p-6 rounded-lg shadow-xl max-w-md mx-4", onClick: ev => ev.stopPropagation() },
                 e('h3', { className: "text-lg font-bold mb-2" }, 'Confirm Bulk Delete'),
-                e('p', { className: "text-gray-600 mb-4" }, `Are you sure you want to delete ${selectedStudents.size} selected students?`),
+                e('p', { className: "text-gray-600 mb-4" }, `Delete ${selectedStudents.size} selected students? This cannot be undone.`),
                 e('div', { className: "flex gap-2 justify-end" },
                   e('button', { onClick: () => setBulkDeleteConfirm(false), className: "px-4 py-2 border rounded-lg hover:bg-gray-50" }, 'Cancel'),
                   e('button', { onClick: bulkDeleteStudents, className: "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" }, 'Delete All')
@@ -1080,82 +994,189 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
           );
         }
 
-        // Student View
+        // ── Student evaluation view ──────────────────────────────────────────
+
         const section = sections.find(s => s.id === selectedSection);
-        const presentationCriteria = section?.presentationCriteriaId ? criteria.find(c => c.id === section.presentationCriteriaId) : null;
-        const groupCriteria = section?.groupCriteriaId ? criteria.find(c => c.id === section.groupCriteriaId) : null;
+        const presentationCriteria = section?.presentationCriteriaId
+          ? criteria.find(c => c.id === section.presentationCriteriaId) : null;
+        const groupCriteria = section?.groupCriteriaId
+          ? criteria.find(c => c.id === section.groupCriteriaId) : null;
+
+        const presStudents = students
+          .filter(s => s.sectionId === selectedSection && s.id !== currentUser.id)
+          .sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999));
+
+        const groupStudents = students.filter(
+          s => s.sectionId === selectedSection &&
+               s.groupId && currentUser.groupId &&
+               s.groupId === currentUser.groupId &&
+               s.id !== currentUser.id
+        );
+
+        const totalPresRequired = presStudents.length;
+        const totalGroupRequired = groupStudents.length;
+        const presSubmitted = presStudents.filter(s => submittedEvals.has(`presentation-${s.id}`)).length;
+        const groupSubmitted = groupStudents.filter(s => submittedEvals.has(`group-${s.id}`)).length;
+        const allDone = presSubmitted === totalPresRequired && groupSubmitted === totalGroupRequired
+          && (totalPresRequired + totalGroupRequired) > 0;
 
         return e('div', { className: "min-h-screen bg-gray-50" },
           e('div', { className: "bg-white shadow mb-6" },
             e('div', { className: "max-w-4xl mx-auto px-4 py-4 flex justify-between items-center" },
               e('div', null,
-                e('h1', { className: "text-2xl font-bold text-green-600" }, 'HamSanj Student'),
-                e('p', { className: "text-sm text-gray-600" }, currentUser.name)
+                e('h1', { className: "text-2xl font-bold", style: { color: '#7b2d5e' } }, 'HamSanj — Peer Evaluation'),
+                e('p', { className: "text-sm text-gray-600" },
+                  `${currentUser.name} • ${section?.name || ''}${currentUser.groupId ? ` • Group ${currentUser.groupId}` : ''}`
+                )
               ),
               e('button', { onClick: handleLogout, className: "inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700" },
-                e(LogOut, { size: 18 }),
-                'Logout'
+                e(LogOut, { size: 18 }), 'Logout'
               )
             )
           ),
-          e('div', { className: "max-w-4xl mx-auto px-4" },
-            error && e('div', { className: "mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm" }, error),
+          e('div', { className: "max-w-4xl mx-auto px-4 pb-12" },
+            error && e('div', { className: "mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex justify-between items-center" },
+              error, e('button', { onClick: () => setError('') }, e(X, { size: 16 }))
+            ),
             success && e('div', { className: "mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm" }, success),
-            e('div', { className: "grid md:grid-cols-2 gap-6" },
-              e('div', { className: "bg-white p-6 rounded-lg shadow" },
-                e('h2', { className: "text-xl font-bold mb-4" }, 'Presentation Evaluations'),
-                presentationCriteria && e('div', { className: "mb-4 p-3 bg-blue-50 rounded-lg" },
-                  e('p', { className: "text-sm font-medium mb-1" }, presentationCriteria.name),
-                  e('p', { className: "text-xs text-gray-600" }, 'Rate each question 1-10')
-                ),
-                students.filter(s => s.sectionId === selectedSection && s.id !== currentUser.id)
-                  .sort((a, b) => (a.presentationOrder || 999) - (b.presentationOrder || 999))
-                  .map(student => {
-                    const submitted = submittedEvals.has(`presentation-${student.id}`);
-                    return e('div', { key: student.id, className: "mb-4 p-4 border rounded-lg" },
-                      e('div', { className: "font-medium mb-2" }, student.name),
-                      submitted ? e('p', { className: "text-sm text-green-600" }, '✓ Submitted') :
-                        presentationCriteria && presentationCriteria.questions ? e('div', { className: "space-y-2" },
-                          presentationCriteria.questions.map((q, i) =>
-                            e('div', { key: i, className: "flex flex-col gap-1" },
-                              e('label', { className: "text-sm font-medium" }, `${i + 1}. ${q}`),
-                              e('input', { type: "number", min: "1", max: "10", placeholder: "1-10", value: (presentationScores[student.id] || {})[i] || '', onChange: (ev) => setPresentationScores(prev => ({ ...prev, [student.id]: { ...(prev[student.id] || {}), [i]: ev.target.value } })), className: "px-3 py-2 border rounded-lg" })
-                            )
-                          ),
-                          e('button', { onClick: () => submitEvalWithCriteria(student.id, 'presentation', Object.values(presentationScores[student.id] || {})), className: "w-full mt-2 px-4 py-2 text-white rounded-lg hover:opacity-90", style: { backgroundColor: '#7b2d5e' } }, 'Submit')
-                        ) : e('div', { className: "flex gap-2" },
-                          e('input', { type: "number", min: "1", max: "10", placeholder: "Score (1-10)", value: presentationScores[student.id] || '', onChange: (ev) => setPresentationScores(prev => ({ ...prev, [student.id]: ev.target.value })), className: "flex-1 px-3 py-2 border rounded-lg" }),
-                          e('button', { onClick: () => submitPresentationEval(student.id, presentationScores[student.id]), className: "inline-flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 whitespace-nowrap", style: { backgroundColor: '#7b2d5e' } }, 'Submit')
-                        )
-                    );
-                  })
+
+            // Progress bar
+            e('div', { className: "mb-6 p-4 bg-white rounded-lg shadow" },
+              e('p', { className: "text-sm font-medium mb-2" },
+                `Progress: ${presSubmitted + groupSubmitted} / ${totalPresRequired + totalGroupRequired} evaluations submitted`
               ),
+              e('div', { className: "w-full bg-gray-200 rounded-full h-2" },
+                e('div', {
+                  className: "h-2 rounded-full transition-all",
+                  style: {
+                    backgroundColor: '#7b2d5e',
+                    width: (totalPresRequired + totalGroupRequired) > 0
+                      ? `${Math.round((presSubmitted + groupSubmitted) / (totalPresRequired + totalGroupRequired) * 100)}%`
+                      : '0%'
+                  }
+                })
+              )
+            ),
+
+            // All done banner
+            allDone && e('div', { className: "mb-6 p-4 bg-green-50 border border-green-300 rounded-lg text-center" },
+              e('p', { className: "text-green-700 font-medium text-lg" }, '🎉 All evaluations submitted!'),
+              e('p', { className: "text-green-600 text-sm mt-1" }, 'Thank you. You may now close this page.')
+            ),
+
+            e('div', { className: "grid md:grid-cols-2 gap-6" },
+
+              // Presentation evaluations
               e('div', { className: "bg-white p-6 rounded-lg shadow" },
-                e('h2', { className: "text-xl font-bold mb-4" }, 'Group Member Evaluations'),
-                groupCriteria && e('div', { className: "mb-4 p-3 bg-green-50 rounded-lg" },
-                  e('p', { className: "text-sm font-medium mb-1" }, groupCriteria.name),
-                  e('p', { className: "text-xs text-gray-600" }, 'Rate each question 1-10')
+                e('h2', { className: "text-xl font-bold mb-1" }, 'Presentation Evaluations'),
+                e('p', { className: "text-sm text-gray-500 mb-4" }, `${presSubmitted} / ${totalPresRequired} submitted`),
+                presentationCriteria && e('div', { className: "mb-4 p-3 bg-blue-50 rounded-lg" },
+                  e('p', { className: "text-sm font-medium" }, presentationCriteria.name),
+                  e('p', { className: "text-xs text-gray-600 mt-1" }, 'Rate each question 1 (lowest) – 10 (highest)')
                 ),
-                students.filter(s => s.sectionId === selectedSection && s.groupId === currentUser.groupId && s.id !== currentUser.id)
-                  .map(student => {
-                    const submitted = submittedEvals.has(`group-${student.id}`);
-                    return e('div', { key: student.id, className: "mb-4 p-4 border rounded-lg" },
-                      e('div', { className: "font-medium mb-2" }, student.name),
-                      submitted ? e('p', { className: "text-sm text-green-600" }, '✓ Submitted') :
-                        groupCriteria && groupCriteria.questions ? e('div', { className: "space-y-2" },
-                          groupCriteria.questions.map((q, i) =>
-                            e('div', { key: i, className: "flex flex-col gap-1" },
-                              e('label', { className: "text-sm font-medium" }, `${i + 1}. ${q}`),
-                              e('input', { type: "number", min: "1", max: "10", placeholder: "1-10", value: (groupScores[student.id] || {})[i] || '', onChange: (ev) => setGroupScores(prev => ({ ...prev, [student.id]: { ...(prev[student.id] || {}), [i]: ev.target.value } })), className: "px-3 py-2 border rounded-lg" })
-                            )
-                          ),
-                          e('button', { onClick: () => submitEvalWithCriteria(student.id, 'group', Object.values(groupScores[student.id] || {})), className: "w-full mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700" }, 'Submit')
-                        ) : e('div', { className: "flex gap-2" },
-                          e('input', { type: "number", min: "1", max: "10", placeholder: "Score (1-10)", value: groupScores[student.id] || '', onChange: (ev) => setGroupScores(prev => ({ ...prev, [student.id]: ev.target.value })), className: "flex-1 px-3 py-2 border rounded-lg" }),
-                          e('button', { onClick: () => submitGroupEval(student.id, groupScores[student.id]), className: "inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 whitespace-nowrap" }, 'Submit')
-                        )
-                    );
-                  })
+                presStudents.length === 0
+                  ? e('p', { className: "text-gray-500 text-sm" }, 'No other students in this section.')
+                  : presStudents.map(student => {
+                      const submitted = submittedEvals.has(`presentation-${student.id}`);
+                      return e('div', { key: student.id, className: `mb-4 p-4 border rounded-lg ${submitted ? 'bg-green-50 border-green-200' : ''}` },
+                        e('div', { className: "font-medium mb-2" },
+                          `${student.presentationOrder ? `${student.presentationOrder}. ` : ''}${student.name}`
+                        ),
+                        submitted
+                          ? e('p', { className: "text-sm text-green-600 font-medium" }, '✓ Submitted')
+                          : presentationCriteria && presentationCriteria.questions
+                            ? e('div', { className: "space-y-3" },
+                                presentationCriteria.questions.map((q, i) =>
+                                  e('div', { key: i, className: "flex flex-col gap-1" },
+                                    e('label', { className: "text-sm text-gray-700" }, `${i + 1}. ${q}`),
+                                    e('input', {
+                                      type: "number", min: "1", max: "10", placeholder: "1–10",
+                                      value: (presentationScores[student.id] || {})[i] || '',
+                                      onChange: ev => setPresentationScores(prev => ({
+                                        ...prev,
+                                        [student.id]: { ...(prev[student.id] || {}), [i]: ev.target.value }
+                                      })),
+                                      className: "px-3 py-2 border rounded-lg w-24"
+                                    })
+                                  )
+                                ),
+                                e('button', {
+                                  onClick: () => submitEvalWithCriteria(student.id, 'presentation', presentationScores[student.id] || {}),
+                                  className: "w-full mt-2 px-4 py-2 text-white rounded-lg hover:opacity-90",
+                                  style: { backgroundColor: '#7b2d5e' }
+                                }, 'Submit Evaluation')
+                              )
+                            : e('div', { className: "flex gap-2 items-center" },
+                                e('input', {
+                                  type: "number", min: "1", max: "10", placeholder: "Score (1–10)",
+                                  value: presentationScores[student.id] || '',
+                                  onChange: ev => setPresentationScores(prev => ({ ...prev, [student.id]: ev.target.value })),
+                                  className: "flex-1 px-3 py-2 border rounded-lg"
+                                }),
+                                e('button', {
+                                  onClick: () => submitSimpleEval(student.id, 'presentation', presentationScores[student.id]),
+                                  className: "px-4 py-2 text-white rounded-lg hover:opacity-90 whitespace-nowrap",
+                                  style: { backgroundColor: '#7b2d5e' }
+                                }, 'Submit')
+                              )
+                      );
+                    })
+              ),
+
+              // Group member evaluations
+              e('div', { className: "bg-white p-6 rounded-lg shadow" },
+                e('h2', { className: "text-xl font-bold mb-1" }, 'Group Member Evaluations'),
+                e('p', { className: "text-sm text-gray-500 mb-4" }, `${groupSubmitted} / ${totalGroupRequired} submitted`),
+                groupCriteria && e('div', { className: "mb-4 p-3 bg-green-50 rounded-lg" },
+                  e('p', { className: "text-sm font-medium" }, groupCriteria.name),
+                  e('p', { className: "text-xs text-gray-600 mt-1" }, 'Rate each question 1 (lowest) – 10 (highest)')
+                ),
+                // FIX: show helpful message when student has no group members
+                !currentUser.groupId
+                  ? e('p', { className: "text-gray-500 text-sm" }, 'You are not assigned to a group. No group evaluations required.')
+                  : groupStudents.length === 0
+                    ? e('p', { className: "text-gray-500 text-sm" }, `No other students in group "${currentUser.groupId}". If this is unexpected, ask your instructor to check group assignments.`)
+                    : groupStudents.map(student => {
+                        const submitted = submittedEvals.has(`group-${student.id}`);
+                        return e('div', { key: student.id, className: `mb-4 p-4 border rounded-lg ${submitted ? 'bg-green-50 border-green-200' : ''}` },
+                          e('div', { className: "font-medium mb-2" }, student.name),
+                          submitted
+                            ? e('p', { className: "text-sm text-green-600 font-medium" }, '✓ Submitted')
+                            : groupCriteria && groupCriteria.questions
+                              ? e('div', { className: "space-y-3" },
+                                  groupCriteria.questions.map((q, i) =>
+                                    e('div', { key: i, className: "flex flex-col gap-1" },
+                                      e('label', { className: "text-sm text-gray-700" }, `${i + 1}. ${q}`),
+                                      e('input', {
+                                        type: "number", min: "1", max: "10", placeholder: "1–10",
+                                        value: (groupScores[student.id] || {})[i] || '',
+                                        onChange: ev => setGroupScores(prev => ({
+                                          ...prev,
+                                          [student.id]: { ...(prev[student.id] || {}), [i]: ev.target.value }
+                                        })),
+                                        className: "px-3 py-2 border rounded-lg w-24"
+                                      })
+                                    )
+                                  ),
+                                  e('button', {
+                                    onClick: () => submitEvalWithCriteria(student.id, 'group', groupScores[student.id] || {}),
+                                    className: "w-full mt-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                                  }, 'Submit Evaluation')
+                                )
+                              : e('div', { className: "flex gap-2 items-center" },
+                                  e('input', {
+                                    type: "number", min: "1", max: "10", placeholder: "Score (1–10)",
+                                    value: groupScores[student.id] || '',
+                                    onChange: ev => setGroupScores(prev => ({ ...prev, [student.id]: ev.target.value })),
+                                    className: "flex-1 px-3 py-2 border rounded-lg"
+                                  }),
+                                  e('button', {
+                                    onClick: () => submitSimpleEval(student.id, 'group', groupScores[student.id]),
+                                    className: "px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 whitespace-nowrap"
+                                  }, 'Submit')
+                                )
+                        );
+                      })
               )
             )
           )
@@ -1172,5 +1193,6 @@ Jane Smith,jane@university.edu,12346,Section 11,2,1`;
       window.addEventListener('firebaseready', startApp);
     }
   </script>
+
 </body>
 </html>
