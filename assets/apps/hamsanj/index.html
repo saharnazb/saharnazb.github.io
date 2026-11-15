@@ -600,7 +600,10 @@
                   const vals = parseCSVLine(lines[i]);
                   const rawName = iStudent >= 0 ? (vals[iStudent] || '') : '';
                   if (!rawName || rawName.toLowerCase().includes('points possible')) continue;
+                  const loginCheck = iLogin >= 0 ? (vals[iLogin] || '').trim() : '';
+                  if (/^[0-9a-f]{20,}$/i.test(loginCheck)) continue;
                   const nameParts = rawName.split(',').map(p => p.trim());
+                  if (nameParts[0].toLowerCase() === 'student' && nameParts[1]?.toLowerCase() === 'test') continue;
                   const name = nameParts.length > 1 ? `${nameParts[1]} ${nameParts[0]}` : nameParts[0];
                   if (!name) continue;
                   const loginId = iLogin >= 0 ? (vals[iLogin] || '').trim() : '';
@@ -962,7 +965,7 @@
                               e('div', { className: "flex-1 min-w-0" },
                                 e('div', { className: "font-medium" }, student.name),
                                 e('div', { className: "text-sm text-gray-600 truncate" },
-                                  `${student.email} • ${section?.name || 'No section'} • Order: ${student.presentationOrder || 'N/A'}${student.groupId ? ` • Group: ${student.groupId}` : ''}`
+                                  `${student.email || '(no email)'}${section ? ` • ${section.name}` : ' • No section'}${student.groupId ? ` • Group: ${student.groupId}` : ''}`
                                 )
                               ),
                               e('div', { className: "flex gap-2 flex-shrink-0" },
@@ -1195,7 +1198,7 @@
                       const submitted = submittedEvals.has(`presentation-${student.id}`);
                       return e('div', { key: student.id, className: `mb-4 p-4 border rounded-lg ${submitted ? 'bg-green-50 border-green-200' : ''}` },
                         e('div', { className: "font-medium mb-2" },
-                          `${student.presentationOrder ? `${student.presentationOrder}. ` : ''}${student.name}`
+                          student.name
                         ),
                         submitted
                           ? e('p', { className: "text-sm text-green-600 font-medium" }, '✓ Submitted')
