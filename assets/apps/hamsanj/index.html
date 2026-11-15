@@ -1036,7 +1036,7 @@
                               e('div', { className: "flex-1 min-w-0" },
                                 e('div', { className: "font-medium" }, student.name),
                                 e('div', { className: "text-sm text-gray-600 truncate" },
-                                  `${student.email || '(no email)'}${section ? ` • ${section.name}` : ' • No section'}${student.groupId ? ` • Group: ${student.groupId}` : ''}`
+                                  `${student.email || '(no email)'}${student.studentId ? ` • UID: ${student.studentId}` : ''}${section ? ` • ${section.name}` : ' • No section'}${student.groupId ? ` • Group: ${student.groupId}` : ''}`
                                 )
                               ),
                               e('div', { className: "flex gap-2 flex-shrink-0" },
